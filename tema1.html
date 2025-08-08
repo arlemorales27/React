@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial: Creando un Proyecto en React 2025 - Paso a Paso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #e5e7eb;
+            background-color: #1f2937;
+        }
+        .container {
+            max-width: 1200px;
+        }
+        .section-anchor {
+            display: block;
+            position: relative;
+            top: -80px;
+            visibility: hidden;
+        }
+        .task-card, .explanation-card {
+            background: #374151;
+            border-left: 4px solid #3b82f6;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .explanation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+        }
+        h2 {
+            color: #60a5fa; /* Blue to match code editor theme */
+        }
+        h3 {
+            color: #f9fafb;
+        }
+        pre[class*="language-"] {
+            background: #2d2d2d;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        code {
+            font-family: 'Fira Code', monospace;
+        }
+        nav a:hover {
+            color: #93c5fd;
+        }
+        footer a {
+            color: #93c5fd;
+        }
+    </style>
+</head>
+<body>
+<header class="bg-blue-900 text-white py-6">
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl md:text-4xl font-bold">Tutorial: Creando un Proyecto en React 2025</h1>
+        <p class="mt-2 text-lg">Paso a paso para dominar React con las mejores prácticas</p>
+    </div>
+</header>
+
+<nav class="bg-gray-800 shadow sticky top-0 z-10">
+    <div class="container mx-auto px-4 py-4">
+        <ul class="flex flex-wrap gap-4 text-sm md:text-base text-blue-400">
+            <li><a href="#config" class="hover:underline">Configuración</a></li>
+            <li><a href="#jsx" class="hover:underline">JSX</a></li>
+            <li><a href="#interpolacion" class="hover:underline">Interpolación</a></li>
+            <li><a href="#fragment" class="hover:underline">Fragment</a></li>
+            <li><a href="#classname" class="hover:underline">className</a></li>
+            <li><a href="#dangerously" class="hover:underline">dangerouslySetInnerHTML</a></li>
+            <li><a href="#librerias" class="hover:underline">Librerías</a></li>
+            <li><a href="#condicional" class="hover:underline">Renderización Condicional</a></li>
+            <li><a href="#switch" class="hover:underline">Switch Case</a></li>
+            <li><a href="#loops" class="hover:underline">Loops</a></li>
+            <li><a href="#map" class="hover:underline">Map</a></li>
+            <li><a href="#helpers" class="hover:underline">Helpers</a></li>
+            <li><a href="#componente" class="hover:underline">Primer Componente</a></li>
+            <li><a href="#clase" class="hover:underline">Componente de Clase</a></li>
+            <li><a href="#state" class="hover:underline">State y setState</a></li>
+            <li><a href="#ciclo" class="hover:underline">Ciclo de Vida</a></li>
+            <li><a href="#funcional" class="hover:underline">Componente Funcional</a></li>
+            <li><a href="#props" class="hover:underline">Props</a></li>
+            <li><a href="#dinamico" class="hover:underline">Renderizado Dinámico</a></li>
+            <li><a href="#condicional2" class="hover:underline">Renderizado Condicional</a></li>
+            <li><a href="#children" class="hover:underline">Children</a></li>
+            <li><a href="#tareas" class="hover:underline">Tareas</a></li>
+        </ul>
+    </div>
+</nav>
+
+<main class="container mx-auto px-4 py-8">
+    <section id="config" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-cog mr-2"></i> 1. Configuración del Proyecto en React</h2>
+        <p>Comienza creando un proyecto en React usando Vite, una herramienta moderna y rápida para 2025. Asegúrate de tener Node.js (versión 18 o superior).</p>
+        <h3 class="text-xl font-semibold mt-4">Paso 1: Crear el Proyecto</h3>
+        <p>Ejecuta en tu terminal:</p>
+        <pre><code class="language-bash">npm create vite@latest my-react-app -- --template react
+cd my-react-app
+npm install</code></pre>
+        <p>Esto crea una estructura de proyecto:</p>
+        <pre><code class="language-text">my-react-app/
+  ├── node_modules/
+  ├── public/
+  ├── src/
+  │   ├── App.jsx
+  │   ├── main.jsx
+  │   └── index.css
+  ├── package.json
+  └── vite.config.js</code></pre>
+        <img src="https://images.unsplash.com/photo-1627398242454-45a1465c2479?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Estructura de proyecto React" class="my-4 rounded-lg shadow">
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>El comando <code>npm create vite@latest</code> inicializa un proyecto React con Vite, generando una estructura básica con archivos esenciales. <code>App.jsx</code> es el componente principal, <code>main.jsx</code> renderiza la aplicación, y <code>index.css</code> contiene estilos globales.</p>
+        </div>
+        <h3 class="text-xl font-semibold mt-4">Paso 2: Iniciar el Servidor</h3>
+        <p>Inicia el servidor de desarrollo:</p>
+        <pre><code class="language-bash">npm run dev</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>El comando <code>npm run dev</code> inicia un servidor local en <a href="http://localhost:5173" class="text-blue-400">http://localhost:5173</a>, permitiendo ver la aplicación en tiempo real con recarga automática.</p>
+        </div>
+        <h3 class="text-xl font-semibold mt-4">Paso 3: Limpiar el Proyecto</h3>
+        <p>Edita <code>src/App.jsx</code>:</p>
+        <pre><code class="language-jsx">function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Mi Aplicación React 2025&lt;/h1&gt;
+    &lt;/div&gt;
+  );
+}
+export default App;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>Limpiar <code>App.jsx</code> elimina el contenido predeterminado de Vite, dejando un componente simple para empezar a construir. También puedes limpiar <code>index.css</code> para personalizar los estilos.</p>
+        </div>
+    </section>
+
+    <section id="jsx" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-code mr-2"></i> 2. Conociendo JSX</h2>
+        <p>JSX es una extensión de JavaScript que permite escribir código similar a HTML dentro de JavaScript.</p>
+        <p><strong>Ejemplo Práctico:</strong> Modifica <code>App.jsx</code>:</p>
+        <pre><code class="language-jsx">function App() {
+  const nombre = "Juan";
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;¡Hola, {nombre}!&lt;/h1&gt;
+      &lt;p&gt;Este es un ejemplo de JSX.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+export default App;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>JSX permite combinar HTML y JavaScript. Las expresiones entre <code>{}</code> evalúan código JavaScript, como la variable <code>nombre</code>. Internamente, JSX se compila a <code>React.createElement</code>, generando el DOM virtual:</p>
+            <pre><code class="language-jsx">React.createElement("div", null,
+  React.createElement("h1", null, "¡Hola, Juan!"),
+  React.createElement("p", null, "Este es un ejemplo de JSX.")
+);</code></pre>
+        </div>
+    </section>
+
+    <section id="interpolacion" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-plug mr-2"></i> 3. Concepto de Interpolación</h2>
+        <p>La interpolación inserta valores dinámicos de JavaScript en JSX usando <code>{}</code>.</p>
+        <p><strong>Ejemplo Práctico:</strong> Crea <code>src/components/TodoList.jsx</code>:</p>
+        <pre><code class="language-jsx">function TodoList() {
+  const tareas = ["Aprender React", "Hacer un proyecto", "Descansar"];
+  const usuario = "Ana";
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;ul&gt;
+        {tareas.map((tarea, index) => (
+          &lt;li key={index}&gt;{tarea}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+export default TodoList;</code></pre>
+        <p>Úsalo en <code>App.jsx</code>:</p>
+        <pre><code class="language-jsx">import TodoList from './components/TodoList';
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Mi Aplicación React 2025&lt;/h1&gt;
+      &lt;TodoList /&gt;
+    &lt;/div&gt;
+  );
+}
+export default App;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p><code>{usuario}</code> interpola el valor de la variable, mientras que <code>tareas.map</code> renderiza una lista dinámica. Las expresiones en <code>{}</code> pueden incluir cualquier JavaScript válido, como funciones o cálculos.</p>
+        </div>
+    </section>
+
+    <section id="fragment" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-layer-group mr-2"></i> 4. Fragment</h2>
+        <p>Los Fragments permiten devolver múltiples elementos sin añadir nodos extra al DOM.</p>
+        <p><strong>Ejemplo Práctico:</strong> Modifica <code>TodoList.jsx</code>:</p>
+        <pre><code class="language-jsx">import { Fragment } from 'react';
+function TodoList() {
+  const tareas = ["Aprender React", "Hacer un proyecto", "Descansar"];
+  const usuario = "Ana";
+  return (
+    &lt;Fragment&gt;
+      &lt;h2&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;ul&gt;
+        {tareas.map((tarea, index) => (
+          &lt;li key={index}&gt;{tarea}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/Fragment&gt;
+  );
+}
+export default TodoList;</code></pre>
+        <p><strong>Alternativa:</strong> Usa la sintaxis corta:</p>
+        <pre><code class="language-jsx">function TodoList() {
+  const tareas = ["Aprender React", "Hacer un proyecto", "Descansar"];
+  const usuario = "Ana";
+  return (
+    &lt;&gt;
+      &lt;h2&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;ul&gt;
+        {tareas.map((tarea, index) => (
+          &lt;li key={index}&gt;{tarea}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/&gt;
+  );
+}
+export default TodoList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>Los Fragments evitan nodos DOM innecesarios, mejorando el rendimiento. La sintaxis corta <code>&lt;&gt;&lt;/&gt;</code> es más concisa y comúnmente utilizada.</p>
+        </div>
+    </section>
+
+    <section id="classname" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-paint-brush mr-2"></i> 5. className</h2>
+        <p>Usa <code>className</code> en JSX para aplicar clases CSS.</p>
+        <p><strong>Ejemplo Práctico:</strong> Crea <code>TodoList.css</code>:</p>
+        <pre><code class="language-css">.titulo {
+  color: blue;
+  font-size: 24px;
+}
+.tarea {
+  color: green;
+  margin: 5px 0;
+}</code></pre>
+        <p>Modifica <code>TodoList.jsx</code>:</p>
+        <pre><code class="language-jsx">import './TodoList.css';
+function TodoList() {
+  const tareas = ["Aprender React", "Hacer un proyecto", "Descansar"];
+  const usuario = "Ana";
+  return (
+    &lt;&gt;
+      &lt;h2 className="titulo"&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;ul&gt;
+        {tareas.map((tarea, index) => (
+          &lt;li key={index} className="tarea"&gt;{tarea}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/&gt;
+  );
+}
+export default TodoList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p><code>className</code> reemplaza <code>class</code> porque esta última es una palabra reservada en JavaScript. Puedes aplicar clases dinámicamente, por ejemplo, <code>className={index % 2 === 0 ? "tarea-par" : "tarea-impar"}</code>.</p>
+        </div>
+    </section>
+
+    <section id="dangerously" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-exclamation-triangle mr-2"></i> 6. dangerouslySetInnerHTML</h2>
+        <p>Permite insertar HTML crudo, pero con riesgos de seguridad.</p>
+        <p><strong>Ejemplo Práctico:</strong> Modifica <code>TodoList.jsx</code>:</p>
+        <pre><code class="language-jsx">import './TodoList.css';
+function TodoList() {
+  const tareas = ["Aprender React", "Hacer un proyecto", "Descansar"];
+  const usuario = "Ana";
+  const htmlCrudo = "&lt;p&gt;Este es un &lt;strong&gt;texto en negrita&lt;/strong&gt; renderizado con dangerouslySetInnerHTML.&lt;/p&gt;";
+  return (
+    &lt;&gt;
+      &lt;h2 className="titulo"&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;div dangerouslySetInnerHTML={{ __html: htmlCrudo }} /&gt;
+      &lt;ul&gt;
+        {tareas.map((tarea, index) => (
+          &lt;li key={index} className="tarea"&gt;{tarea}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/&gt;
+  );
+}
+export default TodoList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p><code>dangerouslySetInnerHTML</code> renderiza HTML crudo usando <code>__html</code>. Debe usarse con precaución para evitar ataques XSS, especialmente con datos de usuarios.</p>
+        </div>
+    </section>
+
+    <section id="librerias" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-box mr-2"></i> 7. Cómo Instalar Librerías | html-react-parser</h2>
+        <p>Instala <code>html-react-parser</code> para renderizar HTML de forma segura:</p>
+        <pre><code class="language-bash">npm install html-react-parser</code></pre>
+        <p><strong>Ejemplo Práctico:</strong> Modifica <code>TodoList.jsx</code>:</p>
+        <pre><code class="language-jsx">import './TodoList.css';
+import parse from 'html-react-parser';
+function TodoList() {
+  const tareas = ["Aprender React", "Hacer un proyecto", "Descansar"];
+  const usuario = "Ana";
+  const htmlCrudo = "&lt;p&gt;Este es un &lt;strong&gt;texto en negrita&lt;/strong&gt; renderizado con html-react-parser.&lt;/p&gt;";
+  return (
+    &lt;&gt;
+      &lt;h2 className="titulo"&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;div&gt;{parse(htmlCrudo)}&lt;/div&gt;
+      &lt;ul&gt;
+        {tareas.map((tarea, index) => (
+          &lt;li key={index} className="tarea"&gt;{tarea}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/&gt;
+  );
+}
+export default TodoList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p><code>html-react-parser</code> convierte HTML en componentes React, siendo una alternativa segura a <code>dangerouslySetInnerHTML</code>. Permite personalizar el renderizado de elementos HTML.</p>
+        </div>
+    </section>
+
+    <section id="condicional" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-code-branch mr-2"></i> 8. Renderización Condicional</h2>
+        <p>Renderiza contenido según condiciones usando operadores lógicos o ternarios.</p>
+        <p><strong>Ejemplo Práctico:</strong> Modifica <code>TodoList.jsx</code>:</p>
+        <pre><code class="language-jsx">import './TodoList.css';
+import parse from 'html-react-parser';
+function TodoList() {
+  const tareas = [];
+  const usuario = "Ana";
+  const htmlCrudo = "&lt;p&gt;Este es un &lt;strong&gt;texto en negrita&lt;/strong&gt; renderizado con html-react-parser.&lt;/p&gt;";
+  return (
+    &lt;&gt;
+      &lt;h2 className="titulo"&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;div&gt;{parse(htmlCrudo)}&lt;/div&gt;
+      {tareas.length === 0 ? (
+        &lt;p&gt;No hay tareas pendientes.&lt;/p&gt;
+      ) : (
+        &lt;ul&gt;
+          {tareas.map((tarea, index) => (
+            &lt;li key={index} className="tarea"&gt;{tarea}&lt;/li&gt;
+          ))}
+        &lt;/ul&gt;
+      )}
+    &lt;/&gt;
+  );
+}
+export default TodoList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>El operador ternario <code>{condición ? elementoSiVerdadero : elementoSiFalso}</code> decide qué renderizar. También puedes usar <code>&&</code> para renderizar solo si una condición es verdadera.</p>
+        </div>
+    </section>
+
+    <section id="switch" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-random mr-2"></i> 9. Renderización Switch Case</h2>
+        <p>Usa <code>switch</code> para renderizar elementos según un valor.</p>
+        <pre><code class="language-jsx">import './TodoList.css';
+import parse from 'html-react-parser';
+function TodoList() {
+  const tareas = ["Aprender React", "Hacer un proyecto"];
+  const usuario = "Ana";
+  const htmlCrudo = "&lt;p&gt;Este es un &lt;strong&gt;texto en negrita&lt;/strong&gt; renderizado con html-react-parser.&lt;/p&gt;";
+  const renderMensaje = () => {
+    switch (tareas.length) {
+      case 0:
+        return &lt;p&gt;No hay tareas pendientes.&lt;/p&gt;;
+      case 1:
+        return &lt;p&gt;Tienes 1 tarea pendiente.&lt;/p&gt;;
+      case 2:
+        return &lt;p&gt;Tienes 2 tareas pendientes.&lt;/p&gt;;
+      default:
+        return &lt;p&gt;Tienes muchas tareas pendientes.&lt;/p&gt;;
+    }
+  };
+  return (
+    &lt;&gt;
+      &lt;h2 className="titulo"&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;div&gt;{parse(htmlCrudo)}&lt;/div&gt;
+      {renderMensaje()}
+      &lt;ul&gt;
+        {tareas.map((tarea, index) => (
+          &lt;li key={index} className="tarea"&gt;{tarea}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/&gt;
+  );
+}
+export default TodoList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>La función <code>renderMensaje</code> usa un <code>switch</code> para devolver JSX según la longitud de <code>tareas</code>, integrándose directamente en el renderizado.</p>
+        </div>
+    </section>
+
+    <section id="loops" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-sync mr-2"></i> 10. Distintas Variantes para Loop</h2>
+        <p>Itera listas con <code>map</code>, <code>forEach</code>, o <code>for</code>. <code>map</code> es la más idiomática.</p>
+        <pre><code class="language-jsx">import './TodoList.css';
+import parse from 'html-react-parser';
+function TodoList() {
+  const tareas = ["Aprender React", "Hacer un proyecto", "Descansar"];
+  const usuario = "Ana";
+  const htmlCrudo = "&lt;p&gt;Este es un &lt;strong&gt;texto en negrita&lt;/strong&gt; renderizado con html-react-parser.&lt;/p&gt;";
+  const renderConMap = tareas.map((tarea, index) => (
+    &lt;li key={index} className="tarea"&gt;{tarea}&lt;/li&gt;
+  ));
+  const renderConForEach = [];
+  tareas.forEach((tarea, index) => {
+    renderConForEach.push(
+      &lt;li key={index} className="tarea"&gt;{tarea}&lt;/li&gt;
+    );
+  });
+  const renderConFor = [];
+  for (let i = 0; i &lt; tareas.length; i++) {
+    renderConFor.push(
+      &lt;li key={i} className="tarea"&gt;{tareas[i]}&lt;/li&gt;
+    );
+  }
+  return (
+    &lt;&gt;
+      &lt;h2 className="titulo"&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;div&gt;{parse(htmlCrudo)}&lt;/div&gt;
+      &lt;h3&gt;Con map:&lt;/h3&gt;
+      &lt;ul&gt;{renderConMap}&lt;/ul&gt;
+      &lt;h3&gt;Con forEach:&lt;/h3&gt;
+      &lt;ul&gt;{renderConForEach}&lt;/ul&gt;
+      &lt;h3&gt;Con for:&lt;/h3&gt;
+      &lt;ul&gt;{renderConFor}&lt;/ul&gt;
+    &lt;/&gt;
+  );
+}
+export default TodoList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p><code>map</code> es declarativo y devuelve un array directamente, ideal para React. <code>forEach</code> y <code>for</code> son más imperativos, requiriendo un array manual.</p>
+        </div>
+    </section>
+
+    <section id="map" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-list mr-2"></i> 11. Recorrer Elementos con map</h2>
+        <p>Usa <code>map</code> para listas de objetos, con IDs únicos como <code>key</code>.</p>
+        <pre><code class="language-jsx">import './TodoList.css';
+import parse from 'html-react-parser';
+function TodoList() {
+  const tareas = [
+    { id: 1, texto: "Aprender React", completada: false },
+    { id: 2, texto: "Hacer un proyecto", completada: true },
+    { id: 3, texto: "Descansar", completada: false }
+  ];
+  const usuario = "Ana";
+  const htmlCrudo = "&lt;p&gt;Este es un &lt;strong&gt;texto en negrita&lt;/strong&gt; renderizado con html-react-parser.&lt;/p&gt;";
+  return (
+    &lt;&gt;
+      &lt;h2 className="titulo"&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;div&gt;{parse(htmlCrudo)}&lt;/div&gt;
+      &lt;ul&gt;
+        {tareas.map((tarea) => (
+          &lt;li
+            key={tarea.id}
+            className="tarea"
+            style={{ textDecoration: tarea.completada ? "line-through" : "none" }}
+          &gt;
+            {tarea.texto} (ID: {tarea.id})
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/&gt;
+  );
+}
+export default TodoList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>Usar <code>tarea.id</code> como <code>key</code> es mejor que el índice, ya que los IDs son únicos. Los estilos inline, como <code>textDecoration</code>, personalizan el renderizado dinámicamente.</p>
+        </div>
+    </section>
+
+    <section id="helpers" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-tools mr-2"></i> 12. Helper Personalizados (helpers.js)</h2>
+        <p>Crea funciones reutilizables en <code>helpers.js</code>.</p>
+        <pre><code class="language-javascript">export const formatearEstadoTarea = (completada) => {
+  return completada ? "Completada" : "Pendiente";
+};
+export const contarTareasCompletadas = (tareas) => {
+  return tareas.filter((tarea) => tarea.completada).length;
+};</code></pre>
+        <p>Úsalo en <code>TodoList.jsx</code>:</p>
+        <pre><code class="language-jsx">import './TodoList.css';
+import parse from 'html-react-parser';
+import { formatearEstadoTarea, contarTareasCompletadas } from '../helpers';
+function TodoList() {
+  const tareas = [
+    { id: 1, texto: "Aprender React", completada: false },
+    { id: 2, texto: "Hacer un proyecto", completada: true },
+    { id: 3, texto: "Descansar", completada: false }
+  ];
+  const usuario = "Ana";
+  const htmlCrudo = "&lt;p&gt;Este es un &lt;strong&gt;texto en negrita&lt;/strong&gt; renderizado con html-react-parser.&lt;/p&gt;";
+  return (
+    &lt;&gt;
+      &lt;h2 className="titulo"&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;div&gt;{parse(htmlCrudo)}&lt;/div&gt;
+      &lt;p&gt;Tareas completadas: {contarTareasCompletadas(tareas)} de {tareas.length}&lt;/p&gt;
+      &lt;ul&gt;
+        {tareas.map((tarea) => (
+          &lt;li
+            key={tarea.id}
+            className="tarea"
+            style={{ textDecoration: tarea.completada ? "line-through" : "none" }}
+          &gt;
+            {tarea.texto} (Estado: {formatearEstadoTarea(tarea.completada)})
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/&gt;
+  );
+}
+export default TodoList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>Los helpers separan la lógica del componente, mejorando la legibilidad y reusabilidad. <code>formatearEstadoTarea</code> y <code>contarTareasCompletadas</code> simplifican la manipulación de datos.</p>
+        </div>
+    </section>
+
+    <section id="componente" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-cube mr-2"></i> 13. Mi Primer Componente</h2>
+        <p>Crea un componente funcional en <code>Header.jsx</code>:</p>
+        <pre><code class="language-jsx">function Header() {
+  return (
+    &lt;header&gt;
+      &lt;h1&gt;Gestor de Tareas&lt;/h1&gt;
+      &lt;p&gt;Bienvenido a tu aplicación de tareas en React 2025&lt;/p&gt;
+    &lt;/header&gt;
+  );
+}
+export default Header;</code></pre>
+        <p>Úsalo en <code>App.jsx</code>:</p>
+        <pre><code class="language-jsx">import Header from './components/Header';
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Header /&gt;
+    &lt;/div&gt;
+  );
+}
+export default App;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>Los componentes funcionales son funciones que devuelven JSX. Se nombran con mayúscula y se usan como etiquetas HTML. Son la base para construir interfaces reutilizables.</p>
+        </div>
+    </section>
+
+    <section id="clase" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-cubes mr-2"></i> 14. Componente de Clase</h2>
+        <p>Los componentes de clase usan <code>React.Component</code>, aunque son menos comunes hoy.</p>
+        <pre><code class="language-jsx">import React, { Component } from 'react';
+class Header extends Component {
+  render() {
+    return (
+      &lt;header&gt;
+        &lt;h1&gt;Gestor de Tareas&lt;/h1&gt;
+        &lt;p&gt;Bienvenido a tu aplicación de tareas en React 2025&lt;/p&gt;
+      &lt;/header&gt;
+    );
+  }
+}
+export default Header;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>Los componentes de clase extienden <code>React.Component</code> y requieren un método <code>render</code>. Aunque menos usados, son útiles para entender la evolución de React.</p>
+        </div>
+    </section>
+
+    <section id="state" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-database mr-2"></i> 15. state y setState</h2>
+        <p><code>state</code> almacena datos dinámicos en componentes de clase, y <code>setState</code> los actualiza.</p>
+        <pre><code class="language-jsx">import React, { Component } from 'react';
+class TaskCounter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      completedTasks: 0
+    };
+  }
+  handleIncrement = () => {
+    this.setState({ completedTasks: this.state.completedTasks + 1 });
+  };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;Tareas Completadas: {this.state.completedTasks}&lt;/h2&gt;
+        &lt;button onClick={this.handleIncrement}&gt;Marcar Tarea como Completada&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+export default TaskCounter;</code></pre>
+        <p>Úsalo en <code>App.jsx</code>:</p>
+        <pre><code class="language-jsx">import Header from './components/Header';
+import TaskCounter from './components/TaskCounter';
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Header /&gt;
+      &lt;TaskCounter /&gt;
+    &lt;/div&gt;
+  );
+}
+export default App;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p><code>state</code> se inicializa en el constructor, y <code>setState</code> actualiza el estado, desencadenando un nuevo renderizado. <code>handleIncrement</code> usa <code>setState</code> para incrementar el contador.</p>
+        </div>
+    </section>
+
+    <section id="ciclo" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-circle-notch mr-2"></i> 16. Ciclo de Vida</h2>
+        <p>Los métodos del ciclo de vida manejan eventos como montaje, actualización y desmontaje.</p>
+        <pre><code class="language-jsx">import React, { Component } from 'react';
+class TaskCounter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      completedTasks: 0
+    };
+  }
+  componentDidMount() {
+    console.log('Componente montado');
+    setTimeout(() => {
+      this.setState({ completedTasks: 5 });
+    }, 1000);
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.completedTasks !== this.state.completedTasks) {
+      console.log('El contador de tareas ha cambiado:', this.state.completedTasks);
+    }
+  }
+  componentWillUnmount() {
+    console.log('Componente desmontado');
+    localStorage.setItem('completedTasks', this.state.completedTasks);
+  }
+  handleIncrement = () => {
+    this.setState({ completedTasks: this.state.completedTasks + 1 });
+  };
+  render() {
+    return (
+      &lt;div&gt;
+        &lt;h2&gt;Tareas Completadas: {this.state.completedTasks}&lt;/h2&gt;
+        &lt;button onClick={this.handleIncrement}&gt;Marcar Tarea como Completada&lt;/button&gt;
+      &lt;/div&gt;
+    );
+  }
+}
+export default TaskCounter;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p><code>componentDidMount</code> se ejecuta al montar el componente, <code>componentDidUpdate</code> tras cambios en el estado, y <code>componentWillUnmount</code> antes de desmontar, útil para limpiar recursos.</p>
+        </div>
+    </section>
+
+    <section id="funcional" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-cog mr-2"></i> 17. Componente Funcional</h2>
+        <p>Los componentes funcionales usan Hooks como <code>useState</code> y <code>useEffect</code>.</p>
+        <pre><code class="language-jsx">import { useState, useEffect } from 'react';
+function TaskCounter() {
+  const [completedTasks, setCompletedTasks] = useState(0);
+  useEffect(() => {
+    console.log('Componente montado');
+    setTimeout(() => {
+      setCompletedTasks(5);
+    }, 1000);
+    return () => {
+      console.log('Componente desmontado');
+      localStorage.setItem('completedTasks', completedTasks);
+    };
+  }, []);
+  useEffect(() => {
+    console.log('El contador de tareas ha cambiado:', completedTasks);
+  }, [completedTasks]);
+  const handleIncrement = () => {
+    setCompletedTasks(completedTasks + 1);
+  };
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Tareas Completadas: {completedTasks}&lt;/h2&gt;
+      &lt;button onClick={handleIncrement}&gt;Marcar Tarea como Completada&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+export default TaskCounter;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p><code>useState</code> maneja el estado, y <code>useEffect</code> reemplaza los métodos del ciclo de vida. Un array vacío en <code>useEffect</code> simula <code>componentDidMount</code> y <code>componentWillUnmount</code>.</p>
+        </div>
+    </section>
+
+    <section id="props" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-arrow-right mr-2"></i> 18. Props</h2>
+        <p>Las props pasan datos de un componente padre a un hijo.</p>
+        <pre><code class="language-jsx">function TaskItem(props) {
+  return (
+    &lt;li&gt;
+      {props.task} (ID: {props.id})
+    &lt;/li&gt;
+  );
+}
+export default TaskItem;</code></pre>
+        <p>Crea <code>TaskList.jsx</code>:</p>
+        <pre><code class="language-jsx">import TaskItem from './TaskItem';
+function TaskList() {
+  const tasks = [
+    { id: 1, text: 'Aprender React' },
+    { id: 2, text: 'Hacer un proyecto' },
+    { id: 3, text: 'Descansar' }
+  ];
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Lista de Tareas&lt;/h2&gt;
+      &lt;ul&gt;
+        {tasks.map((task) => (
+          &lt;TaskItem key={task.id} id={task.id} task={task.text} /&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+export default TaskList;</code></pre>
+        <p>Actualiza <code>App.jsx</code>:</p>
+        <pre><code class="language-jsx">import { useState } from 'react';
+import Header from './components/Header';
+import TaskCounter from './components/TaskCounter';
+import TaskList from './components/TaskList';
+function App() {
+  const [showCounter, setShowCounter] = useState(true);
+  return (
+    &lt;div&gt;
+      &lt;Header /&gt;
+      &lt;button onClick={() => setShowCounter(!showCounter)}&gt;
+        {showCounter ? 'Ocultar Contador' : 'Mostrar Contador'}
+      &lt;/button&gt;
+      {showCounter && &lt;TaskCounter /&gt;}
+      &lt;TaskList /&gt;
+    &lt;/div&gt;
+  );
+}
+export default App;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>Las props son inmutables y permiten comunicación entre componentes. Puedes desestructurarlas (<code>{ task, id }</code>) para un código más limpio.</p>
+        </div>
+    </section>
+
+    <section id="dinamico" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-exchange-alt mr-2"></i> 19. Renderizado Componente Dinámico</h2>
+        <p>Renderiza componentes según un estado.</p>
+        <p>Crea <code>TaskForm.jsx</code>:</p>
+        <pre><code class="language-jsx">function TaskForm({ onAddTask }) {
+  const [taskText, setTaskText] = useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (taskText.trim()) {
+      onAddTask(taskText);
+      setTaskText('');
+    }
+  };
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      &lt;h2&gt;Agregar Nueva Tarea&lt;/h2&gt;
+      &lt;input
+        type="text"
+        value={taskText}
+        onChange={(e) => setTaskText(e.target.value)}
+        placeholder="Escribe una tarea"
+      /&gt;
+      &lt;button type="submit"&gt;Agregar&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+export default TaskForm;</code></pre>
+        <p>Modifica <code>TaskList.jsx</code>:</p>
+        <pre><code class="language-jsx">import { useState } from 'react';
+import TaskItem from './TaskItem';
+import TaskForm from './TaskForm';
+function TaskList() {
+  const [tasks, setTasks] = useState([
+    { id: 1, text: 'Aprender React' },
+    { id: 2, text: 'Hacer un proyecto' },
+    { id: 3, text: 'Descansar' }
+  ]);
+  const [view, setView] = useState('list');
+  const addTask = (taskText) => {
+    const newTask = { id: tasks.length + 1, text: taskText };
+    setTasks([...tasks, newTask]);
+    setView('list');
+  };
+  const renderView = () => {
+    switch (view) {
+      case 'list':
+        return (
+          &lt;&gt;
+            &lt;h2&gt;Lista de Tareas&lt;/h2&gt;
+            &lt;button onClick={() => setView('form')}&gt;Agregar Tarea&lt;/button&gt;
+            &lt;ul&gt;
+              {tasks.map((task) => (
+                &lt;TaskItem key={task.id} id={task.id} task={task.text} /&gt;
+              ))}
+            &lt;/ul&gt;
+          &lt;/&gt;
+        );
+      case 'form':
+        return (
+          &lt;&gt;
+            &lt;button onClick={() => setView('list')}&gt;Volver a la Lista&lt;/button&gt;
+            &lt;TaskForm onAddTask={addTask} /&gt;
+          &lt;/&gt;
+        );
+      default:
+        return &lt;p&gt;Vista no encontrada&lt;/p&gt;;
+    }
+  };
+  return &lt;div&gt;{renderView()}&lt;/div&gt;;
+}
+export default TaskList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>El estado <code>view</code> controla qué componente renderizar (<code>TaskListView</code> o <code>TaskForm</code>). La función <code>renderView</code> usa un <code>switch</code> para manejar vistas dinámicas.</p>
+        </div>
+    </section>
+
+    <section id="condicional2" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-code-branch mr-2"></i> 20. Renderizado Componente Condicional</h2>
+        <p>Renderiza componentes según condiciones específicas.</p>
+        <pre><code class="language-jsx">import { useState } from 'react';
+import TaskItem from './TaskItem';
+import TaskForm from './TaskForm';
+function TaskList() {
+  const [tasks, setTasks] = useState([
+    { id: 1, text: 'Aprender React' },
+    { id: 2, text: 'Hacer un proyecto' },
+    { id: 3, text: 'Descansar' }
+  ]);
+  const [view, setView] = useState('list');
+  const addTask = (taskText) => {
+    const newTask = { id: tasks.length + 1, text: taskText };
+    setTasks([...tasks, newTask]);
+    setView('list');
+  };
+  const EmptyMessage = () => &lt;p&gt;No hay tareas disponibles.&lt;/p&gt;;
+  const TaskListView = () => (
+    &lt;&gt;
+      &lt;h2&gt;Lista de Tareas&lt;/h2&gt;
+      &lt;button onClick={() => setView('form')}&gt;Agregar Tarea&lt;/button&gt;
+      &lt;ul&gt;
+        {tasks.map((task) => (
+          &lt;TaskItem key={task.id} id={task.id} task={task.text} /&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/&gt;
+  );
+  const renderView = () => {
+    switch (view) {
+      case 'list':
+        return tasks.length === 0 ? &lt;EmptyMessage /&gt; : &lt;TaskListView /&gt;;
+      case 'form':
+        return (
+          &lt;&gt;
+            &lt;button onClick={() => setView('list')}&gt;Volver a la Lista&lt;/button&gt;
+            &lt;TaskForm onAddTask={addTask} /&gt;
+          &lt;/&gt;
+        );
+      default:
+        return &lt;p&gt;Vista no encontrada&lt;/p&gt;;
+    }
+  };
+  return &lt;div&gt;{renderView()}&lt;/div&gt;;
+}
+export default TaskList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>Los componentes <code>EmptyMessage</code> y <code>TaskListView</code> se renderizan condicionalmente según la longitud de <code>tasks</code>, usando un operador ternario en <code>renderView</code>.</p>
+        </div>
+    </section>
+
+    <section id="children" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-boxes mr-2"></i> 21. Children Components</h2>
+        <p>La prop <code>children</code> permite envolver contenido en componentes reutilizables.</p>
+        <pre><code class="language-jsx">import './Card.css';
+function Card({ children }) {
+  return &lt;div className="card"&gt;{children}&lt;/div&gt;;
+}
+export default Card;</code></pre>
+        <p>Crea <code>Card.css</code>:</p>
+        <pre><code class="language-css">.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}</code></pre>
+        <p>Modifica <code>TaskList.jsx</code>:</p>
+        <pre><code class="language-jsx">import { useState } from 'react';
+import TaskItem from './TaskItem';
+import TaskForm from './TaskForm';
+import Card from './Card';
+function TaskList() {
+  const [tasks, setTasks] = useState([
+    { id: 1, text: 'Aprender React' },
+    { id: 2, text: 'Hacer un proyecto' },
+    { id: 3, text: 'Descansar' }
+  ]);
+  const [view, setView] = useState('list');
+  const addTask = (taskText) => {
+    const newTask = { id: tasks.length + 1, text: taskText };
+    setTasks([...tasks, newTask]);
+    setView('list');
+  };
+  const EmptyMessage = () => &lt;p&gt;No hay tareas disponibles.&lt;/p&gt;;
+  const TaskListView = () => (
+    &lt;&gt;
+      &lt;h2&gt;Lista de Tareas&lt;/h2&gt;
+      &lt;button onClick={() => setView('form')}&gt;Agregar Tarea&lt;/button&gt;
+      &lt;ul&gt;
+        {tasks.map((task) => (
+          &lt;TaskItem key={task.id} id={task.id} task={task.text} /&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/&gt;
+  );
+  const renderView = () => {
+    switch (view) {
+      case 'list':
+        return (
+          &lt;Card&gt;
+            {tasks.length === 0 ? &lt;EmptyMessage /&gt; : &lt;TaskListView /&gt;}
+          &lt;/Card&gt;
+        );
+      case 'form':
+        return (
+          &lt;Card&gt;
+            &lt;button onClick={() => setView('list')}&gt;Volver a la Lista&lt;/button&gt;
+            &lt;TaskForm onAddTask={addTask} /&gt;
+          &lt;/Card&gt;
+        );
+      default:
+        return &lt;p&gt;Vista no encontrada&lt;/p&gt;;
+    }
+  };
+  return &lt;div&gt;{renderView()}&lt;/div&gt;;
+}
+export default TaskList;</code></pre>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Explicación</h3>
+            <p>El componente <code>Card</code> actúa como un contenedor estilizado, renderizando cualquier contenido pasado como <code>children</code>, lo que lo hace altamente reutilizable.</p>
+        </div>
+    </section>
+
+    <section id="tareas" class="mb-8">
+        <span class="section-anchor"></span>
+        <h2 class="text-2xl font-bold mb-4"><i class="fas fa-tasks mr-2"></i> 22. Tareas Prácticas</h2>
+        <div class="task-card">
+            <h3 class="text-lg font-semibold">Tarea 1: Implementar el Tutorial</h3>
+            <p>Sigue los pasos descritos para crear la aplicación de tareas en React. Sube tu proyecto a un repositorio en GitHub y comparte el enlace. Incluye un archivo <code>README.md</code> con instrucciones claras para instalar y ejecutar el proyecto.</p>
+        </div>
+        <div class="task-card">
+            <h3 class="text-lg font-semibold">Tarea 2: Ejercicio con Nueva Temática</h3>
+            <p>Crea una aplicación similar con una temática diferente, como una lista de compras, un rastreador de hábitos, o un administrador de eventos. Implementa al menos 5 conceptos de este tutorial (por ejemplo, componentes funcionales, props, renderizado condicional, map, y helpers). Sube el proyecto a un repositorio separado en GitHub.</p>
+        </div>
+        <div class="explanation-card">
+            <h3 class="text-lg font-semibold">Consejo Profesional</h3>
+            <p>Usa herramientas como ESLint y Prettier para mantener un código limpio. Implementa pruebas unitarias con Jest para validar el comportamiento de tus componentes. Para la Tarea 2, considera usar una librería de estilos como Tailwind CSS o Material-UI para mejorar la interfaz visual.</p>
+        </div>
+    </section>
+</main>
+
+<footer class="bg-gray-900 text-white py-6">
+    <div class="container mx-auto px-4 text-center">
+        <p>© 2025 Tutorial de React. Creado por xAI.</p>
+        <p>Para más información, visita <a href="https://react.dev" class="hover:underline">react.dev</a>.</p>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+<script>
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+            window.scrollTo({
+                top: targetElement.offsetTop - 80,
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
+</body>
+</html>
