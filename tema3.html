@@ -3,23 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso de Java</title>
+    <title>Tutorial de Desarrollo Frontend con React y TailwindCSS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
     <style>
         html, body {
             height: 100%;
             margin: 0;
         }
+
         body {
             display: flex;
             flex-direction: column;
         }
+
         main {
             flex: 1 0 auto;
         }
+
         footer {
             flex-shrink: 0;
+        }
+
+        .code-block {
+            background-color: #2d2d2d;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
         }
     </style>
 </head>
@@ -27,58 +40,1436 @@
 <!-- Header -->
 <header class="bg-blue-800 text-white py-6">
     <div class="container mx-auto px-4 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold mb-2">Curso de Algoritmos en Java</h1>
-        <p class="text-lg md:text-xl">Orientado por: Arle Morales Ortiz</p>
-        <p class="text-md md:text-lg">Duración: 20 semanas</p>
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Tutorial de Desarrollo Frontend con React y TailwindCSS</h1>
+        <p class="text-lg md:text-xl">Guía práctica para construir aplicaciones web responsivas</p>
+        <p class="text-md md:text-lg">Duración: 10 secciones</p>
     </div>
 </header>
 
 <!-- Main Content -->
 <main class="container mx-auto px-4 py-8">
     <section class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-        <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-6 text-center">Temas del Curso</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <a href="tema1.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-book fa-lg"></i>
-                <span class="text-lg font-medium">1. Generalidades de algoritmos y programación</span>
-            </a>
-            <a href="tema2.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-calculator fa-lg"></i>
-                <span class="text-lg font-medium">2. Entradas por teclado y Estructuras de decisión</span>
-            </a>
-            <a href="" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-chart-bar fa-lg"></i>
-                <span class="text-lg font-medium">3. Tema 3</span>
-            </a>
-            <a href="" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-tasks fa-lg"></i>
-                <span class="text-lg font-medium">4. Tema 4</span>
-            </a>
-            <a href="" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-clock fa-lg"></i>
-                <span class="text-lg font-medium">5.Tema 5</span>
-            </a>
-            <a href="" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-shield-alt fa-lg"></i>
-                <span class="text-lg font-medium">6. Tema 6</span>
-            </a>
-            <a href="" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-file-invoice fa-lg"></i>
-                <span class="text-lg font-medium">7. Tema 7</span>
-            </a>
-            <a href="" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-check-circle fa-lg"></i>
-                <span class="text-lg font-medium">8. Tema 8</span>
-            </a>
-        </div>
-    </section>
-</main>
+        <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-6 text-center">Construcción de una Aplicación de
+            Tareas con React y TailwindCSS</h2>
 
-<!-- Footer -->
-<footer class="bg-blue-800 text-white py-4">
-    <div class="container mx-auto px-4 text-center">
-        <p>&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
-    </div>
-</footer>
-</body>
-</html>
+        <!-- 1. Instalación y Configuración de Bootstrap -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">1. Instalación y Configuración de
+                Bootstrap</h3>
+            <p class="text-gray-700 mb-4">
+                <strong>¿Qué es Bootstrap?</strong> Bootstrap es un framework CSS que proporciona componentes y estilos
+                predefinidos para construir interfaces responsivas rápidamente. Incluye un sistema de cuadrícula,
+                botones, formularios, barras de navegación, y más.
+            </p>
+            <p class="text-gray-700 mb-4"><strong>Paso 1: Instalar Bootstrap</strong></p>
+            <p class="text-gray-700 mb-4">En tu terminal, dentro del directorio del proyecto, ejecuta:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">npm install bootstrap</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4">Esto instalará la versión más reciente de Bootstrap (en 2025, probablemente
+                estemos usando Bootstrap 5.x). Verifica que se haya agregado a tu <code>package.json</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">"dependencies": {
+  "bootstrap": "^5.3.2",
+  // otras dependencias
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Paso 2: Importar Bootstrap en el proyecto</strong></p>
+            <p class="text-gray-700 mb-4">Para usar los estilos de Bootstrap, necesitamos importar su CSS. Modifica
+                <code>src/main.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importar los estilos de Bootstrap
+import './index.css';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  &lt;React.StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/React.StrictMode&gt;
+);</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Importamos el archivo CSS de Bootstrap desde <code>node_modules</code>.</li>
+                <li>Esto hace que los estilos de Bootstrap estén disponibles en toda la aplicación.</li>
+            </ul>
+        </div>
+
+        <!-- 2. Configuración de Bootstrap -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">2. Configuración de Bootstrap</h3>
+            <p class="text-gray-700 mb-4"><strong>Configuración Adicional</strong></p>
+            <p class="text-gray-700 mb-4">Bootstrap no requiere mucha configuración adicional si solo usamos sus estilos
+                y componentes predefinidos. Sin embargo, si deseas personalizar Bootstrap (por ejemplo, cambiar los
+                colores del tema), puedes usar variables de Sass.</p>
+            <p class="text-gray-700 mb-4"><strong>Opción: Personalizar Bootstrap con Sass (Opcional)</strong></p>
+            <p class="text-gray-700 mb-4">Primero, instala <code>sass</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">npm install sass</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4">Luego, crea un archivo <code>src/styles/custom.scss</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// src/styles/custom.scss
+$primary: #ff6347; // Cambiar el color primario a un tono de rojo
+$body-bg: #f8f9fa; // Fondo claro para el cuerpo
+
+// Importar Bootstrap después de definir las variables
+@import "../node_modules/bootstrap/scss/bootstrap";</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4">Actualiza <code>src/main.jsx</code> para usar el archivo personalizado en
+                lugar del CSS predeterminado:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx';
+import './styles/custom.scss'; // Importar los estilos personalizados
+import './index.css';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  &lt;React.StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/React.StrictMode&gt;
+);</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Nota:</strong> Para este tutorial, seguiremos usando el CSS
+                predeterminado de Bootstrap (<code>bootstrap.min.css</code>) para mantener las cosas simples.</p>
+        </div>
+
+        <!-- 3. Creación de Header y Footer Componentes -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">3. Creación de Header y Footer
+                Componentes</h3>
+            <p class="text-gray-700 mb-4"><strong>Creando el Header</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a crear un componente <code>Header</code> que use la barra de navegación
+                de Bootstrap. Crea <code>src/components/Header.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { Link } from 'react-router-dom';
+
+function Header() {
+  return (
+    &lt;nav className="navbar navbar-expand-lg navbar-dark bg-dark"&gt;
+      &lt;div className="container-fluid"&gt;
+        &lt;Link className="navbar-brand" to="/"&gt;
+          Task App
+        &lt;/Link&gt;
+        &lt;button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        &gt;
+          &lt;span className="navbar-toggler-icon"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+        &lt;div className="collapse navbar-collapse" id="navbarNav"&gt;
+          &lt;ul className="navbar-nav"&gt;
+            &lt;li className="nav-item"&gt;
+              &lt;Link className="nav-link" to="/"&gt;
+                Inicio
+              &lt;/Link&gt;
+            &lt;/li&gt;
+            &lt;li className="nav-item"&gt;
+              &lt;Link className="nav-link" to="/tasks"&gt;
+                Tareas
+              &lt;/Link&gt;
+            &lt;/li&gt;
+            &lt;li className="nav-item"&gt;
+              &lt;Link className="nav-link" to="/add-task"&gt;
+                Agregar Tarea
+              &lt;/Link&gt;
+            &lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/nav&gt;
+  );
+}
+
+export default Header;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Creando el Footer</strong></p>
+            <p class="text-gray-700 mb-4">Crea <code>src/components/Footer.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">function Footer() {
+  return (
+    &lt;footer className="bg-dark text-white text-center py-3 mt-auto"&gt;
+      &lt;p&gt;&copy; 2025 Task App. Todos los derechos reservados.&lt;/p&gt;
+    &lt;/footer&gt;
+  );
+}
+
+export default Footer;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li><strong>Header:</strong> Usamos la clase <code>navbar</code> de Bootstrap para crear una barra de
+                    navegación responsiva. Incluye un botón toggler para pantallas pequeñas y enlaces de navegación. Por
+                    ahora, los enlaces <code>Link</code> no funcionan porque no hemos configurado React Router, pero lo
+                    haremos más adelante.
+                </li>
+                <li><strong>Footer:</strong> Usamos clases de Bootstrap como <code>bg-dark</code>,
+                    <code>text-white</code>, <code>text-center</code>, y <code>py-3</code> para estilizar el pie de
+                    página. <code>mt-auto</code> asegura que el footer se mantenga al final de la página.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 4. Implementación del Layout -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">4. Implementación del Layout</h3>
+            <p class="text-gray-700 mb-4"><strong>Integrando el Layout</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a usar <code>Header</code> y <code>Footer</code> en nuestra aplicación,
+                asegurándonos de que el contenido principal ocupe el espacio entre ellos. Modifica
+                <code>src/App.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import Header from './components/Header';
+import Footer from './components/Footer';
+
+function App() {
+  return (
+    &lt;div className="d-flex flex-column min-vh-100"&gt;
+      &lt;Header /&gt;
+      &lt;main className="flex-grow-1 container my-4"&gt;
+        &lt;h1&gt;Mi Aplicación de Tareas con Bootstrap&lt;/h1&gt;
+        &lt;p&gt;Bienvenido a la aplicación de tareas.&lt;/p&gt;
+      &lt;/main&gt;
+      &lt;Footer /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Usamos <code>d-flex flex-column min-vh-100</code> para crear un layout flexible que ocupe toda la
+                    altura de la ventana (<code>min-vh-100</code>).
+                </li>
+                <li><code>Header</code> y <code>Footer</code> se colocan en la parte superior e inferior,
+                    respectivamente.
+                </li>
+                <li><code>main</code> con <code>flex-grow-1</code> asegura que el contenido principal ocupe el espacio
+                    restante entre el header y el footer.
+                </li>
+                <li><code>container</code> y <code>my-4</code> (margen vertical) son clases de Bootstrap que centran el
+                    contenido y añaden espaciado.
+                </li>
+            </ul>
+            <p class="text-gray-700 mt-4"><strong>Prueba:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Inicia el servidor (<code>npm run dev</code>) y verifica que el layout se vea correctamente, con una
+                    barra de navegación en la parte superior, el contenido en el centro, y el footer en la parte
+                    inferior.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 5. Creación de Proyecto con Vite -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">5. Creación de Proyecto con Vite</h3>
+            <p class="text-gray-700 mb-4"><strong>Paso 1: Crear el proyecto</strong></p>
+            <p class="text-gray-700 mb-4">Abre tu terminal y ejecuta:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">npm create vite@latest task-app-tailwind -- --template react
+cd task-app-tailwind
+npm install</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Paso 2: Iniciar el servidor</strong></p>
+            <p class="text-gray-700 mb-4">Ejecuta:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">npm run dev</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4">Abre <code>http://localhost:5173</code> en tu navegador para ver la aplicación
+                inicial.</p>
+            <p class="text-gray-700 mt-4"><strong>Paso 3: Limpiar el proyecto</strong></p>
+            <p class="text-gray-700 mb-4">Edita <code>src/App.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">function App() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Mi Aplicación de Tareas con TailwindCSS&lt;/h1&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4">Limpia <code>src/index.css</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">/* src/index.css */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- 6. Instalación TailwindCSS y React Router DOM -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">6. Instalación TailwindCSS y React Router
+                DOM</h3>
+            <p class="text-gray-700 mb-4"><strong>Instalando TailwindCSS</strong></p>
+            <p class="text-gray-700 mb-4">TailwindCSS es un framework CSS basado en utilidades, que te permite estilizar
+                tu aplicación directamente en el HTML/JSX usando clases predefinidas.</p>
+            <p class="text-gray-700 mb-4"><strong>Paso 1: Instalar TailwindCSS</strong></p>
+            <p class="text-gray-700 mb-4">En el directorio <code>task-app-tailwind</code>, ejecuta:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4">Esto instala TailwindCSS y sus dependencias, y genera los archivos de
+                configuración <code>tailwind.config.js</code> y <code>postcss.config.js</code>.</p>
+            <p class="text-gray-700 mt-4"><strong>Paso 2: Configurar tailwind.config.js</strong></p>
+            <p class="text-gray-700 mb-4">Edita <code>tailwind.config.js</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Paso 3: Agregar las directivas de Tailwind a index.css</strong></p>
+            <p class="text-gray-700 mb-4">Edita <code>src/index.css</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">@tailwind base;
+@tailwind components;
+@tailwind utilities;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Paso 4: Instalar React Router DOM</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a necesitar React Router para manejar la navegación, así que
+                instalémoslo:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">npm install react-router-dom</code></pre>
+            </div>
+        </div>
+
+        <!-- 7. Configuración React Router DOM -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">7. Configuración React Router DOM</h3>
+            <p class="text-gray-700 mb-4"><strong>Configurando el Enrutamiento</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a configurar React Router usando <code>createBrowserRouter</code> y
+                <code>RouterProvider</code>.</p>
+            <p class="text-gray-700 mb-4"><strong>Paso 1: Crear páginas</strong></p>
+            <p class="text-gray-700 mb-4">Crea una carpeta <code>src/pages</code> y los siguientes archivos:</p>
+            <p class="text-gray-700 mb-4">• <code>src/pages/Home.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">function Home() {
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold"&gt;Bienvenido a la Aplicación de Tareas&lt;/h1&gt;
+      &lt;p&gt;Esta es la página principal.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Home;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4">• <code>src/pages/Tasks.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">function Tasks() {
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold"&gt;Mis Tareas&lt;/h1&gt;
+      &lt;p&gt;Aquí puedes ver tus tareas.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Tasks;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4">• <code>src/pages/AddTask.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">function AddTask() {
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;p&gt;Aquí puedes agregar una nueva tarea.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Paso 2: Configurar las rutas</strong></p>
+            <p class="text-gray-700 mb-4">Modifica <code>src/main.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import App from './App';
+import Home from './pages/Home';
+import Tasks from './pages/Tasks';
+import AddTask from './pages/AddTask';
+import './index.css';
+
+const router = createBrowserRouter([
+  {
+    element: &lt;App /&gt;,
+    children: [
+      {
+        path: '/',
+        element: &lt;Home /&gt;,
+      },
+      {
+        path: '/tasks',
+        element: &lt;Tasks /&gt;,
+      },
+      {
+        path: '/add-task',
+        element: &lt;AddTask /&gt;,
+      },
+    ],
+  },
+]);
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  &lt;React.StrictMode&gt;
+    &lt;RouterProvider router={router} /&gt;
+  &lt;/React.StrictMode&gt;
+);</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Usamos <code>createBrowserRouter</code> para definir las rutas.</li>
+                <li><code>App</code> será nuestro componente de layout (lo configuraremos en el siguiente paso).</li>
+                <li>Definimos rutas para <code>/</code>, <code>/tasks</code>, y <code>/add-task</code>.</li>
+            </ul>
+        </div>
+
+        <!-- 8. Configuración Base de TailwindCSS -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">8. Configuración Base de TailwindCSS</h3>
+            <p class="text-gray-700 mb-4"><strong>Configuración Adicional</strong></p>
+            <p class="text-gray-700 mb-4">TailwindCSS ya está configurado con los pasos anteriores, pero podemos
+                personalizar el tema si lo deseamos.</p>
+            <p class="text-gray-700 mb-4"><strong>Opción: Personalizar TailwindCSS (Opcional)</strong></p>
+            <p class="text-gray-700 mb-4">Edita <code>tailwind.config.js</code> para agregar colores personalizados:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: '#ff6347',
+        secondary: '#4682b4',
+      },
+    },
+  },
+  plugins: [],
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Agregamos colores personalizados (<code>primary</code> y <code>secondary</code>) que podemos usar
+                    como <code>bg-primary</code>, <code>text-secondary</code>, etc.
+                </li>
+                <li>Para este tutorial, usaremos principalmente las clases predeterminadas de Tailwind, pero ahora
+                    tienes la opción de usar colores personalizados.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 9. Creación de Header y Footer Componentes -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">9. Creación de Header y Footer
+                Componentes</h3>
+            <p class="text-gray-700 mb-4"><strong>Creando el Header</strong></p>
+            <p class="text-gray-700 mb-4">Crea <code>src/components/Header.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { NavLink } from 'react-router-dom';
+
+function Header() {
+  return (
+    &lt;nav className="bg-gray-800 text-white p-4"&gt;
+      &lt;div className="container mx-auto flex justify-between items-center"&gt;
+        &lt;NavLink to="/" className="text-2xl font-bold"&gt;
+          Task App
+        &lt;/NavLink&gt;
+        &lt;ul className="flex space-x-6"&gt;
+          &lt;li&gt;
+            &lt;NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? 'text-red-400 font-bold' : 'hover:text-gray-300'
+              }
+            &gt;
+              Inicio
+            &lt;/NavLink&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;NavLink
+              to="/tasks"
+              className={({ isActive }) =>
+                isActive ? 'text-red-400 font-bold' : 'hover:text-gray-300'
+              }
+            &gt;
+              Tareas
+            &lt;/NavLink&gt;
+          &lt;/li&gt;
+          &lt;li&gt;
+            &lt;NavLink
+              to="/add-task"
+              className={({ isActive }) =>
+                isActive ? 'text-red-400 font-bold' : 'hover:text-gray-300'
+              }
+            &gt;
+              Agregar Tarea
+            &lt;/NavLink&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/nav&gt;
+  );
+}
+
+export default Header;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Creando el Footer</strong></p>
+            <p class="text-gray-700 mb-4">Crea <code>src/components/Footer.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">function Footer() {
+  return (
+    &lt;footer className="bg-gray-800 text-white text-center py-4 mt-auto"&gt;
+      &lt;p&gt;&copy; 2025 Task App. Todos los derechos reservados.&lt;/p&gt;
+    &lt;/footer&gt;
+  );
+}
+
+export default Footer;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Integrando el Layout</strong></p>
+            <p class="text-gray-700 mb-4">Modifica <code>src/App.jsx</code> para usar <code>Header</code>,
+                <code>Footer</code>, y <code>Outlet</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { Outlet } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+function App() {
+  return (
+    &lt;div className="flex flex-col min-h-screen"&gt;
+      &lt;Header /&gt;
+      &lt;main className="flex-grow container mx-auto my-6"&gt;
+        &lt;Outlet /&gt;
+      &lt;/main&gt;
+      &lt;Footer /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li><strong>Header:</strong> Usamos clases de Tailwind como <code>bg-gray-800</code>,
+                    <code>text-white</code>, <code>p-4</code>, <code>flex</code>, y <code>space-x-6</code> para
+                    estilizar la barra de navegación. <code>NavLink</code> resalta la ruta activa.
+                </li>
+                <li><strong>Footer:</strong> Usamos <code>bg-gray-800</code>, <code>text-white</code>,
+                    <code>text-center</code>, <code>py-4</code>, y <code>mt-auto</code> para estilizar el pie de página.
+                </li>
+                <li><strong>App:</strong> Usamos <code>flex flex-col min-h-screen</code> para crear un layout flexible,
+                    con <code>flex-grow</code> en <code>main</code> para que ocupe el espacio restante. <code>container
+                        mx-auto my-6</code> centra el contenido y añade márgenes.
+                </li>
+            </ul>
+            <p class="text-gray-700 mt-4"><strong>Prueba:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Inicia el servidor (<code>npm run dev</code>) y verifica que el layout se vea correctamente, con una
+                    barra de navegación en la parte superior, el contenido de las páginas en el centro, y el footer en
+                    la parte inferior. Navega entre las rutas para asegurarte de que funcionan.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 10. Qué es un Hook -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">10. Qué es un Hook</h3>
+            <p class="text-gray-700 mb-4"><strong>¿Qué es un Hook?</strong></p>
+            <p class="text-gray-700 mb-4">Un Hook es una función especial en React que te permite "enganchar" (hook)
+                funcionalidad a componentes funcionales. Los hooks permiten manejar estado, efectos secundarios, y otras
+                características de React sin necesidad de usar componentes de clase. Los hooks más comunes son <code>useState</code>,
+                <code>useEffect</code>, <code>useRef</code>, entre otros.</p>
+            <p class="text-gray-700 mb-4"><strong>Ejemplo Conceptual</strong></p>
+            <p class="text-gray-700 mb-4">Los hooks se introdujeron en React 16.8 para resolver problemas como:</p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Reutilizar lógica de estado entre componentes.</li>
+                <li>Evitar la complejidad de los componentes de clase.</li>
+                <li>Organizar mejor el código relacionado con el estado y los efectos secundarios.</li>
+            </ul>
+            <p class="text-gray-700 mt-4">Vamos a usar varios hooks en los siguientes pasos para ilustrar su uso.</p>
+        </div>
+
+        <!-- 11. Evento onClick -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">11. Evento onClick</h3>
+            <p class="text-gray-700 mb-4"><strong>Evento onClick</strong></p>
+            <p class="text-gray-700 mb-4">El evento <code>onClick</code> se usa para manejar clics en elementos como
+                botones.</p>
+            <p class="text-gray-700 mb-4"><strong>Ejemplo Práctico</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a agregar un botón en <code>Tasks.jsx</code> que permita alternar la
+                visibilidad de las tareas. Modifica <code>src/pages/Tasks.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState } from 'react';
+
+function Tasks() {
+  const [showTasks, setShowTasks] = useState(true);
+
+  const handleToggleTasks = () => {
+    setShowTasks(!showTasks);
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold mb-4"&gt;Mis Tareas&lt;/h1&gt;
+      &lt;button
+        onClick={handleToggleTasks}
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4"
+      &gt;
+        {showTasks ? 'Ocultar Tareas' : 'Mostrar Tareas'}
+      &lt;/button&gt;
+      {showTasks && (
+        &lt;ul className="space-y-2"&gt;
+          &lt;li&gt;Tarea 1&lt;/li&gt;
+          &lt;li&gt;Tarea 2&lt;/li&gt;
+          &lt;li&gt;Tarea 3&lt;/li&gt;
+        &lt;/ul&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+export default Tasks;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Usamos <code>onClick</code> para asociar el evento de clic al botón.</li>
+                <li><code>handleToggleTasks</code> alterna el estado <code>showTasks</code> entre <code>true</code> y
+                    <code>false</code>.
+                </li>
+                <li>Según el valor de <code>showTasks</code>, mostramos u ocultamos la lista de tareas.</li>
+            </ul>
+        </div>
+
+        <!-- 12. useState -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">12. useState</h3>
+            <p class="text-gray-700 mb-4"><strong>¿Qué es useState?</strong></p>
+            <p class="text-gray-700 mb-4"><code>useState</code> es un Hook que te permite agregar estado a un componente
+                funcional. Devuelve un array con dos elementos: el valor del estado y una función para actualizarlo.</p>
+            <p class="text-gray-700 mb-4"><strong>Ejemplo Práctico</strong></p>
+            <p class="text-gray-700 mb-4">Ya usamos <code>useState</code> en el ejemplo anterior para
+                <code>showTasks</code>. Vamos a extender <code>Tasks.jsx</code> para manejar una lista de tareas
+                dinámica. Modifica <code>src/pages/Tasks.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState } from 'react';
+
+function Tasks() {
+  const [showTasks, setShowTasks] = useState(true);
+  const [tasks, setTasks] = useState([
+    { id: 1, text: 'Aprender React', completed: false },
+    { id: 2, text: 'Hacer un proyecto', completed: true },
+    { id: 3, text: 'Descansar', completed: false },
+  ]);
+
+  const handleToggleTasks = () => {
+    setShowTasks(!showTasks);
+  };
+
+  const toggleTaskCompletion = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold mb-4"&gt;Mis Tareas&lt;/h1&gt;
+      &lt;button
+        onClick={handleToggleTasks}
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4"
+      &gt;
+        {showTasks ? 'Ocultar Tareas' : 'Mostrar Tareas'}
+      &lt;/button&gt;
+      {showTasks && (
+        &lt;ul className="space-y-2"&gt;
+          {tasks.map((task) => (
+            &lt;li
+              key={task.id}
+              className={`flex items-center space-x-2 ${
+                task.completed ? 'line-through text-gray-500' : ''
+              }`}
+            &gt;
+              &lt;span&gt;{task.text}&lt;/span&gt;
+              &lt;button
+                onClick={() => toggleTaskCompletion(task.id)}
+                className={`px-2 py-1 rounded ${
+                  task.completed
+                    ? 'bg-red-500 text-white hover:bg-red-600'
+                    : 'bg-green-500 text-white hover:bg-green-600'
+                }`}
+              &gt;
+                {task.completed ? 'Desmarcar' : 'Completar'}
+              &lt;/button&gt;
+            &lt;/li&gt;
+          ))}
+        &lt;/ul&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+export default Tasks;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Usamos <code>useState</code> para manejar la lista de tareas (<code>tasks</code>).</li>
+                <li><code>toggleTaskCompletion</code> actualiza el estado de una tarea específica, alternando su
+                    propiedad <code>completed</code>.
+                </li>
+                <li>Usamos <code>onClick</code> en los botones de cada tarea para marcarlas como completadas o no.</li>
+            </ul>
+        </div>
+
+        <!-- 13. Evento onChange -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">13. Evento onChange</h3>
+            <p class="text-gray-700 mb-4"><strong>Evento onChange</strong></p>
+            <p class="text-gray-700 mb-4">El evento <code>onChange</code> se usa para manejar cambios en elementos de
+                formulario como inputs.</p>
+            <p class="text-gray-700 mb-4"><strong>Ejemplo Práctico</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a implementar un formulario en <code>AddTask.jsx</code> que permita
+                agregar nuevas tareas. Modifica <code>src/pages/AddTask.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState } from 'react';
+
+function AddTask() {
+  const [taskText, setTaskText] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (taskText.trim()) {
+      console.log('Tarea agregada:', taskText);
+      setTaskText('');
+    }
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold mb-4"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form onSubmit={handleSubmit} className="space-y-4"&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium"&gt;
+            Nueva Tarea
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task"
+            value={taskText}
+            onChange={(e) => setTaskText(e.target.value)}
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+        &lt;/div&gt;
+        &lt;button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        &gt;
+          Agregar
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li><code>onChange</code> actualiza el estado <code>taskText</code> con el valor del input.</li>
+                <li><code>handleSubmit</code> maneja el envío del formulario, verifica que el texto no esté vacío, y
+                    limpia el input tras enviar.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 15. useEffect -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">15. useEffect</h3>
+            <p class="text-gray-700 mb-4"><strong>¿Qué es useEffect?</strong></p>
+            <p class="text-gray-700 mb-4"><code>useEffect</code> es un Hook que te permite manejar efectos secundarios
+                en componentes funcionales, como suscripciones, temporizadores, o solicitudes a APIs.</p>
+            <p class="text-gray-700 mb-4"><strong>Ejemplo Práctico</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a usar <code>useEffect</code> en <code>Tasks.jsx</code> para simular la
+                carga de tareas desde una API. Modifica <code>src/pages/Tasks.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState, useEffect } from 'react';
+
+function Tasks() {
+  const [showTasks, setShowTasks] = useState(true);
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulamos una llamada a una API
+    setTimeout(() => {
+      setTasks([
+        { id: 1, text: 'Aprender React', completed: false },
+        { id: 2, text: 'Hacer un proyecto', completed: true },
+        { id: 3, text: 'Descansar', completed: false },
+      ]);
+      setLoading(false);
+    }, 2000);
+  }, []); // Array vacío significa que se ejecuta solo al montar
+
+  const handleToggleTasks = () => {
+    setShowTasks(!showTasks);
+  };
+
+  const toggleTaskCompletion = (id) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  };
+
+  if (loading) {
+    return &lt;p className="text-center text-lg"&gt;Cargando tareas...&lt;/p&gt;;
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold mb-4"&gt;Mis Tareas&lt;/h1&gt;
+      &lt;button
+        onClick={handleToggleTasks}
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4"
+      &gt;
+        {showTasks ? 'Ocultar Tareas' : 'Mostrar Tareas'}
+      &lt;/button&gt;
+      {showTasks && (
+        &lt;ul className="space-y-2"&gt;
+          {tasks.map((task) => (
+            &lt;li
+              key={task.id}
+              className={`flex items-center space-x-2 ${
+                task.completed ? 'line-through text-gray-500' : ''
+              }`}
+            &gt;
+              &lt;span&gt;{task.text}&lt;/span&gt;
+              &lt;button
+                onClick={() => toggleTaskCompletion(task.id)}
+                className={`px-2 py-1 rounded ${
+                  task.completed
+                    ? 'bg-red-500 text-white hover:bg-red-600'
+                    : 'bg-green-500 text-white hover:bg-green-600'
+                }`}
+              &gt;
+                {task.completed ? 'Desmarcar' : 'Completar'}
+              &lt;/button&gt;
+            &lt;/li&gt;
+          ))}
+        &lt;/ul&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+export default Tasks;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li><code>useEffect</code> simula una llamada a una API que carga las tareas después de 2 segundos.</li>
+                <li>El array vacío <code>[]</code> asegura que el efecto se ejecute solo al montar el componente.</li>
+                <li>Mostramos un mensaje de "Cargando..." mientras <code>loading</code> es <code>true</code>.</li>
+            </ul>
+        </div>
+
+        <!-- 16. Custom Hooks (Select Dependientes) -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">16. Custom Hooks (Select Dependientes)</h3>
+            <p class="text-gray-700 mb-4"><strong>¿Qué es un Custom Hook?</strong></p>
+            <p class="text-gray-700 mb-4">Un custom hook es una función que encapsula lógica reutilizable usando otros
+                hooks. Por convención, los custom hooks comienzan con <code>use</code>.</p>
+            <p class="text-gray-700 mb-4"><strong>Ejemplo Práctico</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a crear un custom hook para manejar selects dependientes (por ejemplo,
+                seleccionar una categoría y luego una subcategoría). Crea <code>src/hooks/useDependentSelects.js</code>:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState } from 'react';
+
+function useDependentSelects() {
+  const [category, setCategory] = useState('');
+  const [subcategory, setSubcategory] = useState('');
+
+  const categories = {
+    work: ['Development', 'Design', 'Testing'],
+    personal: ['Exercise', 'Reading', 'Hobbies'],
+  };
+
+  const subcategories = category ? categories[category] : [];
+
+  return {
+    category,
+    setCategory,
+    subcategories,
+    subcategory,
+    setSubcategory,
+  };
+}
+
+export default useDependentSelects;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Usar el Custom Hook</strong></p>
+            <p class="text-gray-700 mb-4">Modifica <code>src/pages/AddTask.jsx</code> para usar el custom hook:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState } from 'react';
+import useDependentSelects from '../hooks/useDependentSelects';
+
+function AddTask() {
+  const [taskText, setTaskText] = useState('');
+  const { category, setCategory, subcategories, subcategory, setSubcategory } = useDependentSelects();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (taskText.trim()) {
+      console.log('Tarea agregada:', { taskText, category, subcategory });
+      setTaskText('');
+      setCategory('');
+      setSubcategory('');
+    }
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold mb-4"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form onSubmit={handleSubmit} className="space-y-4"&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium"&gt;
+            Nueva Tarea
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task"
+            value={taskText}
+            onChange={(e) => setTaskText(e.target.value)}
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="category" className="block text-lg font-medium"&gt;
+            Categoría
+          &lt;/label&gt;
+          &lt;select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          &gt;
+            &lt;option value=""&gt;Selecciona una categoría&lt;/option&gt;
+            &lt;option value="work"&gt;Trabajo&lt;/option&gt;
+            &lt;option value="personal"&gt;Personal&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+        {category && (
+          &lt;div&gt;
+            &lt;label htmlFor="subcategory" className="block text-lg font-medium"&gt;
+              Subcategoría
+            &lt;/label&gt;
+            &lt;select
+              id="subcategory"
+              value={subcategory}
+              onChange={(e) => setSubcategory(e.target.value)}
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            &gt;
+              &lt;option value=""&gt;Selecciona una subcategoría&lt;/option&gt;
+              {subcategories.map((sub) => (
+                &lt;option key={sub} value={sub}&gt;
+                  {sub}
+                &lt;/option&gt;
+              ))}
+            &lt;/select&gt;
+          &lt;/div&gt;
+        )}
+        &lt;button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        &gt;
+          Agregar
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li><code>useDependentSelects</code> encapsula la lógica para manejar dos selects dependientes.</li>
+                <li>Cuando el usuario selecciona una categoría, el segundo select se actualiza con las subcategorías
+                    correspondientes.
+                </li>
+                <li>Al enviar el formulario, mostramos la tarea, categoría, y subcategoría en la consola.</li>
+            </ul>
+        </div>
+
+        <!-- 17. useLoaderData -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">17. useLoaderData</h3>
+            <p class="text-gray-700 mb-4"><strong>¿Qué es useLoaderData?</strong></p>
+            <p class="text-gray-700 mb-4"><code>useLoaderData</code> es un Hook de React Router que te permite acceder a
+                los datos cargados por un loader definido en una ruta. Es útil para cargar datos antes de renderizar un
+                componente.</p>
+            <p class="text-gray-700 mb-4"><strong>Ejemplo Práctico</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a usar <code>useLoaderData</code> para cargar las tareas en <code>Tasks.jsx</code>.
+                Modifica <code>src/main.jsx</code> para agregar un loader:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import App from './App';
+import Home from './pages/Home';
+import Tasks from './pages/Tasks';
+import AddTask from './pages/AddTask';
+import './index.css';
+
+// Simulamos una función que carga datos
+const tasksLoader = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulamos una demora
+  return [
+    { id: 1, text: 'Aprender React', completed: false },
+    { id: 2, text: 'Hacer un proyecto', completed: true },
+    { id: 3, text: 'Descansar', completed: false },
+  ];
+};
+
+const router = createBrowserRouter([
+  {
+    element: &lt;App /&gt;,
+    children: [
+      {
+        path: '/',
+        element: &lt;Home /&gt;,
+      },
+      {
+        path: '/tasks',
+        element: &lt;Tasks /&gt;,
+        loader: tasksLoader,
+      },
+      {
+        path: '/add-task',
+        element: &lt;AddTask /&gt;,
+      },
+    ],
+  },
+]);
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  &lt;React.StrictMode&gt;
+    &lt;RouterProvider router={router} /&gt;
+  &lt;/React.StrictMode&gt;
+);</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4">Modifica <code>src/pages/Tasks.jsx</code> para usar <code>useLoaderData</code>:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
+
+function Tasks() {
+  const [showTasks, setShowTasks] = useState(true);
+  const tasks = useLoaderData();
+
+  const handleToggleTasks = () => {
+    setShowTasks(!showTasks);
+  };
+
+  const toggleTaskCompletion = (id) => {
+    // Nota: useLoaderData devuelve datos inmutables, así que esto no funcionará directamente.
+    // En un caso real, necesitarías manejar el estado en un contexto o API.
+    console.log(`Tarea ${id} marcada como completada`);
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold mb-4"&gt;Mis Tareas&lt;/h1&gt;
+      &lt;button
+        onClick={handleToggleTasks}
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4"
+      &gt;
+        {showTasks ? 'Ocultar Tareas' : 'Mostrar Tareas'}
+      &lt;/button&gt;
+      {showTasks && (
+        &lt;ul className="space-y-2"&gt;
+          {tasks.map((task) => (
+            &lt;li
+              key={task.id}
+              className={`flex items-center space-x-2 ${
+                task.completed ? 'line-through text-gray-500' : ''
+              }`}
+            &gt;
+              &lt;span&gt;{task.text}&lt;/span&gt;
+              &lt;button
+                onClick={() => toggleTaskCompletion(task.id)}
+                className={`px-2 py-1 rounded ${
+                  task.completed
+                    ? 'bg-red-500 text-white hover:bg-red-600'
+                    : 'bg-green-500 text-white hover:bg-green-600'
+                }`}
+              &gt;
+                {task.completed ? 'Desmarcar' : 'Completar'}
+              &lt;/button&gt;
+            &lt;/li&gt;
+          ))}
+        &lt;/ul&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+export default Tasks;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Definimos un <code>loader</code> (<code>tasksLoader</code>) que simula la carga de datos.</li>
+                <li><code>useLoaderData</code> accede a los datos cargados por el loader.</li>
+                <li>Nota: Los datos de <code>useLoaderData</code> son inmutables. Para manejar cambios (como marcar una
+                    tarea como completada), necesitarías un estado global o una API real.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 18. useNavigate -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">18. useNavigate</h3>
+            <p class="text-gray-700 mb-4"><strong>¿Qué es useNavigate?</strong></p>
+            <p class="text-gray-700 mb-4"><code>useNavigate</code> es un Hook de React Router que te permite navegar
+                programáticamente entre rutas.</p>
+            <p class="text-gray-700 mb-4"><strong>Ejemplo Práctico</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a usar <code>useNavigate</code> en <code>AddTask.jsx</code> para
+                redirigir al usuario a la página de tareas después de agregar una tarea. Modifica <code>src/pages/AddTask.jsx</code>:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useDependentSelects from '../hooks/useDependentSelects';
+
+function AddTask() {
+  const [taskText, setTaskText] = useState('');
+  const { category, setCategory, subcategories, subcategory, setSubcategory } = useDependentSelects();
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (taskText.trim()) {
+      console.log('Tarea agregada:', { taskText, category, subcategory });
+      setTaskText('');
+      setCategory('');
+      setSubcategory('');
+      navigate('/tasks'); // Redirigir a la página de tareas
+    }
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold mb-4"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form onSubmit={handleSubmit} className="space-y-4"&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium"&gt;
+            Nueva Tarea
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task"
+            value={taskText}
+            onChange={(e) => setTaskText(e.target.value)}
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="category" className="block text-lg font-medium"&gt;
+            Categoría
+          &lt;/label&gt;
+          &lt;select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          &gt;
+            &lt;option value=""&gt;Selecciona una categoría&lt;/option&gt;
+            &lt;option value="work"&gt;Trabajo&lt;/option&gt;
+            &lt;option value="personal"&gt;Personal&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+        {category && (
+          &lt;div&gt;
+            &lt;label htmlFor="subcategory" className="block text-lg font-medium"&gt;
+              Subcategoría
+            &lt;/label&gt;
+            &lt;select
+              id="subcategory"
+              value={subcategory}
+              onChange={(e) => setSubcategory(e.target.value)}
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            &gt;
+              &lt;option value=""&gt;Selecciona una subcategoría&lt;/option&gt;
+              {subcategories.map((sub) => (
+                &lt;option key={sub} value={sub}&gt;
+                  {sub}
+                &lt;/option&gt;
+              ))}
+            &lt;/select&gt;
+          &lt;/div&gt;
+        )}
+        &lt;button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        &gt;
+          Agregar
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li><code>useNavigate</code> devuelve una función <code>navigate</code> que usamos para redirigir al
+                    usuario a <code>/tasks</code> después de agregar una tarea.
+                </li>
+                <li>Esto mejora la experiencia del usuario al llevarlo automáticamente a la lista de tareas.</li>
+            </ul>
+        </div>
+
+        <!-- 19. useLocation -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">19. useLocation</h3>
+            <p class="text-gray-700 mb-4"><strong>¿Qué es useLocation?</strong></p>
+            <p class="text-gray-700 mb-4"><code>useLocation</code> es un Hook de React Router que te da acceso al objeto
+                de ubicación actual, incluyendo la ruta, querystring, y más.</p>
+            <p class="text-gray-700 mb-4"><strong>Ejemplo Práctico</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a usar <code>useLocation</code> en <code>Tasks.jsx</code> para mostrar
+                la URL actual. Modifica <code>src/pages/Tasks.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState } from 'react';
+import { useLoaderData, useLocation } from 'react-router-dom';
+
+function Tasks() {
+  const [showTasks, setShowTasks] = useState(true);
+  const tasks = useLoaderData();
+  const location = useLocation();
+
+  const handleToggleTasks = () => {
+    setShowTasks(!showTasks);
+  };
+
+  const toggleTaskCompletion = (id) => {
+    console.log(`Tarea ${id} marcada como completada`);
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold mb-4"&gt;Mis Tareas&lt;/h1&gt;
+      &lt;p className="mb-4"&gt;URL actual: {location.pathname}&lt;/p&gt;
+      &lt;button
+        onClick={handleToggleTasks}
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4"
+      &gt;
+        {showTasks ? 'Ocultar Tareas' : 'Mostrar Tareas'}
+      &lt;/button&gt;
+      {showTasks && (
+        &lt;ul className="space-y-2"&gt;
+          {tasks.map((task) => (
+            &lt;li
+              key={task.id}
+              className={`flex items-center space-x-2 ${
+                task.completed ? 'line-through text-gray-500' : ''
+              }`}
+            &gt;
+              &lt;span&gt;{task.text}&lt;/span&gt;
+              &lt;button
+                onClick={() => toggleTaskCompletion(task.id)}
+                className={`px-2 py-1 rounded ${
+                  task.completed
+                    ? 'bg-red-500 text-white hover:bg-red-600'
+                    : 'bg-green-500 text-white hover:bg-green-600'
+                }`}
+              &gt;
+                {task.completed ? 'Desmarcar' : 'Completar'}
+              &lt;/button&gt;
+            &lt;/li&gt;
+          ))}
+        &lt;/ul&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+export default Tasks;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li><code>useLocation</code> nos da acceso a <code>location.pathname</code>, que muestra la ruta actual
+                    (por ejemplo, <code>/tasks</code>).
+                </li>
+                <li>Esto puede ser útil para debugging o para mostrar información contextual.</li>
+            </ul>
+        </div>
+
+        <!-- 20. useRef -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">20. useRef</h3>
+            <p class="text-gray-700 mb-4"><strong>Completando el Código de AddTask.jsx</strong></p>
+            <p class="text-gray-700 mb-4">Vamos a asegurarnos de que el código de <code>AddTask.jsx</code> esté completo
+                y funcional, incluyendo el uso de <code>useRef</code> para enfocar el input y un ejemplo adicional para
+                demostrar cómo <code>useRef</code> puede usarse para almacenar un valor mutable sin causar
+                re-renderizados. Modifica <code>src/pages/AddTask.jsx</code>:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useDependentSelects from '../hooks/useDependentSelects';
+
+function AddTask() {
+  const [taskText, setTaskText] = useState('');
+  const { category, setCategory, subcategories, subcategory, setSubcategory } = useDependentSelects();
+  const navigate = useNavigate();
+  const taskInputRef = useRef(null);
+  const submitCountRef = useRef(0); // Para contar cuántas veces se ha enviado el formulario
+
+  // Enfocar el input al montar el componente
+  useEffect(() => {
+    taskInputRef.current.focus();
+  }, []);
+
+  // Incrementar el contador de envíos cada vez que se envía el formulario
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (taskText.trim()) {
+      submitCountRef.current += 1; // Incrementar el contador sin causar re-render
+      console.log('Tarea agregada:', { taskText, category, subcategory });
+      console.log('Número de envíos:', submitCountRef.current);
+      setTaskText('');
+      setCategory('');
+      setSubcategory('');
+      navigate('/tasks');
+    }
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-3xl font-bold mb-4"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form onSubmit={handleSubmit} className="space-y-4"&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium"&gt;
+            Nueva Tarea
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task"
+            ref={taskInputRef} // Asignar la referencia al input
+            value={taskText}
+            onChange={(e) => setTaskText(e.target.value)}
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="category" className="block text-lg font-medium"&gt;
+            Categoría
+          &lt;/label&gt;
+          &lt;select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          &gt;
+            &lt;option value=""&gt;Selecciona una categoría&lt;/option&gt;
+            &lt;option value="work"&gt;Trabajo&lt;/option&gt;
+            &lt;option value="personal"&gt;Personal&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+        {category && (
+          &lt;div&gt;
+            &lt;label htmlFor="subcategory" className="block text-lg font-medium"&gt;
+              Subcategoría
+            &lt;/label&gt;
+            &lt;select
+              id="subcategory"
+              value={subcategory}
+              onChange={(e) => setSubcategory(e.target.value)}
+              className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            &gt;
+              &lt;option value=""&gt;Selecciona una subcategoría&lt;/option&gt;
+              {subcategories.map((sub) => (
+                &lt;option key={sub} value={sub}&gt;
+                  {sub}
+                &lt;/option&gt;
+              ))}
+            &lt;/select&gt;
+          &lt;/div&gt;
+        )}
+        &lt;button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        &gt;
+          Agregar
+        &lt;/button&gt;
+      &lt;/form&gt;
+      &lt;p className="mt-4"&gt;Número de tareas enviadas: {submitCountRef.current}&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4"><strong>Explicación Detallada:</strong></p>
+            <ol class="list-decimal list-inside text-gray-700 mb-4">
+                <li><strong>Uso de useRef para Enfocar el Input:</strong>
+                    <ul class="list-disc list-inside ml-6">
+                        <li>Creamos una referencia <code>taskInputRef</code> usando <code>useRef(null)</code>.</li>
+                        <li>La asignamos al input con la prop <code>ref={taskInputRef}</code>.</li>
+                        <li>Usamos <code>useEffect</code> para enfocar el input cuando el componente se monta (<code>taskInputRef.current.focus()</code>).
+                        </li>
+                        <li>Esto mejora la experiencia del usuario, ya que el input está listo para escribir
+                            inmediatamente al cargar la página.
+                        </li>
+                    </ul>
+                </li>
+                <li><strong>Uso de useRef para Almacenar un Valor Mutable:</strong>
+                    <ul class="list-disc list-inside ml-6">
+                        <li>Creamos otra referencia <code>submitCountRef</code> para contar cuántas veces se ha enviado
+                            el formulario.
+                        </li>
+                        <li>A diferencia de <code>useState</code>, actualizar <code>submitCountRef.current</code> no
+                            causa un re-render del componente, lo que lo hace ideal para valores que no necesitan
+                            actualizar la UI inmediatamente.
+                        </li>
+                        <li>En <code>handleSubmit</code>, incrementamos <code>submitCountRef.current</code> cada vez que
+                            se envía el formulario y mostramos el valor en la consola.
+                        </li>
+                        <li>También mostramos el valor en la UI (<code>&lt;p&gt;Número de tareas enviadas:
+                            {submitCountRef.current}&lt;/p&gt;</code>). Nota que, aunque el valor se actualiza en <code>submitCountRef.current</code>,
+                            la UI no se re-renderiza automáticamente para reflejar este cambio porque
+                            <code>useRef</code> no dispara re-renders. Para que el cambio sea visible en la UI,
+                            necesitaríamos usar <code>
