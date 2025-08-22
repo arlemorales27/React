@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial: Manejo de Formularios en React 2025 - Paso a Paso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+
+        .code-block {
+            background-color: #2d2d2d;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+<!-- Header -->
+<header class="bg-blue-800 text-white py-6">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Tutorial: Manejo de Formularios en React 2025 - Paso a Paso</h1>
+        <p class="text-lg md:text-xl">Guía práctica para construir aplicaciones web responsivas</p>
+        <p class="text-md md:text-lg">Duración: 12 secciones</p>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8">
+    <section class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+      
+        <!-- Introducción -->
+        <div class="mb-8">
+            <p class="text-gray-700 mb-4">
+                ¡Bienvenido al tutorial sobre manejo de formularios en React 2025! En esta guía, desarrollaremos cada tema adjunto de manera detallada, basándonos en nuestra aplicación de gestión de tareas que hemos construido en respuestas anteriores (usando Vite, React Router DOM, TailwindCSS, y componentes estilizados). Si no tienes el proyecto configurado, sigue los pasos iniciales de las respuestas previas para crear task-app-tailwind y agregar las dependencias básicas.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Usaremos el componente AddTask.jsx como base para todos los ejemplos, ya que es un formulario natural para agregar tareas. Cada tema se construirá incrementalmente sobre el anterior, con explicaciones, código completo, y pruebas. Al final, tendrás un formulario avanzado con validaciones y librerías profesionales.
+            </p>
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">Instalación de Dependencias Adicionales</h3>
+            <p class="text-gray-700 mb-4">
+                Antes de empezar, instala las librerías necesarias para estos temas. En la terminal, dentro de task-app-tailwind, ejecuta:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">npm install sweetalert2 formik react-hook-form final-form react-final-form</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                • sweetalert2: Para alertas modales personalizadas.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • formik: Para el hook useFormik y validaciones.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • react-hook-form: Para useForm y composeValidators.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • final-form y react-final-form: Para React Final Form.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Verifica en package.json que se hayan agregado.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ahora, vamos paso a paso por cada tema.
+            </p>
+        </div>
+
+        <!-- 1. Formulario Simple - Custom handleSubmit -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">1. Formulario Simple - Custom handleSubmit</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es un Formulario Simple con Custom handleSubmit? Un formulario simple en React usa el evento onSubmit del &lt;form&gt; para manejar el envío. Creamos una función handleSubmit personalizada para procesar los datos, prevenir el comportamiento por defecto (recarga de página), y realizar acciones como validar o enviar datos.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Vamos a crear un formulario básico en AddTask.jsx para agregar una tarea. Usamos useState para manejar el valor del input.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Modifica src/pages/AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+function AddTask() {
+  const [taskText, setTaskText] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Previene la recarga de la página
+    if (taskText.trim()) {
+      console.log('Tarea agregada:', taskText); // Simulamos el envío
+      setTaskText(''); // Limpia el input
+      navigate('/tasks'); // Redirige a la lista de tareas
+    } else {
+      console.log('El campo no puede estar vacío');
+    }
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4 max-w-md"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form onSubmit={handleSubmit} className="space-y-4"&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium mb-2"&gt;
+            Tarea:
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task"
+            value={taskText}
+            onChange={(e) =&gt; setTaskText(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+        &lt;/div&gt;
+        &lt;button
+          type="submit"
+          className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+        &gt;
+          Agregar Tarea
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • useState maneja el estado del input (taskText).
+            </p>
+            <p class="text-gray-700 mb-4">
+                • handleSubmit es una función personalizada que:
+            </p>
+            <p class="text-gray-700 mb-4">
+                o Previene el comportamiento por defecto del formulario con e.preventDefault().
+            </p>
+            <p class="text-gray-700 mb-4">
+                o Verifica si el campo no está vacío.
+            </p>
+            <p class="text-gray-700 mb-4">
+                o Simula el envío (en consola) y limpia el input.
+            </p>
+            <p class="text-gray-700 mb-4">
+                o Redirige al usuario a /tasks usando useNavigate.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • El formulario usa onSubmit para llamar a handleSubmit.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Estilizado con TailwindCSS para responsividad: el contenedor max-w-md asegura que sea mobile-friendly, y las clases como w-full hacen que los elementos se adapten a la pantalla.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Ve a /add-task.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Escribe una tarea y envía el formulario. Verifica en la consola que se registre y que seas redirigido.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Si el campo está vacío, no se envía y se muestra un mensaje en consola.
+            </p>
+        </div>
+
+        <!-- 2. Implementación de SweetAlert2 -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">2. Implementación de SweetAlert2</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es SweetAlert2? SweetAlert2 es una librería para mostrar alertas modales personalizadas, hermosas y responsivas. Se integra fácilmente con React para mostrar confirmaciones, errores o éxitos después de acciones como enviar un formulario.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Agregamos SweetAlert2 para mostrar una alerta de éxito al agregar una tarea.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Primero, importa la librería en AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import Swal from 'sweetalert2';</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Modifica handleSubmit en src/pages/AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">const handleSubmit = (e) => {
+  e.preventDefault();
+  if (taskText.trim()) {
+    console.log('Tarea agregada:', taskText);
+    setTaskText('');
+    Swal.fire({
+      title: '¡Éxito!',
+      text: 'Tarea agregada correctamente.',
+      icon: 'success',
+      confirmButtonText: 'OK',
+      timer: 3000, // Cierra automáticamente después de 3 segundos
+      timerProgressBar: true,
+      showCloseButton: true,
+      customClass: {
+        popup: 'swal-popup-custom', // Para estilizado personalizado
+      },
+    }).then(() => {
+      navigate('/tasks');
+    });
+  } else {
+    Swal.fire({
+      title: 'Error',
+      text: 'El campo no puede estar vacío.',
+      icon: 'error',
+      confirmButtonText: 'OK',
+    });
+  }
+};</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Swal.fire configura la alerta:
+            </p>
+            <p class="text-gray-700 mb-4">
+                o Para éxito: Muestra un título, texto, icono de éxito, botón de confirmación, temporizador y barra de progreso.
+            </p>
+            <p class="text-gray-700 mb-4">
+                o Para error: Muestra un alerta de error si el campo está vacío.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • La alerta es responsiva por defecto en SweetAlert2, adaptándose a móviles.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Usamos then para redirigir después de cerrar la alerta.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Puedes agregar CSS personalizado para swal-popup-custom en index.css para más estilizado.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Envía el formulario con una tarea: Ve la alerta de éxito y redirección.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Envía vacío: Ve la alerta de error.
+            </p>
+        </div>
+
+        <!-- 3. action y formData -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">3. action y formData</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es action y formData? En React, action en un formulario puede ser una función que maneja el envío usando FormData para recolectar los datos del formulario automáticamente. Esto es útil para formularios complejos sin manejar cada input manualmente.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Usamos action como una función que procesa FormData.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Modifica src/pages/AddTask.jsx para usar action:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
+function AddTask() {
+  const navigate = useNavigate();
+
+  const formAction = (formData) => {
+    const taskText = formData.get('task'); // Obtiene el valor del input por name
+    if (taskText.trim()) {
+      console.log('Tarea agregada:', taskText);
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Tarea agregada correctamente.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      }).then(() => {
+        navigate('/tasks');
+      });
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'El campo no puede estar vacío.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4 max-w-md"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form action={formAction} className="space-y-4"&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium mb-2"&gt;
+            Tarea:
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task"
+            name="task" // Name es necesario para FormData
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+        &lt;/div&gt;
+        &lt;button
+          type="submit"
+          className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+        &gt;
+          Agregar Tarea
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • action es una función que recibe formData (un objeto FormData).
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Usamos formData.get('task') para obtener el valor del input por su name.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Esto simplifica el manejo de formularios grandes, ya que no necesitas useState para cada campo.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Integramos SweetAlert2 para feedback.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Envía el formulario: FormData recolecta el dato automáticamente.
+            </p>
+        </div>
+
+        <!-- 4. Agregando Más Campos a Nuestro Form -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">4. Agregando Más Campos a Nuestro Form</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Agregar Más Campos? Agregamos campos adicionales al formulario para hacerla más completa, como descripción o prioridad, manejando múltiples estados o FormData.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Agregamos un campo de descripción y prioridad (select).
+            </p>
+            <p class="text-gray-700 mb-4">
+                Modifica src/pages/AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
+function AddTask() {
+  const navigate = useNavigate();
+
+  const formAction = (formData) => {
+    const taskText = formData.get('task');
+    const description = formData.get('description');
+    const priority = formData.get('priority');
+    if (taskText.trim() &amp;&amp; description.trim()) {
+      console.log('Tarea agregada:', { taskText, description, priority });
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Tarea agregada correctamente.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      }).then(() =&gt; {
+        navigate('/tasks');
+      });
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Los campos tarea y descripción no pueden estar vacíos.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4 max-w-md"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form action={formAction} className="space-y-4"&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium mb-2"&gt;
+            Tarea:
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task"
+            name="task"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="description" className="block text-lg font-medium mb-2"&gt;
+            Descripción:
+          &lt;/label&gt;
+          &lt;textarea
+            id="description"
+            name="description"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una descripción"
+            rows="4"
+          &gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="priority" className="block text-lg font-medium mb-2"&gt;
+            Prioridad:
+          &lt;/label&gt;
+          &lt;select
+            id="priority"
+            name="priority"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          &gt;
+            &lt;option value="baja"&gt;Baja&lt;/option&gt;
+            &lt;option value="media"&gt;Media&lt;/option&gt;
+            &lt;option value="alta"&gt;Alta&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+        &lt;button
+          type="submit"
+          className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+        &gt;
+          Agregar Tarea
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Agregamos un &lt;textarea&gt; para descripción y un &lt;select&gt; para prioridad.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • En formAction, usamos formData.get('description') y formData.get('priority') para recolectar los valores.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Verificamos campos obligatorios (tarea y descripción).
+            </p>
+            <p class="text-gray-700 mb-4">
+                • El formulario sigue siendo responsivo con max-w-md.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Envía con todos los campos: Verifica en consola los datos recolectados.
+            </p>
+        </div>
+
+        <!-- 5. Agregando Checkbox Estático con useState -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">5. Agregando Checkbox Estático con useState</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es un Checkbox Estático con useState? Un checkbox estático es un campo booleano manejado con useState para almacenar su estado (marcado/desmarcado).
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Agregamos un checkbox para "Tarea urgente".
+            </p>
+            <p class="text-gray-700 mb-4">
+                Modifica src/pages/AddTask.jsx (cambia a useState para este campo, ya que FormData no maneja estados booleanos directamente; combinamos ambos).
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
+function AddTask() {
+  const [urgent, setUrgent] = useState(false);
+  const navigate = useNavigate();
+
+  const formAction = (formData) => {
+    const taskText = formData.get('task');
+    const description = formData.get('description');
+    const priority = formData.get('priority');
+    if (taskText.trim() &amp;&amp; description.trim()) {
+      console.log('Tarea agregada:', { taskText, description, priority, urgent });
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Tarea agregada correctamente.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      }).then(() =&gt; {
+        navigate('/tasks');
+      });
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Los campos tarea y descripción no pueden estar vacíos.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4 max-w-md"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form action={formAction} className="space-y-4"&gt;
+        // ... campos anteriores ...
+        &lt;div className="flex items-center"&gt;
+          &lt;input
+            type="checkbox"
+            id="urgent"
+            checked={urgent}
+            onChange={(e) =&gt; setUrgent(e.target.checked)}
+            className="mr-2"
+          /&gt;
+          &lt;label htmlFor="urgent" className="text-lg font-medium"&gt;
+            Tarea Urgente
+          &lt;/label&gt;
+        &lt;/div&gt;
+        &lt;button
+          type="submit"
+          className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+        &gt;
+          Agregar Tarea
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • useState maneja el estado booleano urgent.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • onChange actualiza el estado con e.target.checked.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • En formAction, incluimos urgent en el log (ya que es estado local, no parte de FormData).
+            </p>
+            <p class="text-gray-700 mb-4">
+                • El checkbox es estático (no dinámico).
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Marca el checkbox y envía: Verifica en consola que urgent: true.
+            </p>
+        </div>
+
+        <!-- 6. Checkbox Dinámicos -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">6. Checkbox Dinámicos</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Checkbox Dinámicos? Checkbox dinámicos se generan a partir de una lista (e.g., categorías), manejando un array de valores seleccionados con useState.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Agregamos checkboxes dinámicos para categorías.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Modifica src/pages/AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// ... imports ...
+
+function AddTask() {
+  const [urgent, setUrgent] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
+
+  const categoryOptions = ['Trabajo', 'Personal', 'Ocio'];
+
+  const handleCategoryChange = (e) => {
+    const value = e.target.value;
+    if (e.target.checked) {
+      setCategories([...categories, value]);
+    } else {
+      setCategories(categories.filter((cat) =&gt; cat !== value));
+    }
+  };
+
+  const formAction = (formData) => {
+    const taskText = formData.get('task');
+    const description = formData.get('description');
+    const priority = formData.get('priority');
+    if (taskText.trim() &amp;&amp; description.trim()) {
+      console.log('Tarea agregada:', { taskText, description, priority, urgent, categories });
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Tarea agregada correctamente.',
+        icon: 'success',
+        confirmButtonText: 'OK',
+      }).then(() =&gt; {
+        navigate('/tasks');
+      });
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Los campos tarea y descripción no pueden estar vacíos.',
+        icon: 'error',
+        confirmButtonText: 'OK',
+      });
+    }
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4 max-w-md"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form action={formAction} className="space-y-4"&gt;
+        // ... campos anteriores ...
+        &lt;div&gt;
+          &lt;label className="block text-lg font-medium mb-2"&gt;Categorías:&lt;/label&gt;
+          {categoryOptions.map((cat) =&gt; (
+            &lt;div key={cat} className="flex items-center"&gt;
+              &lt;input
+                type="checkbox"
+                id={cat}
+                value={cat}
+                checked={categories.includes(cat)}
+                onChange={handleCategoryChange}
+                className="mr-2"
+              /&gt;
+              &lt;label htmlFor={cat}&gt;{cat}&lt;/label&gt;
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+        &lt;button
+          type="submit"
+          className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+        &gt;
+          Agregar Tarea
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • useState maneja un array categories.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • handleCategoryChange agrega/remueve valores del array.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Los checkboxes se generan dinámicamente con map sobre categoryOptions.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • En formAction, incluimos categories en el log.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Selecciona categorías y envía: Verifica en consola el array seleccionado.
+            </p>
+        </div>
+
+        <!-- 7. Validaciones Sincronas (noValidate) -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">7. Validaciones Sincronas (noValidate)</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Validaciones Sincronas con noValidate? Validaciones sincronas ocurren en tiempo real (e.g., al enviar). noValidate desactiva las validaciones nativas del navegador para manejarlas manualmente.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Agregamos noValidate y validaciones sincronas en handleSubmit.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Modifica el &lt;form&gt; en src/pages/AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">&lt;form action={formAction} className="space-y-4" noValidate&gt;
+  // ... campos ...
+&lt;/form&gt;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                En formAction:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">const formAction = (formData) =&gt; {
+  const taskText = formData.get('task');
+  const description = formData.get('description');
+  const priority = formData.get('priority');
+  if (!taskText.trim()) {
+    Swal.fire({ title: 'Error', text: 'Tarea requerida', icon: 'error' });
+    return;
+  }
+  if (!description.trim()) {
+    Swal.fire({ title: 'Error', text: 'Descripción requerida', icon: 'error' });
+    return;
+  }
+  // ... resto del código ...
+};</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • noValidate desactiva validaciones HTML5 (e.g., required).
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Validaciones sincronas en formAction verifican campos y muestran errores inmediatamente.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Envía con campos vacíos: Ve alertas de error sincronas.
+            </p>
+        </div>
+
+        <!-- 8. Validaciones Asincronas -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">8. Validaciones Asincronas</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Validaciones Asincronas? Validaciones asincronas involucran operaciones como llamadas a API (e.g., verificar si una tarea ya existe).
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Agregamos una validación asincrona para verificar si la tarea ya existe (simulada con Promise).
+            </p>
+            <p class="text-gray-700 mb-4">
+                Modifica formAction en src/pages/AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">const formAction = async (formData) =&gt; {
+  const taskText = formData.get('task');
+  const description = formData.get('description');
+  const priority = formData.get('priority');
+  if (!taskText.trim() || !description.trim()) {
+    Swal.fire({ title: 'Error', text: 'Campos requeridos', icon: 'error' });
+    return;
+  }
+
+  // Validación asincrona simulada
+  try {
+    const exists = await new Promise((resolve) =&gt; {
+      setTimeout(() =&gt; resolve(taskText === 'Tarea Existente'), 1000);
+    });
+    if (exists) {
+      Swal.fire({ title: 'Error', text: 'Tarea ya existe', icon: 'error' });
+      return;
+    }
+
+    console.log('Tarea agregada:', { taskText, description, priority, urgent, categories });
+    Swal.fire({
+      title: '¡Éxito!',
+      text: 'Tarea agregada correctamente.',
+      icon: 'success',
+      confirmButtonText: 'OK',
+    }).then(() =&gt; {
+      navigate('/tasks');
+    });
+  } catch (error) {
+    Swal.fire({ title: 'Error', text: 'Error en la validación', icon: 'error' });
+  }
+};</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Usamos async/await para simular una llamada API.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Si la tarea "existe", mostramos error.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Esto demuestra validaciones asincronas sin bloquear la UI.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Ingresa "Tarea Existente" y envía: Ve error asincrono después de 1 segundo.
+            </p>
+        </div>
+
+        <!-- 9. Hook Formik (useFormik) -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">9. Hook Formik (useFormik)</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Hook Formik (useFormik)? Formik es una librería para manejar formularios en React. useFormik es un hook que facilita el manejo de estado, validaciones y envío.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Cambiamos el formulario a Formik.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Modifica src/pages/AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
+function AddTask() {
+  const navigate = useNavigate();
+
+  const formik = useFormik({
+    initialValues: {
+      task: '',
+      description: '',
+      priority: 'media',
+      urgent: false,
+      categories: [],
+    },
+    onSubmit: (values) =&gt; {
+      console.log('Tarea agregada:', values);
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Tarea agregada correctamente.',
+        icon: 'success',
+      }).then(() =&gt; {
+        navigate('/tasks');
+      });
+    },
+  });
+
+  const categoryOptions = ['Trabajo', 'Personal', 'Ocio'];
+
+  const handleCategoryChange = (value) =&gt; {
+    const categories = formik.values.categories.includes(value)
+      ? formik.values.categories.filter((cat) =&gt; cat !== value)
+      : [...formik.values.categories, value];
+    formik.setFieldValue('categories', categories);
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4 max-w-md"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form onSubmit={formik.handleSubmit} className="space-y-4"&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium mb-2"&gt;
+            Tarea:
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task"
+            name="task"
+            value={formik.values.task}
+            onChange={formik.handleChange}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="description" className="block text-lg font-medium mb-2"&gt;
+            Descripción:
+          &lt;/label&gt;
+          &lt;textarea
+            id="description"
+            name="description"
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una descripción"
+            rows="4"
+          &gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="priority" className="block text-lg font-medium mb-2"&gt;
+            Prioridad:
+          &lt;/label&gt;
+          &lt;select
+            id="priority"
+            name="priority"
+            value={formik.values.priority}
+            onChange={formik.handleChange}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          &gt;
+            &lt;option value="baja"&gt;Baja&lt;/option&gt;
+            &lt;option value="media"&gt;Media&lt;/option&gt;
+            &lt;option value="alta"&gt;Alta&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+        &lt;div className="flex items-center"&gt;
+          &lt;input
+            type="checkbox"
+            id="urgent"
+            name="urgent"
+            checked={formik.values.urgent}
+            onChange={formik.handleChange}
+            className="mr-2"
+          /&gt;
+          &lt;label htmlFor="urgent" className="text-lg font-medium"&gt;
+            Tarea Urgente
+          &lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label className="block text-lg font-medium mb-2"&gt;Categorías:&lt;/label&gt;
+          {categoryOptions.map((cat) =&gt; (
+            &lt;div key={cat} className="flex items-center"&gt;
+              &lt;input
+                type="checkbox"
+                id={cat}
+                value={cat}
+                checked={formik.values.categories.includes(cat)}
+                onChange={() =&gt; handleCategoryChange(cat)}
+                className="mr-2"
+              /&gt;
+              &lt;label htmlFor={cat}&gt;{cat}&lt;/label&gt;
+            &lt;/div&gt;
+          ))}
+        &lt;/div&gt;
+        &lt;button
+          type="submit"
+          className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+        &gt;
+          Agregar Tarea
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • useFormik configura initialValues, onSubmit.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • handleChange maneja cambios en inputs automáticamente.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Para checkboxes dinámicos, usamos setFieldValue para actualizar el array.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • onSubmit reemplaza handleSubmit para procesar valores.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Llena el formulario y envía: Verifica en consola los valores.
+            </p>
+        </div>
+
+        <!-- 10. Validaciones con Formik -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">10. Validaciones con Formik</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Validaciones con Formik? Formik integra validaciones con Yup o manualmente, mostrando errores en tiempo real.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Agregamos validaciones con Yup.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Instala Yup:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">npm install yup</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Modifica src/pages/AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useFormik } from 'formik';
+import * as Yup from 'yup';
+// ... resto
+
+const formik = useFormik({
+  initialValues: {
+    task: '',
+    description: '',
+    priority: 'media',
+    urgent: false,
+    categories: [],
+  },
+  validationSchema: Yup.object({
+    task: Yup.string().required('Tarea requerida').min(5, 'Mínimo 5 caracteres'),
+    description: Yup.string().required('Descripción requerida'),
+    categories: Yup.array().min(1, 'Selecciona al menos una categoría'),
+  }),
+  onSubmit: (values) =&gt; {
+    console.log('Tarea agregada:', values);
+    Swal.fire({
+      title: '¡Éxito!',
+      text: 'Tarea agregada correctamente.',
+      icon: 'success',
+    }).then(() =&gt; {
+      navigate('/tasks');
+    });
+  },
+});
+
+// En el formulario, agrega errores:
+&lt;input
+  // ...
+/&gt;
+{formik.touched.task &amp;&amp; formik.errors.task ? (
+  &lt;p className="text-red-500 text-sm mt-1"&gt;{formik.errors.task}&lt;/p&gt;
+) : null}
+
+// Similar para otros campos</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • validationSchema define reglas con Yup.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • touched y errors muestran mensajes de error solo después de interactuar.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Esto es síncrono, pero Yup soporta asincrono.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Envía con errores: Ve mensajes en rojo.
+            </p>
+        </div>
+
+        <!-- 11. React Hook Form (useForm y composeValidators) -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">11. React Hook Form (useForm y composeValidators)</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es React Hook Form? React Hook Form es una librería ligera para formularios, con useForm para manejo y composeValidators para validaciones compuestas.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Cambiamos a React Hook Form.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Modifica src/pages/AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useForm } from 'react-hook-form';
+import { composeValidators, required, minLength } from 'react-hook-form/dist/validators'; // Asumiendo import correcto, ajusta si es necesario
+// ... resto
+
+function AddTask() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
+
+  const onSubmit = (data) =&gt; {
+    console.log('Tarea agregada:', data);
+    Swal.fire({
+      title: '¡Éxito!',
+      text: 'Tarea agregada correctamente.',
+      icon: 'success',
+    }).then(() =&gt; {
+      navigate('/tasks');
+    });
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4 max-w-md"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form onSubmit={handleSubmit(onSubmit)} className="space-y-4"&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium mb-2"&gt;
+            Tarea:
+          &lt;/label&gt;
+          &lt;input
+            id="task"
+            {...register('task', composeValidators(required('Requerida'), minLength(5, 'Mínimo 5 caracteres')))}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+          {errors.task &amp;&amp; &lt;p className="text-red-500 text-sm mt-1"&gt;{errors.task.message}&lt;/p&gt;}
+        &lt;/div&gt;
+        // ... Similar para otros campos
+        &lt;button
+          type="submit"
+          className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+        &gt;
+          Agregar Tarea
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • useForm proporciona register para registrar campos, handleSubmit para envío, errors para errores.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • composeValidators combina validaciones como required y minLength.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Errores se muestran en la UI.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Envía con errores: Ve mensajes.
+            </p>
+        </div>
+
+        <!-- 12. React Final Form -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">12. React Final Form</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es React Final Form? React Final Form es una librería para formularios basada en Final Form, con soporte para validaciones y rendimiento óptimo.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Ejemplo Práctico Cambiamos a React Final Form.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Modifica src/pages/AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { Form, Field } from 'react-final-form';
+// ... resto
+
+function AddTask() {
+  const navigate = useNavigate();
+
+  const onSubmit = (values) =&gt; {
+    console.log('Tarea agregada:', values);
+    Swal.fire({
+      title: '¡Éxito!',
+      text: 'Tarea agregada correctamente.',
+      icon: 'success',
+    }).then(() =&gt; {
+      navigate('/tasks');
+    });
+  };
+
+  const validate = (values) =&gt; {
+    const errors = {};
+    if (!values.task) errors.task = 'Requerida';
+    if (values.task &amp;&amp; values.task.length &lt; 5) errors.task = 'Mínimo 5 caracteres';
+    return errors;
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4 max-w-md"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;Form
+        onSubmit={onSubmit}
+        validate={validate}
+        render={({ handleSubmit }) =&gt; (
+          &lt;form onSubmit={handleSubmit} className="space-y-4"&gt;
+            &lt;Field name="task"&gt;
+              {({ input, meta }) =&gt; (
+                &lt;div&gt;
+                  &lt;label htmlFor="task" className="block text-lg font-medium mb-2"&gt;
+                    Tarea:
+                  &lt;/label&gt;
+                  &lt;input
+                    {...input}
+                    id="task"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Escribe una tarea"
+                  /&gt;
+                  {meta.error &amp;&amp; meta.touched &amp;&amp; &lt;p className="text-red-500 text-sm mt-1"&gt;{meta.error}&lt;/p&gt;}
+                &lt;/div&gt;
+              )}
+            &lt;/Field&gt;
+            // ... Similar para otros campos
+            &lt;button
+              type="submit"
+              className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+            &gt;
+              Agregar Tarea
+            &lt;/button&gt;
+          &lt;/form&gt;
+        )}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • &lt;Form&gt; maneja el formulario con onSubmit y validate.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • &lt;Field&gt; registra campos y muestra errores con meta.error y meta.touched.
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Validaciones son sincronas en validate.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                • Envía con errores: Ve mensajes.
+            </p>
+        </div>
+
+        <!-- Conclusión -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">Conclusión</h3>
+            <p class="text-gray-700 mb-4">
+                Este tutorial cubre todos los temas adjuntos, construyendo un formulario completo en React. Tu aplicación ahora tiene un formulario avanzado. Si necesitas más, avísame!
+            </p>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-blue-800 text-white py-4 text-center">
+    <p>&copy; 2025 Tutorial de Manejo de Formularios en React. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+    Prism.highlightAll();
+</script>
+</body>
+</html>
