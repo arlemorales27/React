@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial: Utilidades en React 2025 - Paso a Paso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        footer {
+            flex-shrink: 0;
+        }
+
+        .code-block {
+            background-color: #2d2d2d;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-x: auto;
+        }
+
+        /* Additional professional styles */
+        h1, h2, h3 {
+            color: #1d4ed8; /* Blue shade for headings */
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        .section-divider {
+            border-top: 1px solid #e5e7eb;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .icon {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+<!-- Header -->
+<header class="bg-blue-800 text-white py-6 shadow-lg">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Tutorial: Utilidades en React 2025 - Paso a Paso</h1>
+        <p class="text-lg md:text-xl">Guía práctica para integrar utilidades en aplicaciones React</p>
+        <p class="text-md md:text-lg">Duración: 10 secciones</p>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-8">
+    <section class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+
+        <!-- Introducción -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4"><i class="fas fa-info-circle icon"></i>Introducción</h2>
+            <p class="text-gray-700 mb-4">
+                Estas utilidades incluyen librerías y componentes para mejorar la funcionalidad, como manejo de fechas, spinners de carga, listas swipeables, webcam, gráficos, mapas, modales y carruseles de Bootstrap. Cada tema se desarrollará paso a paso, con explicaciones detalladas, instalación de dependencias (si es necesario), código completo y pruebas. Usaremos el componente Tasks.jsx y AddTask.jsx como base para integrar estas utilidades, haciendo la app más profesional y responsiva.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Si no tienes el proyecto configurado, revisa las respuestas anteriores para crear task-app-tailwind con Vite, React Router, TailwindCSS y componentes básicos. Asegúrate de que el servidor esté corriendo con npm run dev.
+            </p>
+            <h3 class="text-xl font-semibold text-blue-600 mb-4"><i class="fas fa-download icon"></i>Instalación de Dependencias Generales para Esta Sección</h3>
+            <p class="text-gray-700 mb-4">
+                Antes de empezar, instala las librerías necesarias en la terminal (dentro de task-app-tailwind):
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">npm install dayjs moment react-swipeable-list react-webcam react-chartjs-2 chart.js @react-google-maps/api bootstrap react-bootstrap
+npm install -D @types/react-swipeable-list  # Para tipos si usas TypeScript, opcional</code></pre>
+            </div>
+            <ul class="list-disc list-inside text-gray-700 mt-4 mb-4">
+                <li>dayjs y moment: Para manejo de fechas.</li>
+                <li>react-swipeable-list: Para listas swipeables.</li>
+                <li>react-webcam: Para acceso a webcam.</li>
+                <li>react-chartjs-2 y chart.js: Para gráficos.</li>
+                <li>@react-google-maps/api: Para mapas (requiere API key de Google Maps, obtén una gratuita en Google Cloud Console).</li>
+                <li>bootstrap y react-bootstrap: Para modales y carruseles.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Verifica en package.json que se hayan agregado. Para Bootstrap, importa los estilos en src/main.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import 'bootstrap/dist/css/bootstrap.min.css';</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Ahora, procedamos tema por tema.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- 1. Creación Componente de Página -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-file-code icon"></i>1. Creación Componente de Página</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es la Creación de un Componente de Página? Un componente de página es un componente React que representa una vista completa, como una página en una SPA. Se integra con React Router para enrutamiento. Es reutilizable, maneja estado propio y se enfoca en la lógica de una sección específica (e.g., lista de tareas).
+            </p>
+            <p class="text-gray-700 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Usa hooks como useState, useEffect para estado y efectos.</li>
+                <li>Se monta en rutas específicas con &lt;Route element={&lt;ComponentePagina /&gt;} /&gt;.</li>
+                <li>En nuestra app, ya tenemos páginas como Tasks.jsx, pero crearemos una nueva página Dashboard.jsx para demostrar: un dashboard con resumen de tareas, contador y gráficos (integrando temas posteriores).</li>
+                <li>Ventajas: Modularidad, responsividad con TailwindCSS, y escalabilidad.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Paso 1: Crear el Componente Crea src/pages/Dashboard.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
+function Dashboard() {
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState(0);
+
+  useEffect(() =&gt; {
+    // Simular carga de datos
+    setTimeout(() =&gt; {
+      setTotalTasks(10);
+      setCompletedTasks(4);
+    }, 1000);
+  }, []);
+
+  return (
+    &lt;div className="container mx-auto p-4"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Dashboard de Tareas&lt;/h1&gt;
+      &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6"&gt;
+        &lt;div className="bg-white p-6 rounded-lg shadow-md"&gt;
+          &lt;h2 className="text-xl font-semibold mb-2"&gt;Total de Tareas&lt;/h2&gt;
+          &lt;p className="text-4xl font-bold text-blue-500"&gt;{totalTasks}&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div className="bg-white p-6 rounded-lg shadow-md"&gt;
+          &lt;h2 className="text-xl font-semibold mb-2"&gt;Tareas Completadas&lt;/h2&gt;
+          &lt;p className="text-4xl font-bold text-green-500"&gt;{completedTasks}&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div className="text-center"&gt;
+        &lt;Link to="/tasks" className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"&gt;
+          Ver Todas las Tareas
+        &lt;/Link&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Dashboard;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Paso 2: Integrar en React Router Modifica src/main.jsx para agregar la ruta /dashboard:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// ... imports existentes ...
+import Dashboard from './pages/Dashboard';
+
+// En el router:
+const router = createBrowserRouter([
+  {
+    element: &lt;App /&gt;,
+    children: [
+      { path: '/', element: &lt;Home /&gt; },
+      { path: '/dashboard', element: &lt;Dashboard /&gt; },
+      { path: '/tasks', element: &lt;Tasks /&gt;, loader: tasksLoader },
+      { path: '/add-task', element: &lt;AddTask /&gt; },
+      { path: '*', element: &lt;NotFound /&gt; },
+    ],
+  },
+]);</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Modifica src/components/Header.jsx para agregar un enlace:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// ... en la ul de navegación ...
+&lt;li&gt;
+  &lt;NavLink
+    to="/dashboard"
+    className={({ isActive }) =&gt;
+      isActive ? 'text-red-400 font-bold' : 'hover:text-gray-300'
+    }
+  &gt;
+    Dashboard
+  &lt;/NavLink&gt;
+&lt;/li&gt;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>useEffect simula carga de datos asíncrona.</li>
+                <li>El layout usa TailwindCSS para grid responsivo (grid-cols-1 md:grid-cols-2 para móvil/desktop).</li>
+                <li>Link integra con Router para navegación.</li>
+                <li>Este componente es autónomo y puede expandirse con más utilidades.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                · Ve a /dashboard: Verifica el resumen y el enlace a tareas. La carga se simula con delay.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- 2. Dayjs -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-calendar-alt icon"></i>2. Dayjs</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Dayjs? Dayjs es una librería ligera para manejo de fechas y horas en JavaScript, similar a Moment.js pero más moderna y pequeña (2KB). Es inmutable, soporta plugins para internacionalización, y es ideal para formatear fechas, calcular diferencias, etc., en apps React.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Ventajas sobre Date nativo: API chainable, inmutable, soporte para locales.</li>
+                <li>Instalado ya. Usaremos en Dashboard.jsx para mostrar fechas de tareas creadas.</li>
+                <li>Plugins opcionales: e.g., dayjs/locale/es para español.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Paso 1: Importar y Usar Modifica src/pages/Dashboard.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import dayjs from 'dayjs';
+import 'dayjs/locale/es'; // Para español
+dayjs.locale('es'); // Configurar locale global
+
+function Dashboard() {
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState(0);
+  const [currentDate, setCurrentDate] = useState('');
+
+  useEffect(() =&gt; {
+    // Simular carga
+    setTimeout(() =&gt; {
+      setTotalTasks(10);
+      setCompletedTasks(4);
+      setCurrentDate(dayjs().format('DD MMMM YYYY')); // Formatear fecha actual
+    }, 1000);
+  }, []);
+
+  return (
+    &lt;div className="container mx-auto p-4"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Dashboard de Tareas&lt;/h1&gt;
+      &lt;p className="text-center text-gray-600 mb-6"&gt;Fecha actual: {currentDate}&lt;/p&gt;
+      // ... resto del código ...
+    &lt;/div&gt;
+  );
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Paso 2: Ejemplo Avanzado - Diferencia de Fechas Agrega un ejemplo para calcular días hasta una fecha límite:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// Dentro del useEffect:
+const deadline = dayjs('2025-12-31');
+const daysLeft = deadline.diff(dayjs(), 'day');
+setDaysLeft(daysLeft);
+
+// En el JSX:
+&lt;p className="text-center text-gray-600"&gt;Días hasta fin de año: {daysLeft}&lt;/p&gt;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>dayjs().format('DD MMMM YYYY') formatea la fecha actual en español.</li>
+                <li>diff calcula diferencias (e.g., días).</li>
+                <li>Inmutable: dayjs() no modifica la fecha original.</li>
+                <li>Locale: Configurado para español, pero puedes cambiarlo.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                · Ve a /dashboard: Verifica la fecha formateada y el cálculo de días. Cambia el locale para probar internacionalización.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- 3. Moment -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-clock icon"></i>3. Moment</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Moment? Moment.js es una librería popular para parsear, validar, manipular y formatear fechas. Es más pesada que Dayjs (66KB), pero ofrece más funcionalidades out-of-the-box, como soporte para timezones y duraciones. En 2025, se recomienda para proyectos legacy o complejos, pero Dayjs es preferido para nuevos.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>API similar a Dayjs, pero con métodos como moment().fromNow().</li>
+                <li>Instalado ya. Usaremos en Tasks.jsx para mostrar fechas de creación de tareas.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Paso 1: Importar y Usar Modifica src/pages/Tasks.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import moment from 'moment';
+import 'moment/locale/es'; // Para español
+moment.locale('es'); // Configurar locale
+
+function Tasks() {
+  const tasks = useLoaderData(); // Asumiendo datos con fecha
+  // Agrega fecha a las tareas si no la tienen
+  const tasksWithDates = tasks.map(task =&gt; ({
+    ...task,
+    createdAt: moment().subtract(Math.random() * 7, 'days').format('DD/MM/YYYY'), // Fecha aleatoria
+  }));
+
+  return (
+    &lt;div className="container mx-auto p-4"&gt;
+      &lt;h1 className="text-3xl font-bold mb-4"&gt;Mis Tareas&lt;/h1&gt;
+      &lt;ul className="space-y-2"&gt;
+        {tasksWithDates.map((task) =&gt; (
+          &lt;li key={task.id} className="bg-white p-3 rounded shadow-sm"&gt;
+            &lt;span&gt;{task.text}&lt;/span&gt;
+            &lt;p className="text-sm text-gray-500"&gt;Creada: {task.createdAt}&lt;/p&gt;
+            &lt;p className="text-sm text-gray-500"&gt;Hace: {moment(task.createdAt, 'DD/MM/YYYY').fromNow()}&lt;/p&gt;
+          &lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Paso 2: Ejemplo Avanzado - Duración
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// En el JSX:
+&lt;p className="text-sm text-gray-500"&gt;Duración estimada: {moment.duration(5, 'hours').humanize()}&lt;/p&gt;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>moment().format('DD/MM/YYYY') formatea fechas.</li>
+                <li>fromNow() muestra "hace 3 días".</li>
+                <li>Locale para español.</li>
+                <li>duration calcula duraciones humanas (e.g., "5 horas").</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                · Ve a /tasks: Verifica fechas formateadas y "hace X tiempo".
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- 4. Creación de Spinner -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-spinner icon"></i>4. Creación de Spinner</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es la Creación de un Spinner? Un spinner es un componente de carga visual (e.g., círculo giratorio) para indicar que una operación está en progreso. Se crea con CSS puro o librerías, y se integra con estado de carga.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Usamos CSS para un spinner simple, responsivo.</li>
+                <li>Integramos en Tasks.jsx durante la carga de datos.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Paso 1: Crear el Componente Spinner Crea src/components/Spinner.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import styled from '@emotion/styled';
+
+const SpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+`;
+
+const Spinner = styled.div`
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
+function Spinner() {
+  return (
+    &lt;SpinnerContainer&gt;
+      &lt;Spinner /&gt;
+    &lt;/SpinnerContainer&gt;
+  );
+}
+
+export default Spinner;</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Paso 2: Integrar en Tasks.jsx Modifica src/pages/Tasks.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import Spinner from '../components/Spinner';
+// ... resto
+
+function Tasks() {
+  const tasks = useLoaderData();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() =&gt; {
+    setTimeout(() =&gt; setLoading(false), 2000); // Simular carga
+  }, []);
+
+  if (loading) {
+    return (
+      &lt;div className="container mx-auto p-4"&gt;
+        &lt;Spinner /&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  // ... resto del JSX ...
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>CSS con @keyframes crea la animación de rotación.</li>
+                <li>@emotion/styled encapsula estilos.</li>
+                <li>loading estado controla cuándo mostrar el spinner.</li>
+                <li>Responsivo: El spinner se centra en cualquier pantalla.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                · Ve a /tasks: Ve el spinner durante 2 segundos, luego las tareas.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- 5. react-swipeable-list -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-hand-pointer icon"></i>5. react-swipeable-list</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es react-swipeable-list? react-swipeable-list es una librería para crear listas swipeables (deslizables), útil para acciones como eliminar o editar elementos con gesto táctil en móviles.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Soporta swipe izquierda/derecha para revelar botones.</li>
+                <li>Instalado ya. Usaremos en Tasks.jsx para listas de tareas swipeables.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Paso 1: Importar y Usar Modifica src/pages/Tasks.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { SwipeableList, SwipeableListItem, SwipeAction } from 'react-swipeable-list';
+import 'react-swipeable-list/drag-preview.css';
+import 'react-swipeable-list/swipeable-list.css';
+
+function Tasks() {
+  const tasks = useLoaderData();
+  // ... loading ...
+
+  const swipeRightAction = (task) =&gt; (
+    &lt;SwipeAction
+      onClick={() =&gt; console.log(`Completar ${task.text}`)}
+      className="bg-green-500 text-white flex items-center justify-center"
+    &gt;
+      Completar
+    &lt;/SwipeAction&gt;
+  );
+
+  const swipeLeftAction = (task) =&gt; (
+    &lt;SwipeAction
+      onClick={() =&gt; console.log(`Eliminar ${task.text}`)}
+      className="bg-red-500 text-white flex items-center justify-center"
+    &gt;
+      Eliminar
+    &lt;/SwipeAction&gt;
+  );
+
+  return (
+    &lt;div className="container mx-auto p-4"&gt;
+      &lt;h1 className="text-3xl font-bold mb-4"&gt;Mis Tareas&lt;/h1&gt;
+      &lt;SwipeableList&gt;
+        {tasks.map((task) =&gt; (
+          &lt;SwipeableListItem
+            key={task.id}
+            rightAction={swipeRightAction(task)}
+            leftAction={swipeLeftAction(task)}
+            swipeRightThreshold={30}
+            swipeLeftThreshold={30}
+          &gt;
+            &lt;div className="bg-white p-3 rounded shadow-sm flex items-center justify-between"&gt;
+              &lt;span&gt;{task.text}&lt;/span&gt;
+              &lt;button className="px-2 py-1 bg-blue-500 text-white rounded"&gt;Editar&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/SwipeableListItem&gt;
+        ))}
+      &lt;/SwipeableList&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>&lt;SwipeableList&gt; envuelve la lista.</li>
+                <li>&lt;SwipeableListItem&gt; permite swipe, con rightAction y leftAction para botones.</li>
+                <li>threshold define sensibilidad al swipe (30px).</li>
+                <li>CSS importados para estilos por defecto.</li>
+                <li>Responsivo: Funciona en touch devices.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                · Ve a /tasks: Desliza elementos izquierda/derecha para ver acciones.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- 6. Webcam -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-camera icon"></i>6. Webcam</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Webcam? react-webcam es una librería para acceder a la webcam del usuario en React, capturando video o fotos para apps como escáneres o avatares.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Requiere permiso del usuario.</li>
+                <li>Usaremos en AddTask.jsx para capturar una "foto" de la tarea (simulada como avatar).</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Paso 1: Importar y Usar Modifica src/pages/AddTask.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import Webcam from 'react-webcam';
+
+function AddTask() {
+  const webcamRef = useRef(null);
+  const [imgSrc, setImgSrc] = useState(null);
+
+  const capture = () =&gt; {
+    const imageSrc = webcamRef.current.getScreenshot();
+    setImgSrc(imageSrc);
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4 max-w-md"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form className="space-y-4"&gt;
+        // ... campos ...
+        &lt;div&gt;
+          &lt;label className="block text-lg font-medium mb-2"&gt;Foto de Tarea (Webcam):&lt;/label&gt;
+          &lt;Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            className="w-full rounded-lg"
+          /&gt;
+          &lt;button
+            type="button"
+            onClick={capture}
+            className="mt-2 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+          &gt;
+            Capturar Foto
+          &lt;/button&gt;
+          {imgSrc &amp;&amp; &lt;img src={imgSrc} alt="Captura" className="mt-2 w-full rounded" /&gt;}
+        &lt;/div&gt;
+        &lt;button type="submit" className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600"&gt;
+          Agregar Tarea
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>&lt;Webcam&gt; captura video.</li>
+                <li>getScreenshot() toma foto.</li>
+                <li>useRef referencia el componente.</li>
+                <li>Permiso: El navegador pedirá acceso a cámara.</li>
+                <li>Responsivo: Se adapta a la pantalla.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                · Ve a /add-task: Permite cámara, captura foto y ve la imagen.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- 7. Gráficos con react-chartjs-2 -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-chart-bar icon"></i>7. Gráficos con react-chartjs-2</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es react-chartjs-2? react-chartjs-2 es un wrapper de Chart.js para React, permitiendo gráficos interactivos (barras, líneas, etc.) en componentes.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Instalado ya. Usaremos en Dashboard.jsx para gráfico de tareas completadas.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Paso 1: Importar y Usar Modifica src/pages/Dashboard.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+
+function Dashboard() {
+  // ... estado ...
+
+  const chartData = {
+    labels: ['Completadas', 'Pendientes'],
+    datasets: [
+      {
+        label: 'Tareas',
+        data: [completedTasks, totalTasks - completedTasks],
+        backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 99, 132, 0.6)'],
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top' },
+      title: { display: true, text: 'Resumen de Tareas' },
+    },
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Dashboard de Tareas&lt;/h1&gt;
+      // ... resumen ...
+      &lt;div className="bg-white p-6 rounded-lg shadow-md mt-6"&gt;
+        &lt;Bar data={chartData} options={options} /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>register configura Chart.js.</li>
+                <li>&lt;Bar&gt; renderiza gráfico de barras.</li>
+                <li>responsive: true lo hace adaptable a móviles.</li>
+                <li>Datos dinámicos de estado.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                · Ve a /dashboard: Ve el gráfico de tareas. Redimensiona la ventana para responsividad.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- 8. Mapas -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-map-marked-alt icon"></i>8. Mapas</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Mapas en React? Usamos @react-google-maps/api para integrar Google Maps, mostrando ubicaciones o marcadores. Requiere API key.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Obtén API key en Google Cloud Console (habilitar Maps JavaScript API).</li>
+                <li>Usaremos en Dashboard.jsx para mostrar ubicación de tareas (simulada).</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Paso 1: Configurar API Key Agrega tu key en src/utils/mapConfig.js:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">export const MAP_API_KEY = 'TU_API_KEY_AQUI'; // Reemplaza con tu key</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Paso 2: Usar en Dashboard Modifica src/pages/Dashboard.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+
+const mapContainerStyle = {
+  width: '100%',
+  height: '400px',
+};
+
+const center = {
+  lat: -34.397,
+  lng: 150.644,
+};
+
+function Dashboard() {
+  // ... estado ...
+
+  return (
+    &lt;div className="container mx-auto p-4"&gt;
+      // ... resumen ...
+      &lt;div className="bg-white p-6 rounded-lg shadow-md mt-6"&gt;
+        &lt;LoadScript googleMapsApiKey={MAP_API_KEY}&gt;
+          &lt;GoogleMap
+            mapContainerStyle={mapContainerStyle}
+            center={center}
+            zoom={10}
+          &gt;
+            &lt;Marker position={center} /&gt;
+          &lt;/GoogleMap&gt;
+        &lt;/LoadScript&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>&lt;LoadScript&gt; carga la API de Google.</li>
+                <li>&lt;GoogleMap&gt; renderiza el mapa.</li>
+                <li>&lt;Marker&gt; agrega pines.</li>
+                <li>Responsivo: width: '100%' se adapta.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                · Ve a /dashboard: Ve el mapa con marcador. Asegúrate de la API key.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- 9. Ventana Modal Bootstrap -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-window-maximize icon"></i>9. Ventana Modal Bootstrap</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Ventana Modal Bootstrap? Bootstrap modales son diálogos overlay para confirmaciones o formularios. Usamos react-bootstrap para integración en React.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Instalado ya. Usaremos en Tasks.jsx para confirmar eliminación.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Paso 1: Importar y Usar Modifica src/pages/Tasks.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { Modal, Button } from 'react-bootstrap';
+
+function Tasks() {
+  const [showModal, setShowModal] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
+
+  const handleDelete = (task) =&gt; {
+    setTaskToDelete(task);
+    setShowModal(true);
+  };
+
+  const confirmDelete = () =&gt; {
+    console.log('Eliminar tarea:', taskToDelete.text);
+    setShowModal(false);
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4"&gt;
+      // ... lista ...
+      &lt;Button onClick={() =&gt; handleDelete(task)} variant="danger"&gt;
+        Eliminar
+      &lt;/Button&gt;
+
+      &lt;Modal show={showModal} onHide={() =&gt; setShowModal(false)}&gt;
+        &lt;Modal.Header closeButton&gt;
+          &lt;Modal.Title&gt;Confirmar Eliminación&lt;/Modal.Title&gt;
+        &lt;/Modal.Header&gt;
+        &lt;Modal.Body&gt;¿Eliminar "{taskToDelete?.text}"?&lt;/Modal.Body&gt;
+        &lt;Modal.Footer&gt;
+          &lt;Button variant="secondary" onClick={() =&gt; setShowModal(false)}&gt;
+            Cancelar
+          &lt;/Button&gt;
+          &lt;Button variant="danger" onClick={confirmDelete}&gt;
+            Eliminar
+          &lt;/Button&gt;
+        &lt;/Modal.Footer&gt;
+      &lt;/Modal&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>&lt;Modal&gt; maneja visibilidad con show.</li>
+                <li>onHide cierra el modal.</li>
+                <li>Responsivo: Bootstrap lo hace mobile-friendly.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                · En /tasks, haz clic en eliminar: Ve el modal de confirmación.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- 10. Carrusel de Imágenes Bootstrap -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-images icon"></i>10. Carrusel de Imágenes Bootstrap</h3>
+            <p class="text-gray-700 mb-4">
+                ¿Qué es Carrusel de Imágenes Bootstrap? Bootstrap carruseles son sliders de imágenes responsivos. Usamos react-bootstrap para integración.
+            </p>
+            <p class="text-gray-700 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Usaremos en Dashboard.jsx para mostrar imágenes de tareas.</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Paso 1: Importar y Usar Modifica src/pages/Dashboard.jsx:
+            </p>
+            <div class="code-block">
+                <pre><code class="language-jsx">import { Carousel } from 'react-bootstrap';
+
+function Dashboard() {
+  // ... estado ...
+
+  const images = [
+    'https://via.placeholder.com/800x400?text=Imagen+1',
+    'https://via.placeholder.com/800x400?text=Imagen+2',
+    'https://via.placeholder.com/800x400?text=Imagen+3',
+  ];
+
+  return (
+    &lt;div className="container mx-auto p-4"&gt;
+      // ... resumen ...
+      &lt;div className="mt-6"&gt;
+        &lt;Carousel&gt;
+          {images.map((img, index) =&gt; (
+            &lt;Carousel.Item key={index}&gt;
+              &lt;img className="d-block w-100" src={img} alt={`Imagen ${index + 1}`} /&gt;
+              &lt;Carousel.Caption&gt;
+                &lt;h3&gt;Imagen {index + 1}&lt;/h3&gt;
+              &lt;/Carousel.Caption&gt;
+            &lt;/Carousel.Item&gt;
+          ))}
+        &lt;/Carousel&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+            </div>
+            <p class="text-gray-700 mt-4 mb-4">
+                Explicación Detallada:
+            </p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>&lt;Carousel&gt; envuelve items.</li>
+                <li>&lt;Carousel.Item&gt; contiene imágenes.</li>
+                <li>Responsivo: Imágenes se adaptan (d-block w-100).</li>
+            </ul>
+            <p class="text-gray-700 mb-4">
+                Prueba:
+            </p>
+            <p class="text-gray-700 mb-4">
+                · Ve a /dashboard: Desliza el carrusel en móvil o usa controles.
+            </p>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- Conclusión -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4"><i class="fas fa-check-circle icon"></i>Conclusión</h3>
+            <p class="text-gray-700 mb-4">
+                Hemos integrado todas las utilidades, haciendo la app más interactiva y profesional. Cada tema mejora la UX: fechas con Dayjs/Moment, carga con spinner, swipe para móviles, webcam para multimedia, gráficos para visualización, mapas para ubicación, modales para confirmaciones, y carruseles para contenido dinámico. Prueba navegando y interactuando. Si necesitas más, ¡avísame!
+            </p>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-blue-800 text-white py-4 text-center shadow-inner">
+    <p>&copy; 2025 Tutorial de Utilidades en React. Todos los derechos reservados.</p>
+</footer>
+
+<script>
+    Prism.highlightAll();
+</script>
+</body>
+</html>
