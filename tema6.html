@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Curso de React – Material UI Paso a Paso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        html, body {height:100%; margin:0;}
+        body {display:flex; flex-direction:column;}
+        main {flex:1 0 auto;}
+        footer {flex-shrink:0;}
+        pre code {white-space:pre;}
+        .codecard {position:relative;}
+        .copybtn {
+            position:absolute; top:.5rem; right:.5rem;
+            background:#0ea5e9; color:white; padding:.35rem .6rem; border-radius:.5rem;
+            font-size:.8rem;
+        }
+        .copybtn:active {transform:scale(.98);}
+        .toc a.active {background:#1e3a8a;color:#fff;}
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+<!-- Header -->
+<header class="bg-blue-800 text-white py-6 shadow-lg">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Curso de Frontend - Desarrollo de software</h1>
+        <p class="text-lg md:text-xl opacity-90">Orientado por: Arle Morales Ortiz</p>
+        <p class="mt-2 text-sm md:text-base text-blue-200">Tutorial práctico de React con Material UI (temas de la guía de la imagen)</p>
+    </div>
+</header>
+
+<!-- Intro / CTA -->
+<section class="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200">
+    <div class="container mx-auto px-4 py-6 md:py-8">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+            <div class="flex-1">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-900 mb-2">
+                    <i class="fa-solid fa-layer-group mr-2"></i>Material UI en React: instalación, componentes y patrones
+                </h2>
+                <p class="text-gray-700">
+                    En esta página aprenderás a instalar MUI y a usar los componentes más comunes:
+                    <strong>Button, Icons, Stack, List, Drawer, DataGrid, Accordion, Stepper/Typography, Tabs/Box, Dialog, Card, Autocomplete/TextField y Date/Time Pickers</strong>.
+                </p>
+            </div>
+            <a href="#instalacion" class="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-5 py-3 rounded-xl shadow">
+                <i class="fa-solid fa-bolt"></i> Empezar
+            </a>
+        </div>
+    </div>
+</section>
+
+<main class="container mx-auto px-4 py-8">
+    <!-- Layout: Sidebar TOC + Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- TOC -->
+        <aside class="lg:col-span-3">
+            <div class="bg-white rounded-2xl shadow p-4 sticky top-6 toc">
+                <h3 class="font-semibold text-blue-800 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> Contenidos
+                </h3>
+                <nav class="flex flex-col gap-2 text-sm">
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#instalacion"><i class="fa-solid fa-download mr-2"></i>Instalación</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#button-icons-stack"><i class="fa-solid fa-square-plus mr-2"></i>Button, Icons & Stack</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#list"><i class="fa-solid fa-list-ul mr-2"></i>List & ListItem*</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#drawer"><i class="fa-solid fa-bars mr-2"></i>Drawer</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#datagrid"><i class="fa-solid fa-table mr-2"></i>Tablas (DataGrid)</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#accordion"><i class="fa-solid fa-chevron-down mr-2"></i>Accordion</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#stepper"><i class="fa-solid fa-shoe-prints mr-2"></i>Stepper & Typography</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#tabs"><i class="fa-solid fa-folder-open mr-2"></i>Tabs & Box</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#dialog"><i class="fa-solid fa-comment-dots mr-2"></i>Dialog</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#card"><i class="fa-regular fa-id-card mr-2"></i>Card*</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#autocomplete"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Autocomplete & TextField</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#pickers"><i class="fa-regular fa-clock mr-2"></i>Date/Time Pickers</a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Content -->
+        <section class="lg:col-span-9 space-y-10">
+
+            <!-- Instalación -->
+            <article id="instalacion" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-download"></i> Instalación de Material UI
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <strong>¿Qué es?</strong> <em>MUI</em> es una librería de componentes React listos para producción, con sistema de temas, accesibilidad y diseño consistente.
+                </p>
+                <p class="text-gray-700 mb-4">
+                    <strong>¿Cómo funciona?</strong> Todos los componentes se importan desde <code>@mui/material</code> o paquetes específicos. Se envuelven en un <code>ThemeProvider</code> para controlar colores, tipografía y espaciado.
+                </p>
+
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4">
+                    <button class="copybtn" data-copy="#c-instalar">Copiar</button>
+                    <pre id="c-instalar"><code># Crear proyecto
+npx create-react-app mi-app --template cra-template-pwa
+cd mi-app
+
+# Instalar MUI núcleo + iconos
+npm i @mui/material @emotion/react @emotion/styled @mui/icons-material
+
+# Extras usados en este tutorial
+npm i @mui/x-data-grid @mui/x-date-pickers dayjs
+</code></pre>
+                </div>
+
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4 mt-4">
+                    <button class="copybtn" data-copy="#c-theme">Copiar</button>
+                    <pre id="c-theme"><code>// src/main.jsx o src/index.jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
+
+const theme = createTheme({
+  palette: { mode: "light", primary: { main: "#1e40af" }, secondary: { main: "#0ea5e9" } },
+  shape: { borderRadius: 12 },
+  typography: { fontFamily: ["Inter","system-ui","-apple-system","Segoe UI","Roboto","Ubuntu","Cantarell"].join(",") }
+});
+
+function AppWrapper() {
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {/* Tu App */}
+    </ThemeProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(&lt;AppWrapper /&gt;);
+</code></pre>
+                </div>
+
+                <p class="text-gray-700 mt-4">
+                    <strong>Explicación:</strong> <code>createTheme</code> construye un tema con paleta y tipografía. <code>CssBaseline</code> normaliza estilos. Todo componente MUI descendiente leerá el tema vía React Context.
+                </p>
+            </article>
+
+            <!-- Buttons, Icons, Stack -->
+            <article id="button-icons-stack" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-square-plus"></i> Button, Icons y Stack
+                </h2>
+                <p class="text-gray-700">
+                    <strong>Concepto:</strong> <code>&lt;Button/&gt;</code> ofrece variantes (<em>contained</em>, <em>outlined</em>, <em>text</em>); <code>@mui/icons-material</code> provee íconos SVG; <code>&lt;Stack/&gt;</code> organiza elementos en fila/columna con espaciado responsivo.
+                </p>
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4 mt-4">
+                    <button class="copybtn" data-copy="#c-buttons">Copiar</button>
+                    <pre id="c-buttons"><code>import { Button, Stack } from "@mui/material";
+import Save from "@mui/icons-material/Save";
+import Delete from "@mui/icons-material/Delete";
+
+export default function ButtonsDemo() {
+  return (
+    &lt;Stack direction={{ xs: "column", sm: "row" }} spacing={2}&gt;
+      &lt;Button variant="contained" startIcon={&lt;Save /&gt;}&gt;Guardar&lt;/Button&gt;
+      &lt;Button variant="outlined" color="secondary" endIcon={&lt;Delete /&gt;}&gt;Eliminar&lt;/Button&gt;
+      &lt;Button variant="text" href="https://mui.com" target="_blank"&gt;Docs&lt;/Button&gt;
+    &lt;/Stack&gt;
+  );
+}
+</code></pre>
+                </div>
+                <p class="text-gray-700 mt-2">
+                    <strong>Cómo funciona:</strong> <code>startIcon</code>/<code>endIcon</code> inyectan SVG. <code>Stack</code> usa <code>direction</code> y <code>spacing</code> para layout responsive.
+                </p>
+            </article>
+
+            <!-- List -->
+            <article id="list" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-list-ul"></i> List, ListSubheader, ListItemButton, ListItemIcon
+                </h2>
+                <p class="text-gray-700">Listas navegables y con iconos; ideales para menús.</p>
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4">
+                    <button class="copybtn" data-copy="#c-list">Copiar</button>
+                    <pre id="c-list"><code>import { List, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from "@mui/material";
+import Inbox from "@mui/icons-material/Inbox";
+import Send from "@mui/icons-material/Send";
+
+export function MailList({ onSelect }) {
+  return (
+    &lt;List
+      subheader={&lt;ListSubheader component="div"&gt;Mensajes&lt;/ListSubheader&gt;}
+      sx={{ width: 300, bgcolor: "background.paper", borderRadius: 2 }}
+    &gt;
+      &lt;ListItemButton onClick={() =&gt; onSelect("inbox")}&gt;
+        &lt;ListItemIcon&gt;&lt;Inbox /&gt;&lt;/ListItemIcon&gt;
+        &lt;ListItemText primary="Bandeja de entrada" secondary="12 nuevos" /&gt;
+      &lt;/ListItemButton&gt;
+      &lt;ListItemButton onClick={() =&gt; onSelect("sent")}&gt;
+        &lt;ListItemIcon&gt;&lt;Send /&gt;&lt;/ListItemIcon&gt;
+        &lt;ListItemText primary="Enviados" /&gt;
+      &lt;/ListItemButton&gt;
+    &lt;/List&gt;
+  );
+}
+</code></pre>
+                </div>
+                <p class="text-gray-700 mt-2">La prop <code>sx</code> aplica estilos con el sistema de temas.</p>
+            </article>
+
+            <!-- Drawer -->
+            <article id="drawer" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-bars"></i> Drawer (menú lateral)
+                </h2>
+                <p class="text-gray-700">El <em>Drawer</em> muestra navegación lateral temporal o permanente.</p>
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4">
+                    <button class="copybtn" data-copy="#c-drawer">Copiar</button>
+                    <pre id="c-drawer"><code>import { useState } from "react";
+import { Drawer, IconButton, Box, Typography } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+
+export default function DrawerDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    &lt;Box&gt;
+      &lt;IconButton onClick={() =&gt; setOpen(true)} aria-label="abrir menú"&gt;
+        &lt;MenuIcon /&gt;
+      &lt;/IconButton&gt;
+
+      &lt;Drawer anchor="left" open={open} onClose={() =&gt; setOpen(false)}&gt;
+        &lt;Box sx={{ width: 280, p: 2 }} role="presentation"&gt;
+          &lt;Typography variant="h6" gutterBottom&gt;Navegación&lt;/Typography&gt;
+          {/* Aquí puedes renderizar &lt;MailList/&gt; del ejemplo anterior */}
+        &lt;/Box&gt;
+      &lt;/Drawer&gt;
+    &lt;/Box&gt;
+  );
+}
+</code></pre>
+                </div>
+                <p class="text-gray-700 mt-2">Controlado por estado <code>open</code>; <code>anchor</code> define el lado.</p>
+            </article>
+
+            <!-- DataGrid -->
+            <article id="datagrid" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-table"></i> Tablas (DataGrid)
+                </h2>
+                <p class="text-gray-700">Tabla de alto rendimiento con paginación, orden y selección.</p>
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4">
+                    <button class="copybtn" data-copy="#c-grid">Copiar</button>
+                    <pre id="c-grid"><code>import { DataGrid } from "@mui/x-data-grid";
+
+const columns = [
+  { field: "id", headerName: "ID", width: 90 },
+  { field: "name", headerName: "Nombre", flex: 1 },
+  { field: "age", headerName: "Edad", width: 120, type: "number" },
+];
+
+const rows = [
+  { id: 1, name: "Ana", age: 23 },
+  { id: 2, name: "Luis", age: 31 },
+];
+
+export default function GridDemo() {
+  return (
+    &lt;div style={{ height: 320, width: "100%" }}&gt;
+      &lt;DataGrid
+        rows={rows}
+        columns={columns}
+        pageSizeOptions={[5, 10]}
+        initialState={{ pagination: { paginationModel: { pageSize: 5 }}}}
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+                </div>
+                <p class="text-gray-700 mt-2">Define <code>columns</code> (metadatos) y <code>rows</code> (datos). <code>flex</code> permite columnas fluidas.</p>
+            </article>
+
+            <!-- Accordion -->
+            <article id="accordion" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-chevron-down"></i> Accordion
+                </h2>
+                <p class="text-gray-700">Bloques colapsables para FAQs o detalles.</p>
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4">
+                    <button class="copybtn" data-copy="#c-accordion">Copiar</button>
+                    <pre id="c-accordion"><code>import { Accordion, AccordionSummary, AccordionDetails, Typography } from "@mui/material";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+
+export default function AccordionDemo() {
+  return (
+    &lt;Accordion&gt;
+      &lt;AccordionSummary expandIcon={&lt;ExpandMore /&gt;}&gt;
+        &lt;Typography&gt;¿Qué es MUI?&lt;/Typography&gt;
+      &lt;/AccordionSummary&gt;
+      &lt;AccordionDetails&gt;
+        &lt;Typography&gt;Una librería de componentes para React con sistema de temas.&lt;/Typography&gt;
+      &lt;/AccordionDetails&gt;
+    &lt;/Accordion&gt;
+  );
+}
+</code></pre>
+                </div>
+            </article>
+
+            <!-- Stepper + Typography -->
+            <article id="stepper" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-shoe-prints"></i> Stepper, Step, StepLabel & Typography
+                </h2>
+                <p class="text-gray-700">Muestra progreso por pasos, útil en procesos largos.</p>
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4">
+                    <button class="copybtn" data-copy="#c-stepper">Copiar</button>
+                    <pre id="c-stepper"><code>import { useState } from "react";
+import { Stepper, Step, StepLabel, Button, Typography, Box } from "@mui/material";
+
+const steps = ["Cuenta", "Perfil", "Confirmación"];
+
+export default function StepperDemo() {
+  const [active, setActive] = useState(0);
+  const next = () =&gt; setActive((p) =&gt; Math.min(p + 1, steps.length));
+  const back = () =&gt; setActive((p) =&gt; Math.max(p - 1, 0));
+
+  return (
+    &lt;Box&gt;
+      &lt;Stepper activeStep={active}&gt;
+        {steps.map((label) =&gt; (
+          &lt;Step key={label}&gt;&lt;StepLabel&gt;{label}&lt;/StepLabel&gt;&lt;/Step&gt;
+        ))}
+      &lt;/Stepper&gt;
+
+      &lt;Typography sx={{ mt: 2 }}&gt;Paso: {steps[active] || "Finalizado"}&lt;/Typography&gt;
+      &lt;Box sx={{ mt: 2, display: "flex", gap: 1 }}&gt;
+        &lt;Button onClick={back} disabled={active===0}&gt;Atrás&lt;/Button&gt;
+        &lt;Button variant="contained" onClick={next}&gt;{active===steps.length-1? "Finalizar":"Siguiente"}&lt;/Button&gt;
+      &lt;/Box&gt;
+    &lt;/Box&gt;
+  );
+}
+</code></pre>
+                </div>
+            </article>
+
+            <!-- Tabs & Box -->
+            <article id="tabs" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-folder-open"></i> Tabs & Box
+                </h2>
+                <p class="text-gray-700">Pestañas para organizar contenido; <code>Box</code> es un contenedor versátil con prop <code>sx</code>.</p>
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4">
+                    <button class="copybtn" data-copy="#c-tabs">Copiar</button>
+                    <pre id="c-tabs"><code>import { useState } from "react";
+import { Tabs, Tab, Box, Typography } from "@mui/material";
+
+export default function TabsDemo() {
+  const [tab, setTab] = useState(0);
+  return (
+    &lt;Box&gt;
+      &lt;Tabs value={tab} onChange={(_,v) =&gt; setTab(v)}&gt;
+        &lt;Tab label="Perfil" /&gt;
+        &lt;Tab label="Seguridad" /&gt;
+      &lt;/Tabs&gt>
+      {tab===0 &amp;&amp; &lt;Typography sx={{ p:2 }}&gt;Contenido de Perfil&lt;/Typography&gt;}
+      {tab===1 &amp;&amp; &lt;Typography sx={{ p:2 }}&gt;Opciones de Seguridad&lt;/Typography&gt;}
+    &lt;/Box&gt;
+  );
+}
+</code></pre>
+                </div>
+            </article>
+
+            <!-- Dialog -->
+            <article id="dialog" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-comment-dots"></i> Dialog, DialogActions, DialogContent, DialogTitle, Slide
+                </h2>
+                <p class="text-gray-700">Diálogos modales para confirmar acciones o mostrar formularios.</p>
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4">
+                    <button class="copybtn" data-copy="#c-dialog">Copiar</button>
+                    <pre id="c-dialog"><code>import { useState, forwardRef } from "react";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Slide } from "@mui/material";
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return &lt;Slide direction="up" ref={ref} {...props} /&gt;;
+});
+
+export default function DialogDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    &lt;&gt;
+      &lt;Button variant="contained" onClick={() =&gt; setOpen(true)}&gt;Eliminar&lt;/Button&gt;
+      &lt;Dialog open={open} TransitionComponent={Transition} onClose={() =&gt; setOpen(false)} keepMounted&gt;
+        &lt;DialogTitle&gt;Confirmar&lt;/DialogTitle&gt;
+        &lt;DialogContent&gt;
+          &lt;DialogContentText&gt;¿Seguro que deseas eliminar el registro?&lt;/DialogContentText&gt;
+        &lt;/DialogContent&gt;
+        &lt;DialogActions&gt;
+          &lt;Button onClick={() =&gt; setOpen(false)}&gt;Cancelar&lt;/Button&gt;
+          &lt;Button color="error" variant="contained"&gt;Eliminar&lt;/Button&gt;
+        &lt;/DialogActions&gt;
+      &lt;/Dialog&gt;
+    &lt;/&gt;
+  );
+}
+</code></pre>
+                </div>
+            </article>
+
+            <!-- Card -->
+            <article id="card" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-regular fa-id-card"></i> Card, CardHeader, CardMedia, CardContent, CardActions, Avatar
+                </h2>
+                <p class="text-gray-700">Las tarjetas agrupan información con imagen, título, contenido y acciones.</p>
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4">
+                    <button class="copybtn" data-copy="#c-card">Copiar</button>
+                    <pre id="c-card"><code>import { Card, CardHeader, CardContent, CardActions, CardMedia, Avatar, Button, Typography } from "@mui/material";
+
+export default function ProductCard() {
+  return (
+    &lt;Card sx={{ maxWidth: 345 }}&gt;
+      &lt;CardHeader
+        avatar={&lt;Avatar aria-label="producto"&gt;P&lt;/Avatar&gt;}
+        title="Producto increíble"
+        subheader="$49.99"
+      /&gt;
+      &lt;CardMedia component="img" height="160" image="https://picsum.photos/600/400" alt="foto"/&gt;
+      &lt;CardContent&gt;
+        &lt;Typography variant="body2" color="text.secondary"&gt;Descripción breve del producto.&lt;/Typography&gt;
+      &lt;/CardContent&gt;
+      &lt;CardActions&gt;
+        &lt;Button size="small"&gt;Compartir&lt;/Button&gt;
+        &lt;Button size="small" variant="contained"&gt;Comprar&lt;/Button&gt;
+      &lt;/CardActions&gt;
+    &lt;/Card&gt;
+  );
+}
+</code></pre>
+                </div>
+            </article>
+
+            <!-- Autocomplete & TextField -->
+            <article id="autocomplete" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Autocomplete & TextField
+                </h2>
+                <p class="text-gray-700">Entrada de texto con sugerencias, validación y estados.</p>
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4">
+                    <button class="copybtn" data-copy="#c-auto">Copiar</button>
+                    <pre id="c-auto"><code>import { useState } from "react";
+import { Autocomplete, TextField, Stack } from "@mui/material";
+
+const opciones = ["React", "Vue", "Angular", "Svelte"];
+
+export default function AutoForm() {
+  const [valor, setValor] = useState(null);
+  const [email, setEmail] = useState("");
+  const error = email &amp;&amp; !/.+@.+\..+/.test(email);
+
+  return (
+    &lt;Stack spacing={2}&gt;
+      &lt;Autocomplete
+        value={valor}
+        onChange={(_, v) =&gt; setValor(v)}
+        options={opciones}
+        renderInput={(params) =&gt; &lt;TextField {...params} label="Framework" /&gt;}
+      /&gt;
+
+      &lt;TextField
+        label="Correo"
+        value={email}
+        onChange={(e) =&gt; setEmail(e.target.value)}
+        error={error}
+        helperText={error ? "Correo no válido" : " "}
+/&gt;
+    &lt;/Stack&gt;
+  );
+}
+</code></pre>
+                </div>
+            </article>
+
+            <!-- Date & Time Pickers -->
+            <article id="pickers" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-regular fa-clock"></i> DesktopDatePicker, TimePicker, LocalizationProvider
+                </h2>
+                <p class="text-gray-700">Selectores de fecha/hora con localización. Usaremos <code>dayjs</code>.</p>
+                <div class="codecard bg-slate-900 text-slate-100 rounded-xl p-4">
+                    <button class="copybtn" data-copy="#c-pickers">Copiar</button>
+                    <pre id="c-pickers"><code>import { useState } from "react";
+import dayjs from "dayjs";
+import "dayjs/locale/es";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DesktopDatePicker, TimePicker } from "@mui/x-date-pickers";
+import { Stack, TextField } from "@mui/material";
+
+export default function PickersDemo() {
+  const [fecha, setFecha] = useState(dayjs());
+  const [hora, setHora] = useState(dayjs());
+
+  return (
+    &lt;LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es"&gt;
+      &lt;Stack spacing={2}&gt;
+        &lt;DesktopDatePicker
+          label="Fecha"
+          value={fecha}
+          onChange={(v) =&gt; setFecha(v)}
+          slotProps={{ textField: { fullWidth: true } }}
+        /&gt;
+        &lt;TimePicker
+          label="Hora"
+          value={hora}
+          onChange={(v) =&gt; setHora(v)}
+          slotProps={{ textField: { fullWidth: true } }}
+        /&gt;
+      &lt;/Stack&gt;
+    &lt;/LocalizationProvider&gt;
+  );
+}
+</code></pre>
+                </div>
+                <p class="text-gray-700 mt-2">El proveedor de localización inyecta formato y traducciones a los pickers.</p>
+            </article>
+
+            <!-- Cierre -->
+            <article class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4">
+                    <i class="fa-solid fa-rocket mr-2"></i> Siguientes pasos
+                </h2>
+                <ul class="list-disc pl-6 text-gray-700 space-y-1">
+                    <li>Combina los ejemplos en una misma <code>App.jsx</code> y crea rutas por sección.</li>
+                    <li>Aplica el sistema <code>sx</code> para un diseño coherente con tu marca.</li>
+                    <li>Usa el tema para modos claro/oscuro y paletas personalizadas.</li>
+                    <li>Revisa accesibilidad: labels, <code>aria-*</code>, foco y contrastes.</li>
+                </ul>
+            </article>
+
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-blue-800 text-white py-5">
+    <div class="container mx-auto px-4 text-center">
+        <p>&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
+    </div>
+</footer>
+
+<!-- Helpers: smooth scroll + copy -->
+<script>
+    // Desplazamiento suave & resaltar enlace activo
+    const links = document.querySelectorAll('.toc a');
+    const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+    links.forEach(a=>{
+        a.addEventListener('click', e=>{
+            e.preventDefault();
+            document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth', block:'start'});
+            history.replaceState(null, '', a.getAttribute('href'));
+        });
+    });
+    const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+            const i = sections.indexOf(entry.target);
+            if(i>=0){
+                if(entry.isIntersecting){
+                    links.forEach(l=>l.classList.remove('active'));
+                    links[i].classList.add('active');
+                }
+            }
+        });
+    }, {rootMargin:"-40% 0px -55% 0px", threshold:0});
+    sections.forEach(s=>observer.observe(s));
+
+    // Botón copiar
+    document.querySelectorAll('.copybtn').forEach(btn=>{
+        btn.addEventListener('click', async ()=>{
+            const id = btn.getAttribute('data-copy');
+            const text = document.querySelector(id).innerText;
+            try {
+                await navigator.clipboard.writeText(text);
+                const prev = btn.textContent;
+                btn.textContent = "Copiado";
+                setTimeout(()=>btn.textContent = prev, 1200);
+            } catch(e) {
+                alert("No se pudo copiar: " + e);
+            }
+        });
+    });
+</script>
+</body>
+</html>
