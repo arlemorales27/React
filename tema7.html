@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>React Tutorial: localStorage y Context API</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        html, body {height:100%; margin:0;}
+        body {display:flex; flex-direction:column;}
+        main {flex:1 0 auto;}
+        footer {flex-shrink:0;}
+        .codecard {position:relative;}
+        .toc a.active {background:#1e3a8a;color:#fff;}
+        /* Coloreado tipo editor */
+        .editor-bg {background:#1e293b;}
+        .editor-code {font-family: 'Fira Mono', 'Consolas', monospace; font-size:1rem; line-height:1.6;}
+        .kw {color:#7dd3fc;}      /* Palabras clave */
+        .fn {color:#f472b6;}      /* Funciones */
+        .str {color:#facc15;}     /* Strings */
+        .var {color:#a3e635;}     /* Variables */
+        .com {color:#94a3b8;}     /* Comentarios */
+        .tag {color:#38bdf8;}     /* Etiquetas JSX */
+        .attr {color:#fbbf24;}    /* Atributos JSX */
+        .num {color:#f87171;}     /* Números */
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+<!-- Header -->
+<header class="bg-blue-800 text-white py-6 shadow-lg">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Tutorial React: localStorage y Context API</h1>
+        <p class="text-lg md:text-xl opacity-90">Aprende a manejar almacenamiento y contexto en React</p>
+        <p class="mt-2 text-sm md:text-base text-blue-200">Por Arle Morales Ortiz</p>
+    </div>
+</header>
+
+<!-- Intro / CTA -->
+<section class="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200">
+    <div class="container mx-auto px-4 py-6 md:py-8">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+            <div class="flex-1">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-900 mb-2">
+                    <i class="fa-solid fa-layer-group mr-2"></i>¿Qué aprenderás?
+                </h2>
+                <p class="text-gray-700">
+                    Cómo usar <strong>localStorage</strong>, <strong>sessionStorage</strong> y <strong>Context API</strong> en React con ejemplos prácticos y explicaciones visuales.
+                </p>
+            </div>
+            <a href="#localstorage" class="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-5 py-3 rounded-xl shadow">
+                <i class="fa-solid fa-bolt"></i> Empezar
+            </a>
+        </div>
+    </div>
+</section>
+
+<main class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- TOC -->
+        <aside class="lg:col-span-3">
+            <div class="bg-white rounded-2xl shadow p-4 sticky top-6 toc">
+                <h3 class="font-semibold text-blue-800 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> Temas
+                </h3>
+                <nav class="flex flex-col gap-2 text-sm">
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#localstorage"><i class="fa-solid fa-database mr-2"></i>localStorage / sessionStorage</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#context"><i class="fa-solid fa-circle-nodes mr-2"></i>Context API</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#ejemplo"><i class="fa-solid fa-layer-group mr-2"></i>Proyecto ejemplo</a>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Content -->
+        <section class="lg:col-span-9 space-y-10">
+
+            <!-- localStorage / sessionStorage -->
+            <article id="localstorage" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-database"></i> localStorage y sessionStorage
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <strong>¿Qué son?</strong> Permiten guardar datos en el navegador. <b>localStorage</b> persiste tras cerrar la pestaña; <b>sessionStorage</b> se borra al cerrar la pestaña.
+                </p>
+                <p class="text-gray-700 mb-4">
+                    <strong>¿Cómo se usan?</strong> Con <code>setItem</code> y <code>getItem</code> para guardar y leer datos.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="com">// src/LocalStorageDemo.jsx</span><br>
+                        <span class="kw">import</span> <span class="tag">{ useState }</span> <span class="kw">from</span> <span class="str">"react"</span>;<br><br>
+                        <span class="kw">export default function</span> <span class="fn">LocalStorageDemo</span>() {<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> [<span class="var">nombre</span>, <span class="var">setNombre</span>] = <span class="fn">useState</span>(<span class="tag">localStorage</span>.getItem(<span class="str">"nombre"</span>) || <span class="str">""</span>);<br><br>
+                        &nbsp;&nbsp;<span class="kw">const</span> <span class="fn">guardar</span> = () =&gt; {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">localStorage</span>.setItem(<span class="str">"nombre"</span>, <span class="var">nombre</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">alert</span>(<span class="str">"¡Nombre guardado!"</span>);<br>
+                        &nbsp;&nbsp;};<br><br>
+                        &nbsp;&nbsp;<span class="kw">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="str">"flex flex-col gap-3"</span><span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;input</span>
+                        <span class="attr">className</span>=<span class="str">"border rounded px-3 py-2"</span>
+                        <span class="attr">value</span>=<span class="var">{nombre}</span>
+                        <span class="attr">onChange</span>=<span class="fn">{e =&gt; setNombre(e.target.value)}</span>
+                        <span class="attr">placeholder</span>=<span class="str">"Escribe tu nombre"</span>
+                        <span class="tag">/&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;button</span>
+                        <span class="attr">className</span>=<span class="str">"bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center gap-2"</span>
+                        <span class="attr">onClick</span>=<span class="fn">{guardar}</span>
+                        <span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;i</span> <span class="attr">className</span>=<span class="str">"fa-solid fa-floppy-disk"</span><span class="tag">&gt;&lt;/i&gt;</span> Guardar en localStorage<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/button&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/div&gt;</span><br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2">
+                    <i class="fa-solid fa-lightbulb text-yellow-400"></i> Cambia <code>localStorage</code> por <code>sessionStorage</code> para guardar solo por sesión.
+                </p>
+                <p class="text-gray-700 mt-2">
+                    <b>Explicación:</b>
+                <ul class="list-disc pl-6">
+                    <li><span class="font-mono text-blue-700">useState</span> inicializa el estado con el valor guardado en localStorage.</li>
+                    <li>La función <span class="font-mono text-pink-600">guardar</span> almacena el nombre y muestra un mensaje.</li>
+                    <li>El input permite escribir el nombre y el botón lo guarda en el navegador.</li>
+                </ul>
+                </p>
+            </article>
+
+            <!-- Context API -->
+            <article id="context" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-purple-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-circle-nodes"></i> Context API en React
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <strong>¿Qué es?</strong> Permite compartir datos (estados, funciones) entre componentes sin pasar props manualmente.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="com">// src/UserContext.jsx</span><br>
+                        <span class="kw">import</span> <span class="tag">{ createContext, useContext, useState }</span> <span class="kw">from</span> <span class="str">"react"</span>;<br><br>
+                        <span class="kw">const</span> <span class="var">UserContext</span> = <span class="fn">createContext</span>();<br><br>
+                        <span class="kw">export function</span> <span class="fn">UserProvider</span>(<span class="var">{ children }</span>) {<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> [<span class="var">nombre</span>, <span class="var">setNombre</span>] = <span class="fn">useState</span>(<span class="str">""</span>);<br>
+                        &nbsp;&nbsp;<span class="kw">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;UserContext.Provider</span> <span class="attr">value</span>=<span class="tag">{{ nombre, setNombre }}</span><span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="var">{children}</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/UserContext.Provider&gt;</span><br>
+                        &nbsp;&nbsp;);<br>
+                        }<br><br>
+                        <span class="kw">export function</span> <span class="fn">useUser</span>() {<br>
+                        &nbsp;&nbsp;<span class="kw">return</span> <span class="fn">useContext</span>(<span class="var">UserContext</span>);<br>
+                        }
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2">
+                    <b>Explicación:</b>
+                <ul class="list-disc pl-6">
+                    <li><span class="font-mono text-blue-700">createContext</span> crea el contexto global.</li>
+                    <li><span class="font-mono text-pink-600">UserProvider</span> envuelve la app y comparte el estado <span class="font-mono text-green-600">nombre</span>.</li>
+                    <li><span class="font-mono text-pink-600">useUser</span> es un hook para acceder al contexto desde cualquier componente.</li>
+                </ul>
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mt-4">
+                    <div class="editor-code">
+                        <span class="com">// src/UserForm.jsx</span><br>
+                        <span class="kw">import</span> <span class="tag">{ useUser }</span> <span class="kw">from</span> <span class="str">"./UserContext"</span>;<br><br>
+                        <span class="kw">export default function</span> <span class="fn">UserForm</span>() {<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> { <span class="var">nombre</span>, <span class="var">setNombre</span> } = <span class="fn">useUser</span>();<br>
+                        &nbsp;&nbsp;<span class="kw">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;div&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;input</span>
+                        <span class="attr">value</span>=<span class="var">{nombre}</span>
+                        <span class="attr">onChange</span>=<span class="fn">{e =&gt; setNombre(e.target.value)}</span>
+                        <span class="attr">placeholder</span>=<span class="str">"Nombre de usuario"</span>
+                        <span class="attr">className</span>=<span class="str">"border rounded px-3 py-2"</span>
+                        <span class="tag">/&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;p</span> <span class="attr">className</span>=<span class="str">"mt-2 text-blue-700 flex items-center gap-2"</span><span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;i</span> <span class="attr">className</span>=<span class="str">"fa-solid fa-user"</span><span class="tag">&gt;&lt;/i&gt;</span> Hola, {nombre || "invitado"}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/p&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/div&gt;</span><br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2">
+                    <b>Explicación:</b>
+                <ul class="list-disc pl-6">
+                    <li>El input actualiza el nombre en el contexto global.</li>
+                    <li>El saludo se actualiza automáticamente en todos los componentes que usan el contexto.</li>
+                </ul>
+                </p>
+            </article>
+
+            <!-- Proyecto ejemplo -->
+            <article id="ejemplo" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-layer-group"></i> Proyecto ejemplo: Context y localStorage
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    Combina ambos conceptos en una sola aplicación React.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="com">// src/App.jsx</span><br>
+                        <span class="kw">import</span> <span class="tag">UserForm</span> <span class="kw">from</span> <span class="str">"./UserForm"</span>;<br>
+                        <span class="kw">import</span> <span class="tag">LocalStorageDemo</span> <span class="kw">from</span> <span class="str">"./LocalStorageDemo"</span>;<br><br>
+                        <span class="kw">export default function</span> <span class="fn">App</span>() {<br>
+                        &nbsp;&nbsp;<span class="kw">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="str">"max-w-xl mx-auto mt-10 space-y-8"</span><span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;h1</span> <span class="attr">className</span>=<span class="str">"text-3xl font-bold text-blue-800 flex items-center gap-2"</span><span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;i</span> <span class="attr">className</span>=<span class="str">"fa-solid fa-layer-group"</span><span class="tag">&gt;&lt;/i&gt;</span> Demo Context & LocalStorage<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/h1&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;UserForm /&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;LocalStorageDemo /&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/div&gt;</span><br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+                <div class="codecard editor-bg rounded-xl p-4 mt-4">
+                    <div class="editor-code">
+                        <span class="com">// src/main.jsx</span><br>
+                        <span class="kw">import</span> <span class="tag">React</span> <span class="kw">from</span> <span class="str">"react"</span>;<br>
+                        <span class="kw">import</span> <span class="tag">ReactDOM</span> <span class="kw">from</span> <span class="str">"react-dom/client"</span>;<br>
+                        <span class="kw">import</span> <span class="tag">App</span> <span class="kw">from</span> <span class="str">"./App"</span>;<br>
+                        <span class="kw">import</span> <span class="tag">{ UserProvider }</span> <span class="kw">from</span> <span class="str">"./UserContext"</span>;<br>
+                        <span class="kw">import</span> <span class="str">"./index.css"</span>; <span class="com">// Tailwind import</span><br><br>
+                        <span class="fn">ReactDOM.createRoot</span>(document.getElementById(<span class="str">"root"</span>)).render(<br>
+                        &nbsp;&nbsp;<span class="tag">&lt;UserProvider&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;App /&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;/UserProvider&gt;</span><br>
+                        );
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2">
+                    <b>Explicación:</b>
+                <ul class="list-disc pl-6">
+                    <li>La app se envuelve en <span class="font-mono text-pink-600">UserProvider</span> para compartir el contexto.</li>
+                    <li>Se importan los componentes y estilos necesarios.</li>
+                    <li>El diseño es responsivo y moderno.</li>
+                </ul>
+                </p>
+            </article>
+        </section>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-blue-800 text-white py-5">
+    <div class="container mx-auto px-4 text-center">
+        <p>&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
+    </div>
+</footer>
+
+<!-- Helpers: smooth scroll + resaltar enlace activo -->
+<script>
+    // Desplazamiento suave & resaltar enlace activo
+    const links = document.querySelectorAll('.toc a');
+    const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+    links.forEach(a=>{
+        a.addEventListener('click', e=>{
+            e.preventDefault();
+            document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth', block:'start'});
+            history.replaceState(null, '', a.getAttribute('href'));
+        });
+    });
+    const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+            const i = sections.indexOf(entry.target);
+            if(i>=0){
+                if(entry.isIntersecting){
+                    links.forEach(l=>l.classList.remove('active'));
+                    links[i].classList.add('active');
+                }
+            }
+        });
+    }, {rootMargin:"-40% 0px -55% 0px", threshold:0});
+    sections.forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>

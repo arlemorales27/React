@@ -21,12 +21,29 @@
         footer {
             flex-shrink: 0;
         }
+        @keyframes fade-in-down {
+            0% { opacity: 0; transform: translateY(-30px);}
+            100% { opacity: 1; transform: translateY(0);}
+        }
+        .animate-fade-in-down {
+            animation: fade-in-down 1s ease-out;
+        }
+        @keyframes spin-slow {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+        }
+        .animate-spin-slow {
+            animation: spin-slow 4s linear infinite;
+        }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
 <!-- Header -->
-<header class="bg-blue-800 text-white py-6">
-    <div class="container mx-auto px-4 text-center">
+<header class="bg-blue-800 text-white py-6 relative overflow-hidden">
+    <div class="container mx-auto px-4 text-center animate-fade-in-down">
+        <div class="flex justify-center items-center mb-4">
+            <i class="fab fa-react fa-4x text-cyan-400 animate-spin-slow"></i>
+        </div>
         <h1 class="text-3xl md:text-4xl font-bold mb-2">Curso de Frontend - Desarrollo de software</h1>
         <p class="text-lg md:text-xl">Orientado por: Arle Morales Ortiz</p>
     </div>
@@ -38,36 +55,36 @@
         <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-6 text-center">Temas del Curso</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <a href="tema1.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-book fa-lg"></i>
+                <i class="fab fa-react fa-lg"></i>
                 <span class="text-lg font-medium">1. Introducción a React</span>
             </a>
             <a href="tema2.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-calculator fa-lg"></i>
+                <i class="fas fa-paint-brush fa-lg"></i>
                 <span class="text-lg font-medium">2. Estilos en React y Rutas</span>
             </a>
             <a href="tema3.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-chart-bar fa-lg"></i>
+                <i class="fas fa-route fa-lg"></i>
                 <span class="text-lg font-medium">3. Estilos y Rutas</span>
             </a>
             <a href="tema4.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-tasks fa-lg"></i>
+                <i class="fas fa-file-alt fa-lg"></i>
                 <span class="text-lg font-medium">4. Formularios</span>
             </a>
             <a href="tema5.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-clock fa-lg"></i>
+                <i class="fas fa-tools fa-lg"></i>
                 <span class="text-lg font-medium">5. Utilidades</span>
             </a>
             <a href="tema6.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-shield-alt fa-lg"></i>
+                <i class="fab fa-uikit fa-lg"></i>
                 <span class="text-lg font-medium">6. Material UI</span>
             </a>
-            <a href="" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-file-invoice fa-lg"></i>
-                <span class="text-lg font-medium">7. Tema 7</span>
+            <a href="tema7.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
+                <i class="fas fa-lightbulb fa-lg"></i>
+                <span class="text-lg font-medium">7.  localStorage y Context API</span>
             </a>
-            <a href="" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
+            <a href="tema8.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
                 <i class="fas fa-check-circle fa-lg"></i>
-                <span class="text-lg font-medium">8. Tema 8</span>
+                <span class="text-lg font-medium">8. CRUD Clientes + API REST</span>
             </a>
         </div>
     </section>

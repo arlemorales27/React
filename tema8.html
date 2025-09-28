@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>React CRUD Clientes - Tutorial Paso a Paso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        html, body {height:100%; margin:0;}
+        body {display:flex; flex-direction:column;}
+        main {flex:1 0 auto;}
+        footer {flex-shrink:0;}
+        .codecard {position:relative;}
+        .toc a.active {background:#1e3a8a;color:#fff;}
+        .editor-bg {background:#1e293b;}
+        .editor-code {font-family: 'Fira Mono', 'Consolas', monospace; font-size:1rem; line-height:1.6;}
+        .kw {color:#7dd3fc;}
+        .fn {color:#f472b6;}
+        .str {color:#facc15;}
+        .var {color:#a3e635;}
+        .com {color:#94a3b8;}
+        .tag {color:#38bdf8;}
+        .attr {color:#fbbf24;}
+        .num {color:#f87171;}
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+<header class="bg-blue-800 text-white py-6 shadow-lg">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Tutorial React: CRUD Clientes + API REST</h1>
+        <p class="text-lg md:text-xl opacity-90">Aprende a crear un cliente completo en React con operaciones CRUD y estilos modernos</p>
+        <p class="mt-2 text-sm md:text-base text-blue-200">Por Arle Morales Ortiz</p>
+    </div>
+</header>
+
+<section class="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200">
+    <div class="container mx-auto px-4 py-6 md:py-8">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+            <div class="flex-1">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-900 mb-2">
+                    <i class="fa-solid fa-users mr-2"></i>¿Qué aprenderás?
+                </h2>
+                <p class="text-gray-700">
+                    Cómo crear un cliente React que consume un API REST, permite consultar, guardar, actualizar y borrar clientes, usando hooks modernos y diseño profesional.
+                </p>
+            </div>
+            <a href="#paso1" class="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-5 py-3 rounded-xl shadow">
+                <i class="fa-solid fa-bolt"></i> Empezar
+            </a>
+        </div>
+    </div>
+</section>
+
+<main class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <aside class="lg:col-span-3">
+            <div class="bg-white rounded-2xl shadow p-4 sticky top-6 toc">
+                <h3 class="font-semibold text-blue-800 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> Pasos
+                </h3>
+                <nav class="flex flex-col gap-2 text-sm">
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso1"><i class="fa-solid fa-terminal mr-2"></i>Crear proyecto</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso2"><i class="fa-solid fa-folder-tree mr-2"></i>Estructura</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso3"><i class="fa-solid fa-code mr-2"></i>Código y explicación</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso4"><i class="fa-solid fa-play mr-2"></i>Ejecutar app</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso5"><i class="fa-solid fa-lightbulb mr-2"></i>Resumen</a>
+                </nav>
+            </div>
+        </aside>
+
+        <section class="lg:col-span-9 space-y-10">
+
+            <!-- Paso 1 -->
+            <article id="paso1" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-terminal"></i> Paso 1: Crear el proyecto
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    Usamos <b>create-react-app</b> y <b>Tailwind CSS</b> para el diseño.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="com"># Terminal</span><br>
+                        <span class="kw">npx</span> <span class="fn">create-react-app</span> <span class="str">cliente-crud</span><br>
+                        <span class="kw">cd</span> <span class="str">cliente-crud</span><br>
+                        <span class="kw">npm</span> <span class="fn">install</span> <span class="str">tailwindcss</span><br>
+                        <span class="fn">npx</span> <span class="fn">tailwindcss</span> <span class="kw">init</span><br>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2">
+                    <b>Explicación:</b>
+                <ul class="list-disc pl-6">
+                    <li>Se crea el proyecto y se instala Tailwind para estilos modernos.</li>
+                    <li>Configura Tailwind en <span class="font-mono text-blue-700">src/index.css</span>:</li>
+                </ul>
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="com">/* src/index.css */</span><br>
+                        <span class="tag">@tailwind</span> <span class="kw">base</span>;<br>
+                        <span class="tag">@tailwind</span> <span class="kw">components</span>;<br>
+                        <span class="tag">@tailwind</span> <span class="kw">utilities</span>;<br>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Paso 2 -->
+            <article id="paso2" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-folder-tree"></i> Paso 2: Estructura de archivos
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Archivos principales:</b>
+                <ul class="list-disc pl-6">
+                    <li><span class="font-mono text-green-600">src/App.jsx</span> — Componente principal.</li>
+                    <li><span class="font-mono text-green-600">src/api.js</span> — Funciones para consumir el API REST.</li>
+                    <li><span class="font-mono text-green-600">src/ClienteForm.jsx</span> — Formulario para crear/editar clientes.</li>
+                    <li><span class="font-mono text-green-600">src/ClienteList.jsx</span> — Lista de clientes con acciones.</li>
+                </ul>
+                </p>
+            </article>
+
+            <!-- Paso 3 -->
+            <article id="paso3" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-code"></i> Paso 3: Código y explicación
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>API REST:</b> Usamos <span class="font-mono text-pink-600">fetch</span> y <span class="font-mono text-blue-700">async/await</span> para consumir el API.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="com">// src/api.js</span><br>
+                        <span class="kw">const</span> <span class="var">API_URL</span> = <span class="str">"https://api.ejemplo.com/clientes"</span>;<br><br>
+                        <span class="kw">export async function</span> <span class="fn">getClientes</span>() {<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> <span class="var">res</span> = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="var">API_URL</span>);<br>
+                        &nbsp;&nbsp;<span class="kw">return</span> <span class="kw">await</span> <span class="var">res</span>.json();<br>
+                        }<br><br>
+                        <span class="kw">export async function</span> <span class="fn">crearCliente</span>(<span class="var">cliente</span>) {<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> <span class="var">res</span> = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="var">API_URL</span>, {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;method: <span class="str">"POST"</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;headers: { <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span> },<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;body: <span class="fn">JSON.stringify</span>(<span class="var">cliente</span>),<br>
+                        &nbsp;&nbsp;});<br>
+                        &nbsp;&nbsp;<span class="kw">return</span> <span class="kw">await</span> <span class="var">res</span>.json();<br>
+                        }<br><br>
+                        <span class="kw">export async function</span> <span class="fn">actualizarCliente</span>(<span class="var">id</span>, <span class="var">cliente</span>) {<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> <span class="var">res</span> = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`${API_URL}/${id}`</span>, {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;method: <span class="str">"PUT"</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;headers: { <span class="str">"Content-Type"</span>: <span class="str">"application/json"</span> },<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;body: <span class="fn">JSON.stringify</span>(<span class="var">cliente</span>),<br>
+                        &nbsp;&nbsp;});<br>
+                        &nbsp;&nbsp;<span class="kw">return</span> <span class="kw">await</span> <span class="var">res</span>.json();<br>
+                        }<br><br>
+                        <span class="kw">export async function</span> <span class="fn">borrarCliente</span>(<span class="var">id</span>) {<br>
+                        &nbsp;&nbsp;<span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">`${API_URL}/${id}`</span>, { method: <span class="str">"DELETE"</span> });<br>
+                        }
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2">
+                    <b>Explicación:</b>
+                <ul class="list-disc pl-6">
+                    <li>Funciones <span class="font-mono text-pink-600">async</span> para cada operación CRUD.</li>
+                    <li>Usa <span class="font-mono text-blue-700">fetch</span> y <span class="font-mono text-yellow-500">JSON</span> para enviar/recibir datos.</li>
+                </ul>
+                </p>
+
+                <p class="text-gray-700 mt-6">
+                    <b>Formulario de cliente:</b> Permite crear o editar clientes.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="com">// src/ClienteForm.jsx</span><br>
+                        <span class="kw">import</span> <span class="tag">{ useState, useEffect }</span> <span class="kw">from</span> <span class="str">"react"</span>;<br><br>
+                        <span class="kw">export default function</span> <span class="fn">ClienteForm</span>({ <span class="var">onGuardar</span>, <span class="var">clienteActual</span> }) {<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> [<span class="var">nombre</span>, <span class="var">setNombre</span>] = <span class="fn">useState</span>(<span class="str">""</span>);<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> [<span class="var">email</span>, <span class="var">setEmail</span>] = <span class="fn">useState</span>(<span class="str">""</span>);<br><br>
+                        &nbsp;&nbsp;<span class="fn">useEffect</span>(() => {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (<span class="var">clienteActual</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">setNombre</span>(<span class="var">clienteActual</span>.nombre);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">setEmail</span>(<span class="var">clienteActual</span>.email);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;} <span class="kw">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">setNombre</span>(<span class="str">""</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">setEmail</span>(<span class="str">""</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;}, [<span class="var">clienteActual</span>]);<br><br>
+                        &nbsp;&nbsp;<span class="kw">function</span> <span class="fn">handleSubmit</span>(<span class="var">e</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">e.preventDefault</span>();<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">onGuardar</span>({ <span class="var">nombre</span>, <span class="var">email</span> });<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">setNombre</span>(<span class="str">""</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">setEmail</span>(<span class="str">""</span>);<br>
+                        &nbsp;&nbsp;}<br><br>
+                        &nbsp;&nbsp;<span class="kw">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;form</span>
+                        <span class="attr">className</span>=<span class="str">"bg-white rounded-xl shadow p-6 mb-6 flex flex-col gap-4"</span>
+                        <span class="attr">onSubmit</span>=<span class="fn">{handleSubmit}</span>
+                        <span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;h2</span> <span class="attr">className</span>=<span class="str">"text-xl font-bold text-blue-700"</span><span class="tag">&gt;</span>{clienteActual ? "Editar Cliente" : "Nuevo Cliente"}<span class="tag">&lt;/h2&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;input</span>
+                        <span class="attr">className</span>=<span class="str">"border rounded px-3 py-2"</span>
+                        <span class="attr">value</span>=<span class="var">{nombre}</span>
+                        <span class="attr">onChange</span>=<span class="fn">{e =&gt; setNombre(e.target.value)}</span>
+                        <span class="attr">placeholder</span>=<span class="str">"Nombre"</span>
+                        <span class="attr">required</span>
+                        <span class="tag">/&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;input</span>
+                        <span class="attr">className</span>=<span class="str">"border rounded px-3 py-2"</span>
+                        <span class="attr">value</span>=<span class="var">{email}</span>
+                        <span class="attr">onChange</span>=<span class="fn">{e =&gt; setEmail(e.target.value)}</span>
+                        <span class="attr">placeholder</span>=<span class="str">"Email"</span>
+                        <span class="attr">type</span>=<span class="str">"email"</span>
+                        <span class="attr">required</span>
+                        <span class="tag">/&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;button</span>
+                        <span class="attr">className</span>=<span class="str">"bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"</span>
+                        <span class="attr">type</span>=<span class="str">"submit"</span>
+                        <span class="tag">&gt;</span>{clienteActual ? "Actualizar" : "Guardar"}<span class="tag">&lt;/button&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/form&gt;</span><br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2">
+                    <b>Explicación:</b>
+                <ul class="list-disc pl-6">
+                    <li>Formulario controlado con <span class="font-mono text-blue-700">useState</span> y <span class="font-mono text-pink-600">useEffect</span>.</li>
+                    <li>Permite crear o editar según el estado <span class="font-mono text-green-600">clienteActual</span>.</li>
+                </ul>
+                </p>
+
+                <p class="text-gray-700 mt-6">
+                    <b>Lista de clientes:</b> Muestra los clientes y acciones CRUD.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="com">// src/ClienteList.jsx</span><br>
+                        <span class="kw">export default function</span> <span class="fn">ClienteList</span>({ <span class="var">clientes</span>, <span class="var">onEditar</span>, <span class="var">onBorrar</span> }) {<br>
+                        &nbsp;&nbsp;<span class="kw">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="str">"bg-white rounded-xl shadow p-6"</span><span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;h2</span> <span class="attr">className</span>=<span class="str">"text-xl font-bold text-blue-700 mb-4"</span><span class="tag">&gt;</span>Lista de Clientes<span class="tag">&lt;/h2&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;table</span> <span class="attr">className</span>=<span class="str">"w-full text-left"</span><span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;thead&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;tr&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;th</span> <span class="attr">className</span>=<span class="str">"py-2"</span><span class="tag">&gt;</span>Nombre<span class="tag">&lt;/th&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;th</span> <span class="attr">className</span>=<span class="str">"py-2"</span><span class="tag">&gt;</span>Email<span class="tag">&lt;/th&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;th</span> <span class="attr">className</span>=<span class="str">"py-2"</span><span class="tag">&gt;</span>Acciones<span class="tag">&lt;/th&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/tr&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/thead&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;tbody&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{clientes.map(cliente => (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;tr</span> <span class="attr">key</span>=<span class="var">{cliente.id}</span> <span class="attr">className</span>=<span class="str">"border-t"</span><span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;td</span> <span class="attr">className</span>=<span class="str">"py-2"</span><span class="tag">&gt;</span>{cliente.nombre}<span class="tag">&lt;/td&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;td</span> <span class="attr">className</span>=<span class="str">"py-2"</span><span class="tag">&gt;</span>{cliente.email}<span class="tag">&lt;/td&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;td</span> <span class="attr">className</span>=<span class="str">"py-2 flex gap-2"</span><span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;button</span>
+                        <span class="attr">className</span>=<span class="str">"bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"</span>
+                        <span class="attr">onClick</span>=<span class="fn">{() =&gt; onEditar(cliente)}</span>
+                        <span class="tag">&gt;</span>Editar<span class="tag">&lt;/button&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;button</span>
+                        <span class="attr">className</span>=<span class="str">"bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"</span>
+                        <span class="attr">onClick</span>=<span class="fn">{() =&gt; onBorrar(cliente.id)}</span>
+                        <span class="tag">&gt;</span>Borrar<span class="tag">&lt;/button&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/td&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/tr&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;))}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/tbody&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/table&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/div&gt;</span><br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2">
+                    <b>Explicación:</b>
+                <ul class="list-disc pl-6">
+                    <li>Muestra la lista de clientes en una tabla.</li>
+                    <li>Botones para editar y borrar cada cliente.</li>
+                </ul>
+                </p>
+
+                <p class="text-gray-700 mt-6">
+                    <b>Componente principal:</b> Controla el estado global y las acciones CRUD.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="com">// src/App.jsx</span><br>
+                        <span class="kw">import</span> <span class="tag">{ useState, useEffect }</span> <span class="kw">from</span> <span class="str">"react"</span>;<br>
+                        <span class="kw">import</span> <span class="tag">{ getClientes, crearCliente, actualizarCliente, borrarCliente }</span> <span class="kw">from</span> <span class="str">"./api"</span>;<br>
+                        <span class="kw">import</span> <span class="tag">ClienteForm</span> <span class="kw">from</span> <span class="str">"./ClienteForm"</span>;<br>
+                        <span class="kw">import</span> <span class="tag">ClienteList</span> <span class="kw">from</span> <span class="str">"./ClienteList"</span>;<br><br>
+                        <span class="kw">export default function</span> <span class="fn">App</span>() {<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> [<span class="var">clientes</span>, <span class="var">setClientes</span>] = <span class="fn">useState</span>([]);<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> [<span class="var">clienteActual</span>, <span class="var">setClienteActual</span>] = <span class="fn">useState</span>(<span class="kw">null</span>);<br><br>
+                        &nbsp;&nbsp;<span class="kw">async function</span> <span class="fn">cargar</span>() {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">setClientes</span>(<span class="kw">await</span> <span class="fn">getClientes</span>());<br>
+                        &nbsp;&nbsp;}<br><br>
+                        &nbsp;&nbsp;<span class="fn">useEffect</span>(() => {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">cargar</span>();<br>
+                        &nbsp;&nbsp;}, []);<br><br>
+                        &nbsp;&nbsp;<span class="kw">async function</span> <span class="fn">guardarCliente</span>(<span class="var">data</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (<span class="var">clienteActual</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">await</span> <span class="fn">actualizarCliente</span>(<span class="var">clienteActual.id</span>, <span class="var">data</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;} <span class="kw">else</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">await</span> <span class="fn">crearCliente</span>(<span class="var">data</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">setClienteActual</span>(<span class="kw">null</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">cargar</span>();<br>
+                        &nbsp;&nbsp;}<br><br>
+                        &nbsp;&nbsp;<span class="kw">async function</span> <span class="fn">borrar</span>(<span class="var">id</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">await</span> <span class="fn">borrarCliente</span>(<span class="var">id</span>);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">cargar</span>();<br>
+                        &nbsp;&nbsp;}<br><br>
+                        &nbsp;&nbsp;<span class="kw">function</span> <span class="fn">editar</span>(<span class="var">cliente</span>) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">setClienteActual</span>(<span class="var">cliente</span>);<br>
+                        &nbsp;&nbsp;}<br><br>
+                        &nbsp;&nbsp;<span class="kw">return</span> (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="str">"max-w-2xl mx-auto mt-10 space-y-8"</span><span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;h1</span> <span class="attr">className</span>=<span class="str">"text-3xl font-bold text-blue-800 mb-4"</span><span class="tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;i</span> <span class="attr">className</span>=<span class="str">"fa-solid fa-users"</span><span class="tag">&gt;&lt;/i&gt;</span> CRUD Clientes React + API REST<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/h1&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;ClienteForm</span> <span class="attr">onGuardar</span>=<span class="fn">{guardarCliente}</span> <span class="attr">clienteActual</span>=<span class="var">{clienteActual}</span> <span class="tag">/&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;ClienteList</span> <span class="attr">clientes</span>=<span class="var">{clientes}</span> <span class="attr">onEditar</span>=<span class="fn">{editar}</span> <span class="attr">onBorrar</span>=<span class="fn">{borrar}</span> <span class="tag">/&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;/div&gt;</span><br>
+                        &nbsp;&nbsp;);<br>
+                        }
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2">
+                    <b>Explicación:</b>
+                <ul class="list-disc pl-6">
+                    <li>Controla el estado global y las acciones CRUD.</li>
+                    <li>Recarga la lista tras cada operación.</li>
+                </ul>
+                </p>
+            </article>
+
+            <!-- Paso 4 -->
+            <article id="paso4" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-play"></i> Paso 4: Ejecutar la app
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Comando en terminal:</b>
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="com"># Terminal</span><br>
+                        <span class="kw">npm</span> <span class="fn">start</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2">
+                    <b>Explicación:</b>
+                <ul class="list-disc pl-6">
+                    <li>Inicia la app y prueba todas las operaciones CRUD.</li>
+                </ul>
+                </p>
+            </article>
+
+            <!-- Paso 5 -->
+            <article id="paso5" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-lightbulb"></i> Paso 5: Resumen y buenas prácticas
+                </h2>
+                <ul class="list-disc pl-6 text-gray-700">
+                    <li><b>App.jsx</b>: Controla el estado global y las acciones CRUD.</li>
+                    <li><b>api.js</b>: Funciones modernas para consumir el API REST.</li>
+                    <li><b>ClienteForm.jsx</b>: Formulario controlado para crear/editar.</li>
+                    <li><b>ClienteList.jsx</b>: Muestra la lista y acciones.</li>
+                    <li><b>Estilos:</b> Tailwind para diseño responsivo y moderno.</li>
+                </ul>
+                <p class="text-gray-700 mt-4">
+                    <i class="fa-solid fa-circle-info text-blue-600"></i> Personaliza el endpoint y los campos según tu API. Este tutorial usa lo más moderno de React y buenas prácticas para consumo de APIs.
+                </p>
+            </article>
+        </section>
+    </div>
+</main>
+
+<footer class="bg-blue-800 text-white py-5">
+    <div class="container mx-auto px-4 text-center">
+        <p>&copy; 2025 Armenia, Quindío - Arle Morales Ortiz.</p>
+    </div>
+</footer>
+
+<script>
+    // Desplazamiento suave & resaltar enlace activo
+    const links = document.querySelectorAll('.toc a');
+    const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+    links.forEach(a=>{
+        a.addEventListener('click', e=>{
+            e.preventDefault();
+            document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth', block:'start'});
+            history.replaceState(null, '', a.getAttribute('href'));
+        });
+    });
+    const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+            const i = sections.indexOf(entry.target);
+            if(i>=0){
+                if(entry.isIntersecting){
+                    links.forEach(l=>l.classList.remove('active'));
+                    links[i].classList.add('active');
+                }
+            }
+        });
+    }, {rootMargin:"-40% 0px -55% 0px", threshold:0});
+    sections.forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>
