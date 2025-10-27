@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Implementación Ant Design en Vanilla JS - Tutorial Paso a Paso</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        html, body {height:100%; margin:0;}
+        body {display:flex; flex-direction:column;}
+        main {flex:1 0 auto;}
+        footer {flex-shrink:0;}
+        .codecard {position:relative;}
+        .toc a.active {background:#1e3a8a;color:#fff;}
+        .editor-bg {background:#1e293b;}
+        .editor-code {font-family: 'Fira Mono', 'Consolas', monospace; font-size:1rem; line-height:1.6;}
+        .kw {color:#7dd3fc;}
+        .fn {color:#f472b6;}
+        .str {color:#facc15;}
+        .var {color:#a3e635;}
+        .com {color:#94a3b8;}
+        .tag {color:#38bdf8;}
+        .attr {color:#fbbf24;}
+        .num {color:#f87171;}
+        /* Estilos Ant Design-like personalizados */
+        .ant-layout {display: flex; flex-direction: column; min-height: 100vh; background: #f0f2f5;}
+        .ant-layout-header {background: #001529; color: #fff; padding: 0 24px; line-height: 64px;}
+        .ant-layout-content {padding: 24px; background: #fff;}
+        .ant-breadcrumb {padding: 16px 24px; border-bottom: 1px solid #f0f0f0;}
+        .ant-breadcrumb-separator {margin: 0 8px; color: #bfbfbf;}
+        .ant-btn {display: inline-block; font-weight: 400; text-align: center; cursor: pointer; border-radius: 2px; border: 1px solid #d9d9d9; padding: 0 15px; height: 32px; line-height: 30px; background: #fff; color: #000;}
+        .ant-btn-primary {background: #1890ff; border-color: #1890ff; color: #fff;}
+        .ant-message {position: fixed; top: 24px; right: 24px; z-index: 1010; padding: 8px 16px; border-radius: 4px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15);}
+        .ant-carousel {position: relative; overflow: hidden; width: 100%; height: 200px;}
+        .ant-carousel-item {display: flex; align-items: center; justify-content: center; background: #f0f2f5; font-size: 18px; height: 100%;}
+        .ant-modal {position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;}
+        .ant-modal-content {background: #fff; border-radius: 6px; width: 80%; max-width: 520px; padding: 24px;}
+        .ant-grid {display: grid; grid-template-columns: repeat(24, 1fr); width: 100%;}
+        .ant-col {padding: 0 8px;}
+        .ant-col-12 {grid-column: span 12;}
+        .ant-divider {margin: 16px 0; border-top: 1px solid #f0f0f0;}
+        .ant-input {border: 1px solid #d9d9d9; border-radius: 2px; padding: 4px 11px; height: 32px; width: 100%;}
+        .ant-select {position: relative; display: inline-block; width: 100%;}
+        .ant-select-selector {border: 1px solid #d9d9d9; border-radius: 2px; display: block; height: 32px; padding: 4px 11px; background: #fff;}
+        .ant-select-arrow {position: absolute; right: 11px; top: 50%; transform: translateY(-50%); pointer-events: none;}
+        .ant-form {display: flex; flex-direction: column; gap: 16px;}
+        .ant-form-item {display: flex; flex-direction: column; gap: 4px;}
+        .ant-checkbox {display: inline-flex; align-items: center;}
+        .ant-checkbox-inner {width: 16px; height: 16px; border: 1px solid #d9d9d9; border-radius: 2px; margin-right: 8px;}
+        .ant-table {width: 100%; border-collapse: collapse;}
+        .ant-table th, .ant-table td {padding: 16px; text-align: left; border-bottom: 1px solid #f0f0f0;}
+        .ant-table th {background: #fafafa; font-weight: 600;}
+        /* Animaciones CSS */
+        @keyframes fadeIn {from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);}}
+        .ant-fade-in {animation: fadeIn 0.3s ease-out;}
+        /* Iconos SVG simples para Ant-like */
+        .anticon {display: inline-block; width: 16px; height: 16px; fill: currentColor;}
+        .pie-chart { /* Simular PieChartOutlined */ background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205 0-372-167-372-372s167-372 372-372 372 167 372 372-167 372-372 372z"/></svg>') no-repeat center; background-size: contain; }
+        .skype { /* Simular SkypeOutlined */ background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><circle cx="512" cy="512" r="512" fill="#00AFF0"/></svg>') no-repeat center; background-size: contain; }
+        .alipay { /* Simular AlipayCircleOutlined */ background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm192 352h-384a32 32 0 0 1 0-64h384a32 32 0 1 1 0 64z"/></svg>') no-repeat center; background-size: contain; }
+        /* Responsive */
+        @media (max-width: 768px) {.ant-layout-header {padding: 0 16px; line-height: 48px;} .ant-layout-content {padding: 16px;}}
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+<header class="bg-blue-800 text-white py-6 shadow-lg">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-2">Tutorial: Implementación Ant Design en Vanilla JS</h1>
+        <p class="text-lg md:text-xl opacity-90">Crea componentes UI como Ant Design usando solo HTML5, CSS3 y JavaScript puro. Responsivo y con animaciones CSS.</p>
+        <p class="mt-2 text-sm md:text-base text-blue-200">Por Grok, basado en estilos modernos</p>
+    </div>
+</header>
+
+<section class="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200">
+    <div class="container mx-auto px-4 py-6 md:py-8">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+            <div class="flex-1">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-900 mb-2">
+                    <i class="fa-solid fa-code mr-2"></i>¿Qué aprenderás?
+                </h2>
+                <p class="text-gray-700">
+                    Implementar componentes inspirados en Ant Design sin React: layouts, formularios, tablas y más, con explicaciones de conceptos, código y ejemplos prácticos. Todo responsivo y con animaciones puras CSS.
+                </p>
+            </div>
+            <a href="#paso1" class="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-5 py-3 rounded-xl shadow">
+                <i class="fa-solid fa-bolt"></i> Empezar
+            </a>
+        </div>
+    </div>
+</section>
+
+<main class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <aside class="lg:col-span-3">
+            <div class="bg-white rounded-2xl shadow p-4 sticky top-6 toc">
+                <h3 class="font-semibold text-blue-800 mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check"></i> Subtemas
+                </h3>
+                <nav class="flex flex-col gap-2 text-sm">
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso1"><i class="fa-solid fa-download mr-2"></i>Instalación Ant Design</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso2"><i class="fa-solid fa-th mr-2"></i>Layout: Content, Menu, Header</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso3"><i class="fa-solid fa-home mr-2"></i>Breadcrumb</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso4"><i class="fa-solid fa-icons mr-2"></i>Iconos</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso5"><i class="fa-solid fa-toggle-on mr-2"></i>Button</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso6"><i class="fa-solid fa-font mr-2"></i>Typography</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso7"><i class="fa-solid fa-comment mr-2"></i>Message</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso8"><i class="fa-solid fa-images mr-2"></i>Carousel</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso9"><i class="fa-solid fa-window-maximize mr-2"></i>Modal</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso10"><i class="fa-solid fa-table mr-2"></i>Grid, Row, Divider</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso11"><i class="fa-solid fa-pen mr-2"></i>Input</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso12"><i class="fa-solid fa-list-dropdown mr-2"></i>Select y Option</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso13"><i class="fa-solid fa-paint-brush mr-2"></i>Hoja de estilos custom</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso14"><i class="fa-solid fa-plus mr-2"></i>Select addonBefore/After</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso15"><i class="fa-solid fa-arrow-right mr-2"></i>Select onChange</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso16"><i class="fa-solid fa-clipboard-list mr-2"></i>Form, Item, Checkbox</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso17"><i class="fa-solid fa-paper-plane mr-2"></i>Submit | onFinish</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso18"><i class="fa-solid fa-broom mr-2"></i>Limpiar | resetFields</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso19"><i class="fa-solid fa-check-circle mr-2"></i>Validación | rules</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso20"><i class="fa-solid fa-database mr-2"></i>Formulario | initialValues</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso21"><i class="fa-solid fa-table-cells mr-2"></i>Table, columns, dataSource</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso22"><i class="fa-solid fa-code mr-2"></i>Table columns render</a>
+                    <a class="px-3 py-2 rounded-lg hover:bg-blue-50" href="#paso23"><i class="fa-solid fa-plug mr-2"></i>Table Axios API</a>
+                </nav>
+            </div>
+        </aside>
+
+        <section class="lg:col-span-9 space-y-10">
+
+            <!-- Concepto General -->
+            <article class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-lightbulb"></i> Concepto General
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    Ant Design es una biblioteca de UI para React, pero aquí implementamos sus componentes en vanilla JS con HTML5 y CSS3. Usamos clases CSS personalizadas para replicar estilos (colores, espaciados, animaciones como fadeIn) y JS para interacciones dinámicas. Todo responsivo con media queries. Cada subtema explica el concepto, el código y 2 ejemplos.
+                </p>
+            </article>
+
+            <!-- Paso 1 -->
+            <article id="paso1" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-download"></i> Instalación Ant Design
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> En vanilla JS, "instalamos" enlazando CSS/JS de Ant Design o recreando estilos. Aquí usamos estilos custom en &lt;style&gt; para simplicidad, sin dependencias externas.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="com">&lt;!-- En &lt;head&gt; --&gt;</span><br>
+                        <span class="tag">&lt;style&gt;</span><br>
+                        &nbsp;&nbsp;<span class="str">.ant-btn { /* Estilos Ant-like */ }</span><br>
+                        <span class="tag">&lt;/style&gt;</span><br>
+                        <span class="com">&lt;!-- JS para interacciones --&gt;</span><br>
+                        <span class="tag">&lt;script&gt;</span><br>
+                        &nbsp;&nbsp;<span class="kw">function</span> <span class="fn">initAnt</span>() { <span class="com">/* Inicializar componentes */ </span>}<br>
+                        <span class="tag">&lt;/script&gt;</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Las clases CSS como .ant-btn replican el diseño de Ant. JS maneja eventos sin frameworks.</p>
+                <h3>Ejemplo 1: Botón básico</h3>
+                <div class="my-2 p-4 bg-gray-50 rounded"><button class="ant-btn">Botón Ant</button></div>
+                <h3>Ejemplo 2: Con JS</h3>
+                <div class="my-2 p-4 bg-gray-50 rounded"><button class="ant-btn" onclick="alert('Clic!')">Interactivo</button></div>
+            </article>
+
+            <!-- Paso 2 -->
+            <article id="paso2" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-th"></i> Componentes: Content, Menu, Header y Layout
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Layout organiza la página en header fijo, contenido flexible y menú lateral. Usamos Flexbox para responsividad.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;div class="ant-layout"&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;header class="ant-layout-header"&gt;</span>Header<span class="tag">&lt;/header&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;main class="ant-layout-content"&gt;</span>Content<span class="tag">&lt;/main&gt;</span><br>
+                        <span class="tag">&lt;/div&gt;</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> .ant-layout usa flex para altura completa; header fijo con line-height.</p>
+                <h3>Ejemplo 1: Layout básico</h3>
+                <div class="my-2"><div class="ant-layout"><header class="ant-layout-header">Header</header><main class="ant-layout-content">Contenido</main></div></div>
+                <h3>Ejemplo 2: Con menú</h3>
+                <div class="my-2"><div class="ant-layout"><header class="ant-layout-header">Header</header><nav class="w-64 bg-gray-200 p-4">Menú</nav><main class="ant-layout-content flex-1">Contenido con Menú</main></div></div>
+            </article>
+
+            <!-- Paso 3 -->
+            <article id="paso3" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-home"></i> Breadcrumb
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Navegación jerárquica con enlaces separados por "/". Estilo minimalista con bordes.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;nav class="ant-breadcrumb"&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;a href="#"&gt;</span>Home<span class="tag">&lt;/a&gt;</span><span class="tag">&lt;span class="ant-breadcrumb-separator"&gt;</span>/<span class="tag">&lt;/span&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;a href="#"&gt;</span>Página<span class="tag">&lt;/a&gt;</span><br>
+                        <span class="tag">&lt;/nav&gt;</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Separador con margin y color gris para contraste.</p>
+                <h3>Ejemplo 1: Simple</h3>
+                <div class="my-2 ant-breadcrumb"><a href="#">Home</a><span class="ant-breadcrumb-separator">/</span><a href="#">Docs</a></div>
+                <h3>Ejemplo 2: Con JS dinámico</h3>
+                <div id="breadcrumb2" class="my-2 ant-breadcrumb"></div>
+                <script>document.getElementById('breadcrumb2').innerHTML = '<a href="#">Home</a><span class="ant-breadcrumb-separator">/</span><a href="#">Tutorial</a><span class="ant-breadcrumb-separator">/</span><span>Ant JS</span>';</script>
+            </article>
+
+            <!-- Paso 4 -->
+            <article id="paso4" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-icons"></i> Iconos (PieChartOutlined, etc.)
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Iconos SVG inline para escalabilidad. Simulamos Ant icons con data URIs.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;span class="anticon pie-chart"&gt;&lt;/span&gt;</span><br>
+                        <span class="com">/* CSS: .pie-chart { background: url(data:image/svg+xml,...) } */</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Background SVG para iconos sin dependencias.</p>
+                <h3>Ejemplo 1: PieChart</h3>
+                <div class="my-2"><span class="anticon pie-chart" style="color: #1890ff;"></span> Gráfico</div>
+                <h3>Ejemplo 2: Skype y Alipay</h3>
+                <div class="my-2 flex gap-4"><span class="anticon skype" style="color: #00AFF0;"></span><span class="anticon alipay" style="color: #1677ff;"></span></div>
+            </article>
+
+            <!-- Paso 5 -->
+            <article id="paso5" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-toggle-on"></i> Button
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Botones con estados (primary, default) y hover. Bordes redondeados y padding consistente.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;button class="ant-btn"&gt;</span>Default<span class="tag">&lt;/button&gt;</span><br>
+                        <span class="tag">&lt;button class="ant-btn ant-btn-primary"&gt;</span>Primary<span class="tag">&lt;/button&gt;</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Clases CSS para variantes; :hover en CSS.</p>
+                <h3>Ejemplo 1: Básicos</h3>
+                <div class="my-2 flex gap-2"><button class="ant-btn">Default</button><button class="ant-btn ant-btn-primary">Primary</button></div>
+                <h3>Ejemplo 2: Con icono</h3>
+                <div class="my-2 flex gap-2"><button class="ant-btn flex items-center gap-2"><i class="fa-solid fa-save"></i> Guardar</button></div>
+            </article>
+
+            <!-- Paso 6 -->
+            <article id="paso6" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-font"></i> Typography
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Etiquetas semánticas con estilos tipográficos (títulos, párrafos) para jerarquía visual.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;h1 class="ant-typography-title"&gt;</span>Título<span class="tag">&lt;/h1&gt;</span><br>
+                        <span class="com">/* CSS: .ant-typography-title { font-size: 2rem; font-weight: bold; } */</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Usa HTML semántico + CSS para escalas tipográficas.</p>
+                <h3>Ejemplo 1: Título</h3>
+                <div class="my-2"><h1 style="font-size: 2rem; font-weight: bold; color: #000;">Título Principal</h1></div>
+                <h3>Ejemplo 2: Párrafo</h3>
+                <div class="my-2"><p style="font-size: 1rem; line-height: 1.5; color: #333;">Texto descriptivo.</p></div>
+            </article>
+
+            <!-- Paso 7 -->
+            <article id="paso7" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-comment"></i> Message
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Notificaciones flotantes con posición fija y animación fadeIn.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;div id="message" class="ant-message ant-fade-in" style="display:none;"&gt;</span>Mensaje<span class="tag">&lt;/div&gt;</span><br>
+                        <span class="kw">function</span> <span class="fn">showMessage</span>() { <span class="fn">document.getElementById</span>(<span class="str">'message'</span>).style.display = <span class="str">'block'</span>; }
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> JS toggles display; CSS anima opacity y translate.</p>
+                <h3>Ejemplo 1: Estático</h3>
+                <div class="my-2 ant-message">Mensaje de éxito</div>
+                <h3>Ejemplo 2: Dinámico</h3>
+                <button class="ant-btn" onclick="document.getElementById('msg2').style.display='block'; setTimeout(()=>document.getElementById('msg2').style.display='none', 3000);">Mostrar</button>
+                <div id="msg2" class="ant-message ant-fade-in" style="display:none; position:static;">Mensaje temporal</div>
+            </article>
+
+            <!-- Paso 8 -->
+            <article id="paso8" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-images"></i> Carousel
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Carrusel de imágenes con controles JS para slides automáticos o manuales.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;div class="ant-carousel"&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;div class="ant-carousel-item"&gt;</span>Slide 1<span class="tag">&lt;/div&gt;</span><br>
+                        <span class="tag">&lt;/div&gt;</span><br>
+                        <span class="kw">const</span> <span class="var">carousel</span> = <span class="fn">document.querySelector</span>(<span class="str">'.ant-carousel'</span>);<br>
+                        <span class="kw">let</span> <span class="var">current</span> = 0;<br>
+                        <span class="kw">function</span> <span class="fn">nextSlide</span>() { <span class="var">carousel.style.transform</span> = <span class="str">`translateX(-${current * 100}%)`</span>; }
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Transform translateX para slides; JS maneja índice.</p>
+                <h3>Ejemplo 1: Estático</h3>
+                <div class="my-2 ant-carousel" style="width:200px;"><div class="ant-carousel-item bg-red-200">Slide 1</div><div class="ant-carousel-item bg-blue-200">Slide 2</div></div>
+                <h3>Ejemplo 2: Con JS</h3>
+                <div id="carousel2" class="my-2 ant-carousel" style="width:200px;"><div class="ant-carousel-item bg-green-200">1</div><div class="ant-carousel-item bg-yellow-200">2</div><div class="ant-carousel-item bg-purple-200">3</div></div>
+                <button class="ant-btn" onclick="current2=(current2+1)%3; document.getElementById('carousel2').style.transform=`translateX(-${current2*100}%)`;">Siguiente</button>
+                <script>let current2=0;</script>
+            </article>
+
+            <!-- Paso 9 -->
+            <article id="paso9" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-window-maximize"></i> Componente Modal
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Overlay centrado con backdrop semi-transparente. JS toggles visibility.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;div id="modal" class="ant-modal" style="display:none;"&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;div class="ant-modal-content"&gt;</span>Contenido<span class="tag">&lt;/div&gt;</span><br>
+                        <span class="tag">&lt;/div&gt;</span><br>
+                        <span class="fn">document.getElementById</span>(<span class="str">'modal'</span>).style.display = <span class="str">'flex'</span>;
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Flex para centrado; display none/flex para toggle.</p>
+                <h3>Ejemplo 1: Interactivo</h3>
+                <button class="ant-btn" onclick="document.getElementById('modal2').style.display='flex'">Abrir</button>
+                <div id="modal2" class="ant-modal" style="display:none;"><div class="ant-modal-content">Modal Ejemplo 1 <button onclick="this.parentElement.parentElement.style.display='none'">Cerrar</button></div></div>
+                <h3>Ejemplo 2: Interactivo</h3>
+                <button class="ant-btn" onclick="document.getElementById('modal3').style.display='flex'">Abrir</button>
+                <div id="modal3" class="ant-modal" style="display:none;"><div class="ant-modal-content">Modal Ejemplo 2 <button onclick="this.parentElement.parentElement.style.display='none'">Cerrar</button></div></div>
+            </article>
+
+            <!-- Paso 10 -->
+            <article id="paso10" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-table"></i> Componente Grid, Row, Divider
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Grid de 24 columnas para layouts responsivos. Divider como separador horizontal.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;div class="ant-grid"&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;div class="ant-col ant-col-12"&gt;</span>Columna<span class="tag">&lt;/div&gt;</span><br>
+                        <span class="tag">&lt;/div&gt;</span><br>
+                        <span class="tag">&lt;div class="ant-divider"&gt;&lt;/div&gt;</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> CSS Grid para columnas; border-top para divider.</p>
+                <h3>Ejemplo 1: Grid simple</h3>
+                <div class="my-2 ant-grid"><div class="ant-col ant-col-12 bg-blue-100 p-2">Columna 12</div></div>
+                <h3>Ejemplo 2: Con divider</h3>
+                <div class="my-2"><div class="ant-col ant-col-12 bg-green-100 p-2">Sección 1</div><div class="ant-divider"></div><div class="ant-col ant-col-12 bg-yellow-100 p-2">Sección 2</div></div>
+            </article>
+
+            <!-- Paso 11 -->
+            <article id="paso11" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-pen"></i> Input
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Campo de texto con border y padding. JS para value binding.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;input class="ant-input" type="text" placeholder="Escribe..." /&gt;</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Border y padding para look nativo Ant.</p>
+                <h3>Ejemplo 1: Básico</h3>
+                <div class="my-2"><input class="ant-input" type="text" placeholder="Entrada"></div>
+                <h3>Ejemplo 2: Con JS</h3>
+                <div class="my-2"><input id="input2" class="ant-input" type="text"><button class="ant-btn" onclick="alert(document.getElementById('input2').value)">Leer</button></div>
+            </article>
+
+            <!-- Paso 12 -->
+            <article id="paso12" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-list-dropdown"></i> Select y Option (multiple, buscador)
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Dropdown con options. Multiple con checkboxes; buscador con filter JS.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;div class="ant-select"&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;select multiple&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;option&gt;</span>Opción 1<span class="tag">&lt;/option&gt;</span><br>
+                        <span class="tag">&lt;/select&gt;</span><br>
+                        <span class="tag">&lt;/div&gt;</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Native select con CSS para estilo; JS para filter.</p>
+                <h3>Ejemplo 1: Multiple</h3>
+                <div class="my-2"><select class="ant-select-selector" multiple><option>Op1</option><option>Op2</option></select></div>
+                <h3>Ejemplo 2: Buscador</h3>
+                <div class="my-2"><input id="search" class="ant-input" placeholder="Buscar"><select id="select2" class="ant-select-selector"><option>Apple</option><option>Banana</option><option>Cherry</option></select></div>
+                <script>document.getElementById('search').oninput = e => { const term = e.target.value.toLowerCase(); Array.from(document.getElementById('select2').options).forEach(opt => opt.style.display = opt.text.toLowerCase().includes(term) ? '' : 'none'); };</script>
+            </article>
+
+            <!-- Paso 13 -->
+            <article id="paso13" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-paint-brush"></i> Hoja de estilos custom
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> CSS personalizado para override o extend Ant-like. Usa variables CSS para temas.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;style&gt;</span><br>
+                        &nbsp;&nbsp;<span class="str">:root { --ant-primary: #1890ff; }</span><br>
+                        &nbsp;&nbsp;<span class="str">.ant-btn { background: var(--ant-primary); }</span><br>
+                        <span class="tag">&lt;/style&gt;</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Variables CSS para customización fácil.</p>
+                <h3>Ejemplo 1: Variable básica</h3>
+                <div class="my-2" style="--ant-primary: #ff6b35;"><button class="ant-btn" style="background: var(--ant-primary);">Custom Color</button></div>
+                <h3>Ejemplo 2: Tema oscuro</h3>
+                <div class="my-2" style="--ant-bg: #000; background: var(--ant-bg); color: #fff; padding: 10px;">Contenido oscuro</div>
+            </article>
+
+            <!-- Paso 14 -->
+            <article id="paso14" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-plus"></i> Select addonBefore y addonAfter
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Adornos antes/después del select (e.g., iconos o texto).
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;div class="ant-select"&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;span class="addon-before"&gt;$&lt;/span&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;select&gt;</span>...</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;span class="addon-after"&gt;.00&lt;/span&gt;</span><br>
+                        <span class="tag">&lt;/div&gt;</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Spans adyacentes con border compartido.</p>
+                <h3>Ejemplo 1: Before</h3>
+                <div class="my-2 flex border rounded"><span class="px-2 py-1 bg-gray-100">https://</span><input class="ant-input flex-1 border-none" placeholder="dominio.com"></div>
+                <h3>Ejemplo 2: After</h3>
+                <div class="my-2 flex border rounded"><input class="ant-input flex-1 border-none" placeholder="Precio"><span class="px-2 py-1 bg-gray-100">€</span></div>
+            </article>
+
+            <!-- Paso 15 -->
+            <article id="paso15" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-arrow-right"></i> Select onChange
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Evento JS para detectar cambio en select y actuar (e.g., update UI).
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;select onchange="handleChange(this.value)"&gt;</span><br>
+                        <span class="tag">&lt;option value="1"&gt;</span>Op1<span class="tag">&lt;/option&gt;</span><br>
+                        <span class="tag">&lt;/select&gt;</span><br>
+                        <span class="kw">function</span> <span class="fn">handleChange</span>(<span class="var">val</span>) { <span class="fn">console.log</span>(<span class="var">val</span>); }
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Atributo onchange llama función con value.</p>
+                <h3>Ejemplo 1: Log</h3>
+                <div class="my-2"><select class="ant-select-selector" onchange="console.log(this.value)"><option value="a">A</option><option value="b">B</option></select></div>
+                <h3>Ejemplo 2: Update texto</h3>
+                <div class="my-2"><select id="select3" class="ant-select-selector" onchange="document.getElementById('output').textContent=this.value"><option value="Hola">Hola</option><option value="Mundo">Mundo</option></select> <span id="output"></span></div>
+            </article>
+
+            <!-- Paso 16 -->
+            <article id="paso16" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-clipboard-list"></i> Form, Item, Checkbox
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Contenedor form con items (labels + controls). Checkbox para selecciones múltiples.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;form class="ant-form"&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;div class="ant-form-item"&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<label&gt;Label&lt;/label&gt;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="ant-checkbox"&gt;&lt;span class="ant-checkbox-inner"&gt;&lt;/span&gt; Check&lt;/span&gt;<br>
+                        &nbsp;&nbsp;<span class="tag">&lt;/div&gt;</span><br>
+                        <span class="tag">&lt;/form&gt;</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Flex para items; pseudo-elementos para checkbox inner.</p>
+                <h3>Ejemplo 1: Item simple</h3>
+                <div class="my-2 ant-form-item"><label>Opción</label><span class="ant-checkbox"><span class="ant-checkbox-inner"></span> Aceptar</span></div>
+                <h3>Ejemplo 2: Form con checkbox</h3>
+                <div class="my-2 ant-form"><div class="ant-form-item"><label>Términos</label><span class="ant-checkbox" onclick="this.classList.toggle('checked')"><span class="ant-checkbox-inner"></span> Acepto</span></div></div>
+                <style>.ant-checkbox.checked .ant-checkbox-inner {background: #1890ff; border-color: #1890ff;}</style>
+            </article>
+
+            <!-- Paso 17 -->
+            <article id="paso17" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-paper-plane"></i> Submit formulario | onFinish
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Botón submit que previene default y ejecuta onFinish (JS handler).
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;form onsubmit="onFinish(event)"&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;button type="submit" class="ant-btn ant-btn-primary"&gt;</span>Submit<span class="tag">&lt;/button&gt;</span><br>
+                        <span class="tag">&lt;/form&gt;</span><br>
+                        <span class="kw">function</span> <span class="fn">onFinish</span>(<span class="var">e</span>) { <span class="fn">e.preventDefault</span>(); <span class="fn">console.log</span>(<span class="str">'Enviado'</span>); }
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> onsubmit llama función; preventDefault evita reload.</p>
+                <h3>Ejemplo 1: Básico</h3>
+                <form class="my-2 ant-form" onsubmit="alert('Enviado!'); return false;"><input class="ant-input" placeholder="Dato"><button type="submit" class="ant-btn ant-btn-primary">Submit</button></form>
+                <h3>Ejemplo 2: Con datos</h3>
+                <form id="form2" class="my-2 ant-form" onsubmit="onFinish2(event)"><input id="data2" class="ant-input" placeholder="Nombre"><button type="submit" class="ant-btn ant-btn-primary">Enviar</button></form>
+                <script>function onFinish2(e) { e.preventDefault(); alert('Nombre: ' + document.getElementById('data2').value); }</script>
+            </article>
+
+            <!-- Paso 18 -->
+            <article id="paso18" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-broom"></i> Limpiar campos formulario | resetFields | createRef
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Botón para resetear form. Usa refs (DOM queries) para limpiar values.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="tag">&lt;form id="form3"&gt;</span><br>
+                        &nbsp;&nbsp;<span class="tag">&lt;input id="field3" /&gt;</span><br>
+                        <span class="tag">&lt;/form&gt;</span><br>
+                        <span class="kw">const</span> <span class="var">formRef</span> = <span class="fn">document.getElementById</span>(<span class="str">'form3'</span>);<br>
+                        <span class="fn">formRef.reset</span>(); <span class="com">/* O loop en inputs: input.value = '' */</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Native reset() o set value='' via querySelectorAll.</p>
+                <h3>Ejemplo 1: Native reset</h3>
+                <form class="my-2 ant-form"><input class="ant-input" placeholder="Escribe algo"><button type="button" class="ant-btn" onclick="this.form.reset()">Limpiar</button></form>
+                <h3>Ejemplo 2: Con ref JS</h3>
+                <form id="form4" class="my-2 ant-form"><input id="field4" class="ant-input" placeholder="Dato"><button type="button" class="ant-btn" onclick="document.getElementById('field4').value=''">Reset Campo</button></form>
+            </article>
+
+            <!-- Paso 19 -->
+            <article id="paso19" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-check-circle"></i> Validación formulario | rules
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Reglas de validación en JS (e.g., required, pattern). Muestra errores en submit.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="kw">function</span> <span class="fn">validate</span>(<span class="var">form</span>) {<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> <span class="var">email</span> = <span class="fn">form.querySelector</span>(<span class="str">'[name="email"]'</span>).value;<br>
+                        &nbsp;&nbsp;<span class="kw">if</span> (!<span class="var">email</span>.includes(<span class="str">'@'</span>)) { <span class="fn">alert</span>(<span class="str">'Email inválido'</span>); <span class="kw">return</span> <span class="kw">false</span>; }<br>
+                        &nbsp;&nbsp;<span class="kw">return</span> <span class="kw">true</span>;<br>
+                        }<br>
+                        <span class="tag">&lt;form onsubmit="return validate(this)"&gt;</span>...
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Función chequea fields; return false bloquea submit.</p>
+                <h3>Ejemplo 1: Required</h3>
+                <form class="my-2 ant-form" onsubmit="if(!this.email.value) {alert('Requerido'); return false;}"><input name="email" class="ant-input" placeholder="Email"><button type="submit" class="ant-btn">Validar</button></form>
+                <h3>Ejemplo 2: Pattern</h3>
+                <form class="my-2 ant-form" onsubmit="if(!/^\d+$/.test(this.num.value)) {alert('Solo números'); return false;}"><input name="num" class="ant-input" placeholder="Número"><button type="submit" class="ant-btn">Chequear</button></form>
+            </article>
+
+            <!-- Paso 20 -->
+            <article id="paso20" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-database"></i> Formulario | initialValues
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Pre-llenar form con valores iniciales via JS al load.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="kw">const</span> <span class="var">initialValues</span> = { name: <span class="str">'Juan'</span>, email: <span class="str">'juan@example.com'</span> };<br>
+                        <span class="fn">document.querySelector</span>(<span class="str">'[name="name"]'</span>).value = <span class="var">initialValues.name</span>;<br>
+                        <span class="fn">document.querySelector</span>(<span class="str">'[name="email"]'</span>).value = <span class="var">initialValues.email</span>;
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Objeto JS setea values en DOM.</p>
+                <h3>Ejemplo 1: Simple</h3>
+                <form class="my-2 ant-form" id="form5"><input name="name" class="ant-input"><input name="email" class="ant-input"></form>
+                <script>document.querySelector('#form5 [name="name"]').value = 'Inicial';</script>
+                <h3>Ejemplo 2: Objeto completo</h3>
+                <form class="my-2 ant-form" id="form6"><input name="title" class="ant-input"></form>
+                <script>const init = {title: 'Valor Inicial'}; document.querySelector('#form6 [name="title"]').value = init.title;</script>
+            </article>
+
+            <!-- Paso 21 -->
+            <article id="paso21" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-table-cells"></i> Table, columns y dataSource
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Tabla dinámica: columns definen headers, dataSource es array de rows.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="kw">const</span> <span class="var">columns</span> = [{ title: <span class="str">'Nombre'</span>, dataIndex: <span class="str">'name'</span> }];<br>
+                        <span class="kw">const</span> <span class="var">dataSource</span> = [{ key: <span class="num">1</span>, name: <span class="str">'Juan'</span> }];<br>
+                        <span class="kw">let</span> <span class="var">table</span> = <span class="str">''</span>;<br>
+                        <span class="var">dataSource.forEach</span>(<span class="var">row</span> => { <span class="var">table</span> += <span class="str">`&lt;tr&gt;&lt;td&gt;${row.name}&lt;/td&gt;&lt;/tr&gt;`</span>; });<br>
+                        <span class="fn">document.querySelector</span>(<span class="str">'.ant-table tbody'</span>).innerHTML = <span class="var">table</span>;
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> JS loop genera rows desde dataSource.</p>
+                <h3>Ejemplo 1: Estática</h3>
+                <table class="my-2 ant-table"><thead><tr><th>Nombre</th></tr></thead><tbody><tr><td>Estático</td></tr></tbody></table>
+                <h3>Ejemplo 2: Dinámica</h3>
+                <table id="table2" class="my-2 ant-table"><thead><tr><th>ID</th><th>Valor</th></tr></thead><tbody></tbody></table>
+                <script>const cols = [{title:'ID', dataIndex:'id'}, {title:'Valor', dataIndex:'val'}]; const data = [{id:1, val:'A'}, {id:2, val:'B'}]; let html = ''; data.forEach(r => html += `<tr><td>${r.id}</td><td>${r.val}</td></tr>`); document.querySelector('#table2 tbody').innerHTML = html;</script>
+            </article>
+
+            <!-- Paso 22 -->
+            <article id="paso22" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-code"></i> Table columns render
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Función render en columns para customizar celdas (e.g., links, icons).
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="kw">const</span> <span class="var">columns</span> = [{ title: <span class="str">'Acción'</span>, render: (<span class="var">text</span>, <span class="var">record</span>) => <span class="str">`&lt;a href="#"&gt;Edit ${record.name}&lt;/a&gt;`</span> }];<br>
+                        <span class="com">/* En loop: cell = columns[0].render('', row); */</span>
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Render retorna HTML string para celda.</p>
+                <h3>Ejemplo 1: Render link</h3>
+                <table class="my-2 ant-table"><thead><tr><th>Acción</th></tr></thead><tbody><tr><td><a href="#">Editar Juan</a></td></tr></tbody></table>
+                <h3>Ejemplo 2: Con función</h3>
+                <table id="table3" class="my-2 ant-table"><thead><tr><th>Render</th></tr></thead><tbody></tbody></table>
+                <script>const render = (text, rec) => `<i class="fa-solid fa-star"></i> ${rec.val}`; const data3 = [{val:'Estrella'}]; let html3 = `<tr><td>${render('', data3[0])}</td></tr>`; document.querySelector('#table3 tbody').innerHTML = html3;</script>
+            </article>
+
+            <!-- Paso 23 -->
+            <article id="paso23" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3">
+                    <i class="fa-solid fa-plug"></i> Table Axios API
+                </h2>
+                <p class="text-gray-700 mb-4">
+                    <b>Concepto:</b> Cargar data de API en tabla usando fetch (simulando Axios). Actualiza dataSource dinámicamente.
+                </p>
+                <div class="codecard editor-bg rounded-xl p-4 mb-2">
+                    <div class="editor-code">
+                        <span class="kw">async function</span> <span class="fn">loadTable</span>() {<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> <span class="var">res</span> = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'https://jsonplaceholder.typicode.com/users'</span>);<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> <span class="var">data</span> = <span class="kw">await</span> <span class="var">res.json</span>();<br>
+                        &nbsp;&nbsp;<span class="com">/* Render table con data */</span><br>
+                        }<br>
+                        <span class="fn">loadTable</span>();
+                    </div>
+                </div>
+                <p class="text-gray-700 mt-2"><b>Explicación:</b> Fetch async popula tabla; maneja JSON response.</p>
+                <h3>Ejemplo 1: Fetch simple</h3>
+                <button class="ant-btn" onclick="loadEx1()">Cargar API</button>
+                <table id="table4" class="my-2 ant-table"><thead><tr><th>Usuario</th></tr></thead><tbody></tbody></table>
+                <script>async function loadEx1() { const res = await fetch('https://jsonplaceholder.typicode.com/users/1'); const user = await res.json(); document.querySelector('#table4 tbody').innerHTML = `<tr><td>${user.name}</td></tr>`; }</script>
+                <h3>Ejemplo 2: Múltiples</h3>
+                <button class="ant-btn" onclick="loadEx2()">Cargar Lista</button>
+                <table id="table5" class="my-2 ant-table"><thead><tr><th>ID</th><th>Nombre</th></tr></thead><tbody></tbody></table>
+                <script>async function loadEx2() { const res = await fetch('https://jsonplaceholder.typicode.com/users'); const users = await res.json(); let html = ''; users.slice(0,3).forEach(u => html += `<tr><td>${u.id}</td><td>${u.name}</td></tr>`); document.querySelector('#table5 tbody').innerHTML = html; }</script>
+            </article>
+
+        </section>
+    </div>
+</main>
+
+<footer class="bg-blue-800 text-white py-5">
+    <div class="container mx-auto px-4 text-center">
+        <p>&copy; 2025 - Tutorial generado por Grok. Implementación vanilla Ant Design-like.</p>
+    </div>
+</footer>
+
+<script>
+    // Desplazamiento suave & resaltar enlace activo
+    const links = document.querySelectorAll('.toc a');
+    const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
+    links.forEach(a=>{
+        a.addEventListener('click', e=>{
+            e.preventDefault();
+            document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth', block:'start'});
+            history.replaceState(null, '', a.getAttribute('href'));
+        });
+    });
+    const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+            const i = sections.indexOf(entry.target);
+            if(i>=0){
+                if(entry.isIntersecting){
+                    links.forEach(l=>l.classList.remove('active'));
+                    links[i].classList.add('active');
+                }
+            }
+        });
+    }, {rootMargin:"-40% 0px -55% 0px", threshold:0});
+    sections.forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>
