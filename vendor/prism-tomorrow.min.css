@@ -1,0 +1,23 @@
+/* Prism Tomorrow - simplified theme for tutorial (dark) */
+:root{--bg:#011627;--bg-2:#0b1220;--text:#d6deeb;--muted:#7f9fb4;--accent:#7dd3fc;--keyword:#c792ea;--function:#ffd580;--string:#ecc48d;--comment:#546e7a;--punct:#89ddff}
+pre, code{font-family: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace;}
+.code-editor{background: linear-gradient(180deg,var(--bg) 0%, var(--bg-2) 100%); border-radius:10px; padding:.6rem;}
+.code-editor pre{background:transparent; margin:0;}
+/* tokens */
+.token.comment, .token.prolog, .token.doctype, .token.cdata{color:var(--comment); font-style:italic}
+.token.punctuation{color:var(--punct)}
+.token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol{color:var(--accent)}
+.token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted{color:var(--string)}
+.token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string{color:var(--punct)}
+.token.atrule, .token.attr-value, .token.keyword{color:var(--keyword); font-weight:600}
+.token.function, .token.class-name{color:var(--function)}
+.token.tag .token.punctuation{color:var(--punct)}
+/* toolbar */
+.code-toolbar{display:flex; align-items:center; gap:.6rem; padding-bottom:.5rem}
+.copy-btn{background:rgba(255,255,255,0.03); color:var(--text); border:1px solid rgba(255,255,255,0.04); padding:6px 10px; border-radius:6px; cursor:pointer}
+.file-label{color:var(--muted); font-weight:600; font-size:0.9rem}
+/* make sure code wraps nicely */
+pre{white-space:pre; overflow:auto}
+/* responsive */
+@media (max-width:640px){ .code-editor{font-size:0.9rem} }
+

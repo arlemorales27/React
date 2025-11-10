@@ -1,0 +1,20 @@
+/* Minimal FontAwesome placeholder: define only used icons as simple SVG masks/backgrounds */
+
+.fa-solid { display: inline-block; font-style: normal; font-weight: 900; line-height: 1; vertical-align: -.125em; }
+
+/* Simple visual placeholder: a rounded square using currentColor. This avoids relying
+   on an external FontAwesome font and still gives a visible icon marker in the tutorial. */
+.fa-solid::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: currentColor;
+  border-radius: 0.18em;
+  margin-right: 0.45em;
+  vertical-align: -0.125em;
+}
+
+/* Optionally you can map specific .fa-xxxx classes to small SVG backgrounds for a nicer look.
+   e.g. .fa-download::before { background-image: url('data:image/svg+xml;utf8,<svg ...>'); background-size: contain; }
+   Leave commented for now — you can enable specific icons later if needed. */

@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -64,6 +65,63 @@
         footer a {
             color: #93c5fd;
         }
+
+        /* --- Reglas añadidas para el anexo (moved here from body) --- */
+        /* Animación de íconos */
+        @keyframes floatY { 0% { transform: translateY(0);} 50% { transform: translateY(-8px);} 100% { transform: translateY(0);} }
+        .animate-float { animation: floatY 3s ease-in-out infinite; }
+        .delay-200 { animation-delay: .2s; }
+        .delay-400 { animation-delay: .4s; }
+
+        /* Caja simulando editor VS Code */
+        .code-editor { position: relative; padding: 0.75rem; background: linear-gradient(180deg,#07101a 0%, #0b1220 100%); border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); }
+        .code-editor .code-toolbar { padding: 0.35rem 0.6rem; background: transparent; display:flex; align-items:center; gap:.6rem; }
+        .code-editor .file-label { color:#9aa8bb; font-weight:600; font-size:0.9rem; }
+
+        /* Code area */
+        .code-editor pre[class*="language-"] { background: transparent; color: #dbe7f6; font-size:0.95rem; line-height:1.6; padding: .6rem; margin:0; overflow:auto; border-radius:6px; }
+        .code-editor code { font-family: 'Fira Code', 'Courier New', monospace; font-variant-ligatures: contextual; tab-size:2; }
+
+        /* Prism token colors (override to ensure high contrast and harmony con el fondo) */
+        .code-editor .token.comment,
+        .code-editor .token.prolog,
+        .code-editor .token.doctype,
+        .code-editor .token.cdata { color:#6b7280; font-style: italic; }
+
+        .code-editor .token.selector,
+        .code-editor .token.string { color: #fb923c; } /* orange */
+
+        .code-editor .token.keyword,
+        .code-editor .token.atrule { color: #7dd3fc; font-weight:600; } /* cyan */
+
+        .code-editor .token.function,
+        .code-editor .token.class-name,
+        .code-editor .token.property { color: #34d399; } /* green */
+
+        .code-editor .token.tag,
+        .code-editor .token.boolean { color: #93c5fd; } /* light blue */
+
+        .code-editor .token.number { color: #f472b6; } /* pink */
+        .code-editor .token.constant { color: #f472b6; }
+        .code-editor .token.operator,
+        .code-editor .token.punctuation { color: #dbe7f6; }
+        .code-editor .token.attr-name { color: #facc15; } /* amber */
+        .code-editor .token.selector { color: #fca5a5; }
+
+        /* Gutter-like effect (left accent) */
+        .code-editor::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg,#06b6d4, #7c3aed); border-top-left-radius:10px; border-bottom-left-radius:10px; opacity:0.9; }
+
+        /* Copy button */
+        .code-editor .copy-btn { margin-left: 8px; background: rgba(255,255,255,0.03); color:#cfe8ff; border:1px solid rgba(255,255,255,0.04); padding:6px 10px; border-radius:6px; cursor:pointer; font-weight:600; font-size:0.85rem; }
+        .code-editor .copy-btn:active { transform: translateY(1px); }
+        .code-editor .copy-btn:focus { outline: 2px solid rgba(125,211,252,0.18); }
+
+        /* Make long code blocks easier to read on small screens */
+        @media (max-width: 640px) {
+          .code-editor pre[class*="language-"] { font-size:0.85rem; }
+          .code-editor .file-label { font-size:0.82rem; }
+        }
+
     </style>
 </head>
 <body>
@@ -149,6 +207,16 @@ export default App;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p>Limpiar <code>App.jsx</code> elimina el contenido predeterminado de Vite, dejando un componente simple para empezar a construir. También puedes limpiar <code>index.css</code> para personalizar los estilos.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript para configuración (Vite + TS) -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">Terminal — crear proyecto TypeScript</span></div>
+          <pre><code class="language-bash">npm create vite@latest my-react-ts-app -- --template react-ts
+cd my-react-ts-app
+npm install
+npm run dev</code></pre>
+        </div>
+        <p class="example-explanation">Ejecutar estos comandos crea un proyecto Vite con plantilla TypeScript listo para React 2025 (.tsx / .ts).</p>
     </section>
 
     <section id="jsx" class="mb-8">
@@ -174,6 +242,25 @@ export default App;</code></pre>
   React.createElement("p", null, "Este es un ejemplo de JSX.")
 );</code></pre>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript (JSX en .tsx) -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/HelloTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+
+type Props = { nombre: string };
+
+export default function HelloTSX({ nombre }: Props) {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;¡Hola, {nombre}!&lt;/h1&gt;
+      &lt;p&gt;Ejemplo de JSX en un archivo .tsx con tipado de props.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">En TypeScript tipamos las props con una interfaz o type y guardamos el componente en un archivo .tsx.</p>
     </section>
 
     <section id="interpolacion" class="mb-8">
@@ -209,8 +296,32 @@ function App() {
 export default App;</code></pre>
         <div class="explanation-card">
             <h3 class="text-lg font-semibold">Explicación</h3>
-            <p><code>{usuario}</code> interpola el valor de la variable, mientras que <code>tareas.map</code> renderiza una lista dinámica. Las expresiones en <code>{}</code> pueden incluir cualquier JavaScript válido, como funciones o cálculos.</p>
+            <p><code>{usuario}</code> interpola el valor de la variable, mientras que <code>tareas.map</code> renderiza una lista dinámica. Las expresiones en <code>{</code> pueden incluir cualquier JavaScript válido, como funciones o cálculos.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - interpolación -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/TodoListTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+
+const tareas: string[] = ['Aprender React', 'Hacer un proyecto', 'Descansar'];
+const usuario: string = 'Ana';
+
+export default function TodoListTSX() {
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Lista de Tareas de {usuario}&lt;/h2&gt;
+      &lt;ul&gt;
+        {tareas.map((tarea, index) =&gt; (
+          &lt;li key={index}&gt;{tarea}&lt;/li&gt;
+        ))}
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Tipamos arrays y variables para mayor seguridad; la interpolación funciona igual en .tsx.</p>
     </section>
 
     <section id="fragment" class="mb-8">
@@ -245,7 +356,7 @@ export default TodoList;</code></pre>
         {tareas.map((tarea, index) => (
           &lt;li key={index}&gt;{tarea}&lt;/li&gt;
         ))}
-      &lt;/ul&gt;
+      &lt;/&gt;
     &lt;/&gt;
   );
 }
@@ -254,6 +365,23 @@ export default TodoList;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p>Los Fragments evitan nodos DOM innecesarios, mejorando el rendimiento. La sintaxis corta <code>&lt;&gt;&lt;/&gt;</code> es más concisa y comúnmente utilizada.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - Fragment -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/FragmentTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React, { Fragment } from 'react';
+
+export default function FragmentTSX() {
+  return (
+    &lt;Fragment&gt;
+      &lt;h2&gt;Título desde Fragment&lt;/h2&gt;
+      &lt;p&gt;Mismo resultado sin nodos extra en el DOM.&lt;/p&gt;
+    &lt;/Fragment&gt;
+  );
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Usar Fragment en TypeScript no requiere tipado especial; es solo JSX en .tsx.</p>
     </section>
 
     <section id="classname" class="mb-8">
@@ -290,6 +418,28 @@ export default TodoList;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p><code>className</code> reemplaza <code>class</code> porque esta última es una palabra reservada en JavaScript. Puedes aplicar clases dinámicamente, por ejemplo, <code>className={index % 2 === 0 ? "tarea-par" : "tarea-impar"}</code>.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - className y CSS Modules (opcional) -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/TodoList.module.css</span></div>
+          <pre><code class="language-css">.titulo { color: #60a5fa; font-weight: 700; }
+.tarea { color: #a7f3d0; }</code></pre>
+          <div class="code-toolbar mt-2"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/TodoListTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+import styles from './TodoList.module.css';
+
+export default function TodoListTSX() {
+  const tareas: string[] = ['Aprender React', 'Hacer un proyecto'];
+  return (
+    &lt;div&gt;
+      &lt;h2 className={styles.titulo}&gt;Tareas&lt;/h2&gt;
+      &lt;ul&gt;{tareas.map((t,i)=&gt;&lt;li key={i} className={styles.tarea}&gt;{t}&lt;/li&gt;)}&lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">En TypeScript puedes usar CSS Modules y tipado de import si configuras los tipos (.d.ts) — así evitas errores por names.</p>
     </section>
 
     <section id="dangerously" class="mb-8">
@@ -319,6 +469,20 @@ export default TodoList;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p><code>dangerouslySetInnerHTML</code> renderiza HTML crudo usando <code>__html</code>. Debe usarse con precaución para evitar ataques XSS, especialmente con datos de usuarios.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - dangerouslySetInnerHTML -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/RawHtmlTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+
+const htmlCrudo: string = '&lt;p&gt;Texto con &lt;strong&gt;negrita&lt;/strong&gt;&lt;/p&gt;';
+
+export default function RawHtmlTSX() {
+  return &lt;div dangerouslySetInnerHTML={{ __html: htmlCrudo }} /&gt;;
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Tip: valida o escapa el HTML antes de usarlo en producción para evitar XSS.</p>
     </section>
 
     <section id="librerias" class="mb-8">
@@ -350,6 +514,21 @@ export default TodoList;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p><code>html-react-parser</code> convierte HTML en componentes React, siendo una alternativa segura a <code>dangerouslySetInnerHTML</code>. Permite personalizar el renderizado de elementos HTML.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - uso de html-react-parser con TS -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/ParseHtmlTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+import parse from 'html-react-parser';
+
+const htmlString: string = '&lt;p&gt;Un &lt;em&gt;ejemplo&lt;/em&gt; parseado.&lt;/p&gt;';
+
+export default function ParseHtmlTSX() {
+  return &lt;div&gt;{parse(htmlString)}&lt;/div&gt;;
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Instala el paquete con <code>npm install html-react-parser</code>. Los tipos están incluidos, o puedes crear d.ts si faltan.</p>
     </section>
 
     <section id="condicional" class="mb-8">
@@ -384,6 +563,23 @@ export default TodoList;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p>El operador ternario <code>{condición ? elementoSiVerdadero : elementoSiFalso}</code> decide qué renderizar. También puedes usar <code>&&</code> para renderizar solo si una condición es verdadera.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - render condicional -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/ConditionalTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+
+export default function ConditionalTSX() {
+  const tareas: string[] = [];
+  return (
+    &lt;div&gt;
+      {tareas.length === 0 ? &lt;p&gt;No hay tareas&lt;/p&gt; : &lt;ul&gt;{tareas.map((t,i)=&gt;&lt;li key={i}&gt;{t}&lt;/li&gt;)}&lt;/ul&gt;}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">En TSX usamos las mismas técnicas (ternario, &&) y tipamos el array y las variables.</p>
     </section>
 
     <section id="switch" class="mb-8">
@@ -426,6 +622,26 @@ export default TodoList;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p>La función <code>renderMensaje</code> usa un <code>switch</code> para devolver JSX según la longitud de <code>tareas</code>, integrándose directamente en el renderizado.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - switch en render -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/SwitchTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+
+export default function SwitchTSX() {
+  const tareas = ['A'];
+  const mensaje = () =&gt; {
+    switch (tareas.length) {
+      case 0: return &lt;p&gt;Sin tareas&lt;/p&gt;;
+      case 1: return &lt;p&gt;1 tarea&lt;/p&gt;;
+      default: return &lt;p&gt;Muchas tareas&lt;/p&gt;;
+    }
+  };
+  return &lt;div&gt;{mensaje()}&lt;/div&gt;;
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Encapsula la lógica en funciones y devuélvelas en el JSX; tipa variables cuando sea necesario.</p>
     </section>
 
     <section id="loops" class="mb-8">
@@ -471,6 +687,20 @@ export default TodoList;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p><code>map</code> es declarativo y devuelve un array directamente, ideal para React. <code>forEach</code> y <code>for</code> son más imperativos, requiriendo un array manual.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - map y for -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/LoopsTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+
+export default function LoopsTSX() {
+  const tareas: string[] = ['A','B','C'];
+  const renderMap = tareas.map((t, i) =&gt; &lt;li key={i}&gt;{t}&lt;/li&gt;);
+  return &lt;ul&gt;{renderMap}&lt;/ul&gt;;
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Favor usar <code>map</code> para renderizar listas; tipa el array y los items para aprovechar TS.</p>
     </section>
 
     <section id="map" class="mb-8">
@@ -510,6 +740,23 @@ export default TodoList;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p>Usar <code>tarea.id</code> como <code>key</code> es mejor que el índice, ya que los IDs son únicos. Los estilos inline, como <code>textDecoration</code>, personalizan el renderizado dinámicamente.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - map con objetos y key fuerte -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/MapTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+
+type Tarea = { id: number; texto: string; completada: boolean };
+const tareas: Tarea[] = [ {id:1, texto:'Aprender', completada:false} ];
+
+export default function MapTSX() {
+  return (
+    &lt;ul&gt;{tareas.map(t =&gt; &lt;li key={t.id}&gt;{t.texto} {t.completada ? '(OK)' : ''}&lt;/li&gt;)}&lt;/ul&gt;
+  );
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Usar IDs únicos como key y tipar la estructura de objetos mejora seguridad y autocompletado.</p>
     </section>
 
     <section id="helpers" class="mb-8">
@@ -558,6 +805,15 @@ export default TodoList;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p>Los helpers separan la lógica del componente, mejorando la legibilidad y reusabilidad. <code>formatearEstadoTarea</code> y <code>contarTareasCompletadas</code> simplifican la manipulación de datos.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - helpers.ts -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/helpers.ts</span></div>
+          <pre><code class="language-ts">export const formatearEstadoTarea = (completada: boolean) =&gt; (completada ? 'Completada' : 'Pendiente');
+export const contarTareasCompletadas = (tareas: {completada: boolean}[]) =&gt; tareas.filter(t =&gt; t.completada).length;
+</code></pre>
+        </div>
+        <p class="example-explanation">En TypeScript los helpers tienen firmas explícitas para evitar errores de tipos en su consumo.</p>
     </section>
 
     <section id="componente" class="mb-8">
@@ -566,10 +822,14 @@ export default TodoList;</code></pre>
         <p>Crea un componente funcional en <code>Header.jsx</code>:</p>
         <pre><code class="language-jsx">function Header() {
   return (
-    &lt;header&gt;
-      &lt;h1&gt;Gestor de Tareas&lt;/h1&gt;
-      &lt;p&gt;Bienvenido a tu aplicación de tareas en React 2025&lt;/p&gt;
-    &lt;/header&gt;
+    &lt;div className="header-container"&gt;
+      &lt;h1 className="header-title"&gt;
+        Gestor de Tareas
+      &lt;/h1&gt;
+      &lt;p className="header-subtitle"&gt;
+        Bienvenido a tu aplicación de tareas en React 2025
+      &lt;/p&gt;
+    &lt;/div&gt;
   );
 }
 export default Header;</code></pre>
@@ -587,6 +847,23 @@ export default App;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p>Los componentes funcionales son funciones que devuelven JSX. Se nombran con mayúscula y se usan como etiquetas HTML. Son la base para construir interfaces reutilizables.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - Header.tsx -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/Header.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+
+export default function Header(): JSX.Element {
+  return (
+    &lt;header&gt;
+      &lt;h1&gt;Gestor de Clientes&lt;/h1&gt;
+      &lt;p&gt;Bienvenido a la app en React + TypeScript&lt;/p&gt;
+    &lt;/header&gt;
+  );
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">En TypeScript devolvemos explicitamente <code>JSX.Element</code> para mayor claridad en la firma del componente.</p>
     </section>
 
     <section id="clase" class="mb-8">
@@ -597,10 +874,14 @@ export default App;</code></pre>
 class Header extends Component {
   render() {
     return (
-      &lt;header&gt;
-        &lt;h1&gt;Gestor de Tareas&lt;/h1&gt;
-        &lt;p&gt;Bienvenido a tu aplicación de tareas en React 2025&lt;/p&gt;
-      &lt;/header&gt;
+      &lt;div className="header-container"&gt;
+        &lt;h1 className="header-title"&gt;
+          Gestor de Tareas
+        &lt;/h1&gt;
+        &lt;p className="header-subtitle"&gt;
+          Bienvenido a tu aplicación de tareas en React 2025
+        &lt;/p&gt;
+      &lt;/div&gt;
     );
   }
 }
@@ -609,6 +890,22 @@ export default Header;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p>Los componentes de clase extienden <code>React.Component</code> y requieren un método <code>render</code>. Aunque menos usados, son útiles para entender la evolución de React.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - Componente de clase (para referencia) -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/OldHeader.tsx</span></div>
+          <pre><code class="language-tsx">import React, { Component } from 'react';
+
+type Props = {};
+class OldHeader extends Component&lt;Props&gt; {
+  render() {
+    return &lt;header&gt;&lt;h1&gt;Componente de Clase&lt;/h1&gt;&lt;/header&gt;;
+  }
+}
+export default OldHeader;
+</code></pre>
+        </div>
+        <p class="example-explanation">Los componentes de clase se pueden tipar usando genéricos en Component&lt;Props, State&gt; pero los hooks son preferidos hoy.</p>
     </section>
 
     <section id="state" class="mb-8">
@@ -652,6 +949,24 @@ export default App;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p><code>state</code> se inicializa en el constructor, y <code>setState</code> actualiza el estado, desencadenando un nuevo renderizado. <code>handleIncrement</code> usa <code>setState</code> para incrementar el contador.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - useState -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/TaskCounter.tsx</span></div>
+          <pre><code class="language-tsx">import React, { useState } from 'react';
+
+export default function TaskCounter(): JSX.Element {
+  const [completedTasks, setCompletedTasks] = useState&lt;number&gt;(0);
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Tareas Completadas: {completedTasks}&lt;/h2&gt;
+      &lt;button onClick={() =&gt; setCompletedTasks(prev =&gt; prev + 1)}&gt;Marcar&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Tipar useState ayuda a evitar asignaciones inválidas al estado.</p>
     </section>
 
     <section id="ciclo" class="mb-8">
@@ -698,6 +1013,23 @@ export default TaskCounter;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p><code>componentDidMount</code> se ejecuta al montar el componente, <code>componentDidUpdate</code> tras cambios en el estado, y <code>componentWillUnmount</code> antes de desmontar, útil para limpiar recursos.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - useEffect lifecycle -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/LifecycleTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React, { useEffect, useState } from 'react';
+
+export default function LifecycleTSX() {
+  const [count, setCount] = useState&lt;number&gt;(0);
+  useEffect(() =&gt; {
+    const id = setInterval(() =&gt; setCount(c =&gt; c + 1), 1000);
+    return () =&gt; clearInterval(id);
+  }, []);
+  return &lt;div&gt;Contador: {count}&lt;/div&gt;;
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">useEffect reemplaza los métodos de ciclo de vida; devuelve cleanup para desmontaje.</p>
     </section>
 
     <section id="funcional" class="mb-8">
@@ -735,6 +1067,20 @@ export default TaskCounter;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p><code>useState</code> maneja el estado, y <code>useEffect</code> reemplaza los métodos del ciclo de vida. Un array vacío en <code>useEffect</code> simula <code>componentDidMount</code> y <code>componentWillUnmount</code>.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - Componente funcional con useEffect -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/FunctionalTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React, { useState, useEffect } from 'react';
+
+export default function FunctionalTSX() {
+  const [val, setVal] = useState&lt;string&gt;('');
+  useEffect(() =&gt; { console.log('montado'); }, []);
+  return &lt;input value={val} onChange={e =&gt; setVal(e.target.value)} /&gt;;
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Componentes funcionales + hooks son la forma recomendada y funcionan naturalmente con TypeScript.</p>
     </section>
 
     <section id="props" class="mb-8">
@@ -743,9 +1089,12 @@ export default TaskCounter;</code></pre>
         <p>Las props pasan datos de un componente padre a un hijo.</p>
         <pre><code class="language-jsx">function TaskItem(props) {
   return (
-    &lt;li&gt;
-      {props.task} (ID: {props.id})
-    &lt;/li&gt;
+    &lt;div className="task-item"&gt;
+      &lt;div className="task-content"&gt;
+        &lt;span className="task-text"&gt;{props.task}&lt;/span&gt;
+        &lt;span className="task-id"&gt; (ID: {props.id})&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
   );
 }
 export default TaskItem;</code></pre>
@@ -792,6 +1141,24 @@ export default App;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p>Las props son inmutables y permiten comunicación entre componentes. Puedes desestructurarlas (<code>{ task, id }</code>) para un código más limpio.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - Props tipadas -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/TaskItem.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+
+type Props = { id: number; task: string };
+export default function TaskItem({ id, task }: Props) {
+  return &lt;div className="task-item"&gt;
+      &lt;div className="task-content"&gt;
+        &lt;span className="task-text"&gt;{task}&lt;/span&gt;
+        &lt;span className="task-id"&gt; (ID: {id})&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;;
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Desestructurar y tipar props evita errores y mejora el autocompletado en editores.</p>
     </section>
 
     <section id="dinamico" class="mb-8">
@@ -870,6 +1237,24 @@ export default TaskList;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p>El estado <code>view</code> controla qué componente renderizar (<code>TaskListView</code> o <code>TaskForm</code>). La función <code>renderView</code> usa un <code>switch</code> para manejar vistas dinámicas.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - render dinámico -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/RenderDynamicTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React, { useState } from 'react';
+
+export default function RenderDynamicTSX() {
+  const [view, setView] = useState&lt;'list'|'form'&gt;('list');
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() =&gt; setView('form')}&gt;Abrir Form&lt;/button&gt;
+      {view === 'list' ? &lt;div&gt;Lista de items&lt;/div&gt; : &lt;div&gt;Formulario&lt;/div&gt;}
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Tipar el estado <code>view</code> con un union type evita valores inválidos.</p>
     </section>
 
     <section id="condicional2" class="mb-8">
@@ -906,13 +1291,17 @@ function TaskList() {
   const renderView = () => {
     switch (view) {
       case 'list':
-        return tasks.length === 0 ? &lt;EmptyMessage /&gt; : &lt;TaskListView /&gt;;
+        return (
+          &lt;Card&gt;
+            {tasks.length === 0 ? &lt;EmptyMessage /&gt; : &lt;TaskListView /&gt;}
+          &lt;/Card&gt;
+        );
       case 'form':
         return (
-          &lt;&gt;
+          &lt;Card&gt;
             &lt;button onClick={() => setView('list')}&gt;Volver a la Lista&lt;/button&gt;
             &lt;TaskForm onAddTask={addTask} /&gt;
-          &lt;/&gt;
+          &lt;/Card&gt;
         );
       default:
         return &lt;p&gt;Vista no encontrada&lt;/p&gt;;
@@ -923,8 +1312,24 @@ function TaskList() {
 export default TaskList;</code></pre>
         <div class="explanation-card">
             <h3 class="text-lg font-semibold">Explicación</h3>
-            <p>Los componentes <code>EmptyMessage</code> y <code>TaskListView</code> se renderizan condicionalmente según la longitud de <code>tasks</code>, usando un operador ternario en <code>renderView</code>.</p>
+            <p>El estado <code>view</code> controla qué componente renderizar (<code>TaskListView</code> o <code>TaskForm</code>). La función <code>renderView</code> usa un <code>switch</code> para manejar vistas dinámicas.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - componentes condicionales -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/ConditionalComponentsTSX.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+
+const EmptyMessage: React.FC = () =&gt; &lt;p&gt;No hay items&lt;/p&gt;;
+const ListView: React.FC&lt;{items: string[]}&gt; = ({items}) =&gt; &lt;ul&gt;{items.map((it,i)=&gt;&lt;li key={i}&gt;{it}&lt;/li&gt;)}&lt;/ul&gt;;
+
+export default function ConditionalComponentsTSX() {
+  const items: string[] = [];
+  return items.length === 0 ? &lt;EmptyMessage /&gt; : &lt;ListView items={items} /&gt;;
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Definir pequeñas subcomponentes tipadas hace el render más legible y seguro.</p>
     </section>
 
     <section id="children" class="mb-8">
@@ -999,6 +1404,18 @@ export default TaskList;</code></pre>
             <h3 class="text-lg font-semibold">Explicación</h3>
             <p>El componente <code>Card</code> actúa como un contenedor estilizado, renderizando cualquier contenido pasado como <code>children</code>, lo que lo hace altamente reutilizable.</p>
         </div>
+
+        <!-- Añadido: Ejemplo TypeScript - children prop -->
+        <div class="code-editor mt-4">
+          <div class="code-toolbar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="file-label">src/components/Card.tsx</span></div>
+          <pre><code class="language-tsx">import React from 'react';
+
+export default function Card({ children }: { children: React.ReactNode }) {
+  return &lt;div className="card"&gt;{children}&lt;/div&gt;;
+}
+</code></pre>
+        </div>
+        <p class="example-explanation">Tipar children como React.ReactNode es la forma estándar para aceptar cualquier contenido renderizable.</p>
     </section>
 
     <section id="tareas" class="mb-8">
@@ -1030,6 +1447,10 @@ export default TaskList;</code></pre>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+<!-- Añadido: soporte para TSX y markup-templating para asegurar resaltado de .tsx -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup-templating.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js"></script>
 <script>
     // Smooth scrolling for navigation links
     document.querySelectorAll('nav a').forEach(anchor => {
@@ -1044,5 +1465,146 @@ export default TaskList;</code></pre>
         });
     });
 </script>
+<!-- Add JS to attach Copy buttons to each .code-editor toolbar -->
+<script>
+  (function() {
+    try {
+      document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.code-editor').forEach(function(ce) {
+          var toolbar = ce.querySelector('.code-toolbar');
+          var pre = ce.querySelector('pre');
+          if (!toolbar || !pre) return;
+          // avoid adding multiple buttons
+          if (toolbar.querySelector('.copy-btn')) return;
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'copy-btn';
+          btn.textContent = 'Copiar';
+          toolbar.appendChild(btn);
+
+          btn.addEventListener('click', function() {
+            var text = pre.innerText;
+            if (!navigator.clipboard) {
+              // fallback
+              var ta = document.createElement('textarea');
+              ta.value = text;
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              btn.textContent = 'Copiado!';
+              setTimeout(function(){ btn.textContent = 'Copiar'; }, 1400);
+              return;
+            }
+            navigator.clipboard.writeText(text).then(function() {
+              btn.textContent = 'Copiado!';
+              setTimeout(function(){ btn.textContent = 'Copiar'; }, 1400);
+            }).catch(function() {
+              btn.textContent = 'Error';
+              setTimeout(function(){ btn.textContent = 'Copiar'; }, 1400);
+            });
+          });
+        });
+      });
+    } catch (e) {
+      console.warn('copy-button script error', e);
+    }
+  })();
+</script>
+
+<!-- Auto-wrap remaining code blocks (TSX/TS/JSX) that are not already inside .code-editor -->
+<script>
+  (function() {
+    document.addEventListener('DOMContentLoaded', function() {
+      try {
+        const langs = ['language-tsx','language-ts','language-typescript','language-jsx'];
+        langs.forEach(function(lang) {
+          document.querySelectorAll('pre > code.' + lang).forEach(function(code){
+            if (code.closest('.code-editor')) return; // already wrapped
+            const pre = code.parentElement;
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-editor mt-4';
+
+            const toolbar = document.createElement('div');
+            toolbar.className = 'code-toolbar';
+            toolbar.innerHTML = '<span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>';
+            const fileLabel = document.createElement('span');
+            fileLabel.className = 'file-label';
+            fileLabel.textContent = pre.getAttribute('data-file') || (lang.includes('tsx') || lang.includes('ts') ? 'Ejemplo.tsx' : 'Ejemplo.jsx');
+            toolbar.appendChild(fileLabel);
+
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(toolbar);
+            wrapper.appendChild(pre);
+
+            // add copy button
+            if (!toolbar.querySelector('.copy-btn')) {
+              const btn = document.createElement('button');
+              btn.type = 'button';
+              btn.className = 'copy-btn';
+              btn.textContent = 'Copiar';
+              toolbar.appendChild(btn);
+
+              btn.addEventListener('click', function() {
+                const text = pre.innerText;
+                if (!navigator.clipboard) {
+                  const ta = document.createElement('textarea');
+                  ta.value = text;
+                  document.body.appendChild(ta);
+                  ta.select();
+                  document.execCommand('copy');
+                  document.body.removeChild(ta);
+                  btn.textContent = 'Copiado!';
+                  setTimeout(function(){ btn.textContent = 'Copiar'; }, 1400);
+                  return;
+                }
+                navigator.clipboard.writeText(text).then(function() {
+                  btn.textContent = 'Copiado!';
+                  setTimeout(function(){ btn.textContent = 'Copiar'; }, 1400);
+                }).catch(function() {
+                  btn.textContent = 'Error';
+                  setTimeout(function(){ btn.textContent = 'Copiar'; }, 1400);
+                });
+              });
+            }
+          });
+        });
+      } catch (e) {
+        console.warn('wrap-code-editor error', e);
+      }
+
+      // Robust Prism highlight: intenta resaltar los bloques nuevos; reintenta si Prism no está cargado aún
+      (function tryPrism(retries) {
+        try {
+          // Añadir fallback: para que Prism reconozca TSX, añadimos clases de fallback (jsx + typescript)
+          document.querySelectorAll('pre code.language-tsx').forEach(function(codeEl){
+            if (!codeEl.classList.contains('language-js')) codeEl.classList.add('language-js');
+            if (!codeEl.classList.contains('language-typescript')) codeEl.classList.add('language-typescript');
+          });
+
+          if (window.Prism && typeof window.Prism.highlightAll === 'function') {
+            // highlightAll puede pintar todos los bloques; además resaltamos específicamente los <code> dentro de .code-editor
+            window.Prism.highlightAll();
+            // también resaltamos elementos individuales como fallback
+            document.querySelectorAll('.code-editor pre code').forEach(function(el){
+              try { window.Prism.highlightElement(el); } catch(e){}
+            });
+            return;
+          }
+        } catch (err) {
+          console.warn('Prism highlight error', err);
+        }
+        if (retries > 0) {
+          setTimeout(function(){ tryPrism(retries - 1); }, 250);
+        } else {
+          console.warn('Prism not available after retries; syntax highlighting may be missing.');
+        }
+      })(10); // reintenta hasta 10 veces (~2.5s)
+
+    });
+  })();
+</script>
+
 </body>
 </html>
+

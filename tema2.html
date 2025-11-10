@@ -25,10 +25,100 @@
             flex-shrink: 0;
         }
         .code-block {
-            background-color: #2d2d2d;
+            background-color: #1e1e1e;
             border-radius: 8px;
             padding: 16px;
             overflow-x: auto;
+            margin: 1rem 0;
+        }
+        /* Estilos tipo VSCode */
+        .token.keyword {
+            color: #c586c0;
+        }
+        .token.function {
+            color: #dcdcaa;
+        }
+        .token.string {
+            color: #ce9178;
+        }
+        .token.comment {
+            color: #6a9955;
+        }
+        .token.number {
+            color: #b5cea8;
+        }
+        .token.operator {
+            color: #d4d4d4;
+        }
+        .token.punctuation {
+            color: #d4d4d4;
+        }
+        .token.property {
+            color: #9cdcfe;
+        }
+        .token.tag {
+            color: #569cd6;
+        }
+        .token.attr-name {
+            color: #9cdcfe;
+        }
+        .token.attr-value {
+            color: #ce9178;
+        }
+        .token.boolean {
+            color: #569cd6;
+        }
+        .token.null {
+            color: #569cd6;
+        }
+        .token.class-name {
+            color: #4ec9b0;
+        }
+        pre[class*="language-"] {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            text-shadow: none;
+            font-family: 'Consolas', Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre;
+            word-spacing: normal;
+            word-break: normal;
+            word-wrap: normal;
+            tab-size: 4;
+            hyphens: none;
+        }
+        code[class*="language-"] {
+            text-shadow: none;
+            color: #d4d4d4;
+        }
+        /* Línea de números */
+        pre[class*="language-"].line-numbers {
+            position: relative;
+            padding-left: 3.8em;
+            counter-reset: linenumber;
+        }
+        .line-numbers .line-numbers-rows {
+            position: absolute;
+            pointer-events: none;
+            top: 0;
+            font-size: 100%;
+            left: -3.8em;
+            width: 3em;
+            letter-spacing: -1px;
+            border-right: 1px solid #404040;
+            user-select: none;
+        }
+        .line-numbers-rows > span {
+            display: block;
+            counter-increment: linenumber;
+        }
+        .line-numbers-rows > span:before {
+            content: counter(linenumber);
+            color: #858585;
+            display: block;
+            padding-right: 0.8em;
+            text-align: right;
         }
     </style>
 </head>
@@ -56,7 +146,8 @@
             <p class="text-gray-700 mb-4"><strong>Paso 1: Instalar las dependencias</strong></p>
             <p class="text-gray-700 mb-4">En el directorio del proyecto (<code>my-react-app</code>), ejecuta:</p>
             <div class="code-block">
-                <pre><code class="language-jsx">npm install @emotion/react @emotion/styled</code></pre>
+                <pre><code class="language-bash"># Instalar dependencias
+npm install @emotion/react @emotion/styled</code></pre>
             </div>
             <p class="text-gray-700 mt-4">Esto instala:</p>
             <ul class="list-disc list-inside text-gray-700 mb-4">
@@ -66,10 +157,12 @@
             <p class="text-gray-700 mt-4"><strong>Paso 2: Verificar la instalación</strong></p>
             <p class="text-gray-700 mb-4">Asegúrate de que las dependencias se agregaron a <code>package.json</code>:</p>
             <div class="code-block">
-                <pre><code class="language-jsx">"dependencies": {
-  "@emotion/react": "^11.11.1",
-  "@emotion/styled": "^11.11.0",
-  // otras dependencias
+                <pre><code class="language-json">{
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    // otras dependencias
+  }
 }</code></pre>
             </div>
         </div>
@@ -81,7 +174,9 @@
             <p class="text-gray-700 mb-4"><strong>Ejemplo Práctico</strong></p>
             <p class="text-gray-700 mb-4">Estilizaremos el título del componente <code>Header</code> usando <code>@emotion/styled</code>. Modifica <code>src/components/Header.jsx</code>:</p>
             <div class="code-block">
-                <pre><code class="language-jsx">import styled from '@emotion/styled';
+<pre><code class="language-jsx">// src/components/Header.jsx
+import React from 'react';
+import styled from '@emotion/styled';
 
 const StyledTitle = styled.h1`
   font-size: 2.5rem;
@@ -92,14 +187,36 @@ const StyledTitle = styled.h1`
   letter-spacing: 2px;
 `;
 
+const StyledHeader = styled.header`
+  padding: 2rem 0;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  width: 100%;
+`;
+
+const StyledSubtitle = styled.p`
+  color: #6c757d;
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+`;
+
+const HeaderContainer = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+`;
+
 function Header() {
   return (
-    <header>
-      <StyledTitle>Gestor de Tareas</StyledTitle>
-      <p>Bienvenido a tu aplicación de tareas en React 2025</p>
-    </header>
+    &lt;div&gt;
+      &lt;h1&gt;Gestor de Tareas&lt;/h1&gt;
+      &lt;p&gt;Bienvenido a tu aplicación de tareas en React 2025&lt;/p&gt;
+    &lt;/div&gt;
   );
 }
+
+export default Header;
 
 export default Header;</code></pre>
             </div>
@@ -132,7 +249,8 @@ export default Header;</code></pre>
             <p class="text-gray-700 mb-4"><strong>Creando un Círculo Estilizado</strong></p>
             <p class="text-gray-700 mb-4">Creamos un componente que muestra un círculo con un número dentro para representar tareas completadas en <code>TaskCounter</code>. Modifica <code>src/components/TaskCounter.jsx</code>:</p>
             <div class="code-block">
-                <pre><code class="language-jsx">import { useState, useEffect } from 'react';
+                <pre><code class="language-jsx">// src/components/TaskCounter.jsx
+import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 
 const Circle = styled.div`
@@ -173,11 +291,13 @@ function TaskCounter() {
   };
 
   return (
-    <div>
-      <h2>Tareas Completadas:</h2>
-      <Circle>{completedTasks}</Circle>
-      <button onClick={handleIncrement}>Marcar Tarea como Completada</button>
-    </div>
+    &lt;div&gt;
+      &lt;h2&gt;Tareas Completadas:&lt;/h2&gt;
+      &lt;Circle&gt;{completedTasks}&lt;/Circle&gt;
+      &lt;button onClick={handleIncrement}&gt;
+        Marcar Tarea como Completada
+      &lt;/button&gt;
+    &lt;/div&gt;
   );
 }
 
@@ -216,11 +336,13 @@ function TaskCounter() {
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold">Tareas Completadas:</h2>
-      <div className="w-16 h-16 bg-blue-500 rounded-full flex justify-center items-center text-white text-lg font-bold mx-auto mb-4">{completedTasks}</div>
-      <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onClick={handleIncrement}>Marcar Tarea como Completada</button>
-    </div>
+    &lt;div&gt;
+      &lt;h2 className="text-xl font-semibold"&gt;Tareas Completadas:&lt;/h2&gt;
+      &lt;div className="w-16 h-16 bg-blue-500 rounded-full flex justify-center items-center text-white text-lg font-bold mx-auto mb-4"&gt;{completedTasks}&lt;/div&gt;
+      &lt;button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onClick={handleIncrement}&gt;
+        Marcar Tarea como Completada
+      &lt;/button&gt;
+    &lt;/div&gt;
   );
 }
 
@@ -234,7 +356,8 @@ export default TaskCounter;</code></pre>
             <p class="text-gray-700 mb-4"><strong>Creando un Triángulo</strong></p>
             <p class="text-gray-700 mb-4">Agregamos un triángulo decorativo en <code>TaskItem</code> para indicar si una tarea está completada. Modifica <code>src/components/TaskItem.jsx</code>:</p>
             <div class="code-block">
-                <pre><code class="language-jsx">import styled from '@emotion/styled';
+                <pre><code class="language-jsx">// src/components/TaskItem.jsx
+import styled from '@emotion/styled';
 
 const TaskWrapper = styled.li`
   display: flex;
@@ -254,12 +377,14 @@ const Triangle = styled.div`
 
 function TaskItem({ task, id }) {
   return (
-    <TaskWrapper>
-      <Triangle />
-      {task} (ID: {id})
-    </TaskWrapper>
+    &lt;li&gt;
+      &lt;span className="task-text"&gt;{task}&lt;/span&gt;
+      &lt;span className="task-id"&gt; (ID: {id})&lt;/span&gt;
+    &lt;/li&gt;
   );
 }
+
+export default TaskItem;
 
 export default TaskItem;</code></pre>
             </div>
@@ -290,7 +415,9 @@ export default TaskItem;</code></pre>
             <p class="text-gray-700 mb-4"><strong>Estilizando un Input</strong></p>
             <p class="text-gray-700 mb-4">Estilizamos el input en <code>TaskForm</code> para un diseño atractivo. Modifica <code>src/components/TaskForm.jsx</code>:</p>
             <div class="code-block">
-                <pre><code class="language-jsx">import styled from '@emotion/styled';
+                <pre><code class="language-jsx">// src/components/TaskForm.jsx
+import styled from '@emotion/styled';
+import { useState } from 'react';
 
 const Form = styled.form`
   display: flex;
@@ -344,54 +471,24 @@ function TaskForm({ onAddTask }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <h2>Agregar Nueva Tarea</h2>
-      <StyledInput
-              type="text"
-              value={taskText}
-              onChange={(e) => setTaskText(e.target.value)}
-        placeholder="Escribe una tarea"
-      />
-      <Button type="submit">Agregar</Button>
-    </Form>
-  );
-}
-
-export default TaskForm;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li><code>StyledInput</code> estiliza el input con padding, borde, y transiciones.</li>
-                <li><code>Form</code> y <code>Button</code> aseguran un diseño coherente.</li>
-                <li>Pseudo-clases como <code>:focus</code> y <code>:hover</code> añaden interactividad.</li>
-            </ul>
-            <p class="text-gray-700 mt-4"><strong>Traducción a TailwindCSS:</strong></p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { useState } from 'react';
-
-function TaskForm({ onAddTask }) {
-  const [taskText, setTaskText] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (taskText.trim()) {
-      onAddTask(taskText);
-      setTaskText('');
-    }
-  };
-
-  return (
-    <form className="flex flex-col gap-4 max-w-md mx-auto" onSubmit={handleSubmit}>
-      <h2 className="text-xl font-semibold">Agregar Nueva Tarea</h2>
-      <input
-              type="text"
-              value={taskText}
-              onChange={(e) => setTaskText(e.target.value)}
-        placeholder="Escribe una tarea"
-        className="p-3 text-base border-2 border-blue-500 rounded-md focus:outline-none focus:border-blue-700 transition-colors placeholder-gray-400"
-      />
-      <button type="submit" className="p-3 text-base bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors">Agregar</button>
-    </form>
+    &lt;div className="task-form-container"&gt;
+      &lt;Form onSubmit={handleSubmit}&gt;
+        &lt;h2 className="text-xl font-bold mb-4"&gt;
+          Agregar Nueva Tarea
+        &lt;/h2&gt;
+        &lt;StyledInput
+          type="text"
+          value={taskText}
+          onChange={(e) =&gt; setTaskText(e.target.value)}
+          placeholder="Escribe una tarea"
+          className="task-input"
+          required
+        /&gt;
+        &lt;Button type="submit" className="submit-button"&gt;
+          Agregar
+        &lt;/Button&gt;
+      &lt;/Form&gt;
+    &lt;/div&gt;
   );
 }
 
@@ -406,7 +503,8 @@ export default TaskForm;</code></pre>
             <p class="text-gray-700 mb-4">Puedes pasar props a un styled component para modificar estilos dinámicamente. Modificamos <code>TaskItem</code> para que el triángulo cambie de color según la prop <code>completed</code>.</p>
             <p class="text-gray-700 mb-4"><strong>Modifica <code>src/components/TaskList.jsx</code>:</strong></p>
             <div class="code-block">
-                <pre><code class="language-jsx">import { useState } from 'react';
+                <pre><code class="language-jsx">// src/components/TaskList.jsx
+import { useState } from 'react';
 import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
 import Card from './Card';
@@ -425,53 +523,80 @@ function TaskList() {
     setView('list');
   };
 
-  const EmptyMessage = () => <p>No hay tareas disponibles.</p>;
+  const EmptyMessage = () => (
+    <div className="text-center py-4">
+      <p className="text-gray-500">No hay tareas disponibles.</p>
+    </div>
+  );
 
   const TaskListView = () => (
-    <>
-      <h2>Lista de Tareas</h2>
-      <button onClick={() => setView('form')}>Agregar Tarea</button>
-                    <ul>
-        {tasks.map((task) => (
-          <TaskItem
-                  key={task.id}
-                  id={task.id}
-                  task={task.text}
-                  completed={task.completed}
-          />
+    &lt;div className="task-list"&gt;
+      &lt;h2 className="text-xl font-bold mb-4"&gt;Lista de Tareas&lt;/h2&gt;
+      &lt;button
+        className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+        onClick={() =&gt; setView('form')}
+      &gt;
+        Agregar Tarea
+      &lt;/button&gt;
+      &lt;ul className="space-y-2"&gt;
+        {tasks.map((task) =&gt; (
+          &lt;TaskItem
+            key={task.id}
+            id={task.id}
+            task={task.text}
+            completed={task.completed}
+          /&gt;
         ))}
-      </ul>
-    </>
+      &lt;/ul&gt;
+    &lt;/div&gt;
   );
 
   const renderView = () => {
     switch (view) {
       case 'list':
         return (
-          <Card>
-            {tasks.length === 0 ? <EmptyMessage /> : <TaskListView />}
-          </Card>
+          &lt;div className="container mx-auto px-4"&gt;
+            &lt;Card&gt;
+              {tasks.length === 0 ? &lt;EmptyMessage /&gt; : &lt;TaskListView /&gt;}
+            &lt;/Card&gt;
+          &lt;/div&gt;
         );
       case 'form':
         return (
-          <Card>
-            <button onClick={() => setView('list')}>Volver a la Lista</button>
-              <TaskForm onAddTask={addTask} />
-          </Card>
+          &lt;div className="container mx-auto px-4"&gt;
+            &lt;Card&gt;
+              &lt;button
+                className="bg-gray-500 text-white px-4 py-2 rounded mb-4"
+                onClick={() =&gt; setView('list')}
+              &gt;
+                Volver a la Lista
+              &lt;/button&gt;
+              &lt;TaskForm onAddTask={addTask} /&gt;
+            &lt;/Card&gt;
+          &lt;/div&gt;
         );
       default:
-        return <p>Vista no encontrada</p>;
+        return (
+          &lt;div className="text-center py-4"&gt;
+            &lt;p className="text-red-500"&gt;Vista no encontrada&lt;/p&gt;
+          &lt;/div&gt;
+        );
     }
   };
 
-  return <div>{renderView()}</div>;
+  return (
+    &lt;div className="task-list-container py-8"&gt;
+      {renderView()}
+    &lt;/div&gt;
+  );
 }
 
 export default TaskList;</code></pre>
             </div>
             <p class="text-gray-700 mt-4"><strong>Modifica <code>src/components/TaskItem.jsx</code>:</strong></p>
             <div class="code-block">
-                <pre><code class="language-jsx">import styled from '@emotion/styled';
+                <pre><code class="language-jsx">// src/components/TaskItem.jsx
+import styled from '@emotion/styled';
 
 const TaskWrapper = styled.li`
   display: flex;
@@ -492,10 +617,7 @@ const Triangle = styled.div`
 
 function TaskItem({ task, id, completed }) {
   return (
-    <TaskWrapper completed={completed}>
-      <Triangle completed={completed} />
-      {task} (ID: {id})
-    </TaskWrapper>
+    {task} (ID: {id}) {completed ? '(Completada)' : '(Pendiente)'}
   );
 }
 
@@ -522,1073 +644,477 @@ export default TaskItem;</code></pre>
         </div>
         </div>
 
-        <!-- 7. Guardando Styled en Archivo Externo Reutilizable -->
+        <!-- 7. Keyframes en Styled -->
         <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">7. Guardando Styled en Archivo Externo Reutilizable</h3>
-            <p class="text-gray-700 mb-4"><strong>Creando un Archivo de Estilos Reutilizables</strong></p>
-            <p class="text-gray-700 mb-4">Movemos los styled components a un archivo separado para organización. Crea <code>src/styles/StyledComponents.js</code>:</p>
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">7. Keyframes en Styled</h3>
+            <p class="text-gray-700 mb-4"><strong>Animaciones con Keyframes</strong></p>
+            <p class="text-gray-700 mb-4">Creamos una animación para cuando se completa una tarea. Modifica <code>src/components/TaskItem.jsx</code>:</p>
             <div class="code-block">
                 <pre><code class="language-jsx">import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 
-export const StyledTitle = styled.h1`
-  font-size: 2.5rem;
-  color: #2c3e50;
-  text-align: center;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 `;
 
-export const Circle = styled.div`
-  width: 60px;
-  height: 60px;
-  background-color: #3498db;
-  border-radius: 50%;
+const TaskWrapper = styled.li`
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 0 auto 1rem;
-`;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  animation: ${fadeIn} 0.3s ease;
+  text-decoration: ${(props) => (props.completed ? 'line-through' : 'none')};
+`;</code></pre>
+            </div>
+        </div>
 
-export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  max-width: 400px;
-  margin: 0 auto;
-`;
+        <!-- 8. Temas en Styled -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">8. Temas en Styled</h3>
+            <p class="text-gray-700 mb-4">Implementación de temas para cambiar entre modo claro y oscuro:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// src/theme.js
+export const lightTheme = {
+  primary: '#3498db',
+  background: '#ffffff',
+  text: '#2c3e50',
+};
 
-export const StyledInput = styled.input`
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 2px solid #3498db;
-  border-radius: 5px;
-  outline: none;
-  transition: border-color 0.3s ease;
+export const darkTheme = {
+  primary: '#2980b9',
+  background: '#2c3e50',
+  text: '#ecf0f1',
+};
 
-  &:focus {
-    border-color: #2980b9;
+// App.jsx
+import { ThemeProvider } from '@emotion/react';
+import { useState } from 'react';
+import { lightTheme, darkTheme } from './theme';
+
+function App() {
+  const [isDark, setIsDark] = useState(false);
+  const theme = isDark ? darkTheme : lightTheme;
+
+  return (
+    &lt;ThemeProvider theme={theme}&gt;
+      &lt;div className="app-container min-h-screen"&gt;
+        &lt;header className="app-header py-4"&gt;
+          &lt;div className="container mx-auto px-4"&gt;
+            &lt;button onClick={() =&gt; setIsDark(!isDark)}&gt;
+              {isDark ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'}
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/header&gt;
+        &lt;main className="app-main"&gt;
+          {/* resto de la aplicación */}
+        &lt;/main&gt;
+      &lt;/div&gt;
+    &lt;/ThemeProvider&gt;
+  );
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- 9. Media Queries en Styled -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">9. Media Queries en Styled</h3>
+            <p class="text-gray-700 mb-4">Haciendo componentes responsive:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// src/components/ResponsiveContainer.jsx
+import styled from '@emotion/styled';
+
+const ResponsiveContainer = styled.div`
+  padding: 1rem;
+
+  @media (max-width: 768px) {
+    padding: 0.5rem;
   }
 
-  &::placeholder {
-    color: #95a5a6;
-  }
-`;
-
-export const Button = styled.button`
-  padding: 0.75rem;
-  font-size: 1rem;
-  background-color: #2ecc71;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #27ae60;
+  @media (max-width: 480px) {
+    padding: 0.25rem;
   }
 `;</code></pre>
             </div>
-            <p class="text-gray-700 mt-4"><strong>Usar los estilos reutilizables</strong></p>
-            <p class="text-gray-700 mb-4">Actualiza los componentes para importar estos estilos:</p>
-            <p class="text-gray-700 mb-4"><strong><code>src/components/Header.jsx</code>:</strong></p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { StyledTitle } from '../styles/StyledComponents';
-
-function Header() {
-  return (
-    <header>
-      <StyledTitle>Gestor de Tareas</StyledTitle>
-      <p>Bienvenido a tu aplicación de tareas en React 2025</p>
-    </header>
-  );
-}
-
-export default Header;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong><code>src/components/TaskCounter.jsx</code>:</strong></p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { useState, useEffect } from 'react';
-import { Circle } from '../styles/StyledComponents';
-
-function TaskCounter() {
-  const [completedTasks, setCompletedTasks] = useState(0);
-
-  useEffect(() => {
-    console.log('Componente montado');
-    setTimeout(() => {
-      setCompletedTasks(5);
-    }, 1000);
-
-    return () => {
-      console.log('Componente desmontado');
-      localStorage.setItem('completedTasks', completedTasks);
-    };
-  }, []);
-
-  useEffect(() => {
-    console.log('El contador de tareas ha cambiado:', completedTasks);
-  }, [completedTasks]);
-
-  const handleIncrement = () => {
-    setCompletedTasks(completedTasks + 1);
-  };
-
-  return (
-    <div>
-      <h2>Tareas Completadas:</h2>
-      <Circle>{completedTasks}</Circle>
-      <button onClick={handleIncrement}>Marcar Tarea como Completada</button>
-    </div>
-  );
-}
-
-export default TaskCounter;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong><code>src/components/TaskForm.jsx</code>:</strong></p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { Form, StyledInput, Button } from '../styles/StyledComponents';
-
-function TaskForm({ onAddTask }) {
-  const [taskText, setTaskText] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (taskText.trim()) {
-      onAddTask(taskText);
-      setTaskText('');
-    }
-  };
-
-  return (
-    <Form onSubmit={handleSubmit}>
-      <h2>Agregar Nueva Tarea</h2>
-      <StyledInput
-              type="text"
-              value={taskText}
-              onChange={(e) => setTaskText(e.target.value)}
-        placeholder="Escribe una tarea"
-      />
-      <Button type="submit">Agregar</Button>
-    </Form>
-  );
-}
-
-export default TaskForm;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li>Los styled components se mueven a <code>StyledComponents.js</code> para reutilización.</li>
-                <li>Esto mejora la organización y consistencia de los estilos.</li>
-            </ul>
-            <p class="text-gray-700 mt-4"><strong>Traducción a TailwindCSS:</strong></p>
-            <p class="text-gray-700 mb-4">Los componentes ya traducidos a TailwindCSS en secciones anteriores cumplen esta función, eliminando la necesidad de un archivo separado en este contexto.</p>
         </div>
 
-        <!-- 8. Recordar Configuración Inicial del Proyecto -->
+        <!-- 10. Composición de Componentes -->
         <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">8. Recordar Configuración Inicial del Proyecto</h3>
-            <p class="text-gray-700 mb-4"><strong>Configuración del Proyecto</strong></p>
-            <p class="text-gray-700 mb-4">Si no tienes un proyecto React configurado, crea uno con Vite:</p>
-            <p class="text-gray-700 mb-4"><strong>Paso 1: Crear el proyecto</strong></p>
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">10. Composición de Componentes</h3>
+            <p class="text-gray-700 mb-4">Creando componentes reutilizables:</p>
             <div class="code-block">
-                <pre><code class="language-jsx">npm create vite@latest my-react-app -- --template react
-cd my-react-app
-npm install</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 2: Iniciar el servidor</strong></p>
-            <div class="code-block">
-                <pre><code class="language-jsx">npm run dev</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4">Abre <code>http://localhost:5173</code> en tu navegador.</p>
-            <p class="text-gray-700 mt-4"><strong>Paso 3: Limpiar el proyecto</strong></p>
-            <p class="text-gray-700 mb-4">Edita <code>src/App.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">function App() {
-  return (
-    <div>
-      <h1>Mi Aplicación de Tareas</h1>
-    </div>
-  );
-}
+                <pre><code class="language-jsx">// src/components/Button.jsx
+import styled from '@emotion/styled';
 
-export default App;</code></pre>
+const Button = styled.button`
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+`;
+
+const PrimaryButton = styled(Button)`
+  background-color: ${props => props.theme.primary};
+  color: white;
+`;
+
+const SecondaryButton = styled(Button)`
+  background-color: transparent;
+  border: 2px solid ${props => props.theme.primary};
+  color: ${props => props.theme.primary};
+`;</code></pre>
             </div>
-            <p class="text-gray-700 mt-4">Limpia <code>src/index.css</code> si deseas empezar desde cero.</p>
         </div>
 
-        <!-- 9. Instalación de React Router DOM -->
+        <!-- 11. Manejo de Eventos -->
         <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">9. Instalación de React Router DOM</h3>
-            <p class="text-gray-700 mb-4"><strong>¿Qué es React Router DOM?</strong></p>
-            <p class="text-gray-700 mb-4">React Router DOM permite manejar navegación y enrutamiento en aplicaciones de una sola página (SPA).</p>
-            <p class="text-gray-700 mb-4"><strong>Paso 1: Instalar React Router DOM</strong></p>
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">11. Manejo de Eventos</h3>
+            <p class="text-gray-700 mb-4">Implementación de eventos en componentes estilizados:</p>
             <div class="code-block">
-                <pre><code class="language-jsx">npm install react-router-dom</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4">Verifica en <code>package.json</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">"dependencies": {
-  "react-router-dom": "^6.22.0",
-  // otras dependencias
-}</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 2: Verificar la instalación</strong></p>
-            <p class="text-gray-700 mb-4">Asegúrate de que no haya errores en la instalación.</p>
-        </div>
+                <pre><code class="language-jsx">// src/components/InteractiveButton.jsx
+import styled from '@emotion/styled';
+import { useState } from 'react';
 
-        <!-- 10. Creación Componentes de Página -->
-        <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">10. Creación Componentes de Página</h3>
-            <p class="text-gray-700 mb-4"><strong>Creando Páginas</strong></p>
-            <p class="text-gray-700 mb-4">Creamos tres páginas: <code>Home</code>, <code>Tasks</code>, y <code>AddTask</code>.</p>
-            <p class="text-gray-700 mb-4"><strong><code>src/pages/Home.jsx</code>:</strong></p>
-            <div class="code-block">
-                <pre><code class="language-jsx">function Home() {
-  return (
-    <div>
-      <h1>Bienvenido a la Aplicación de Tareas</h1>
-      <p>Esta es la página principal.</p>
-    </div>
-  );
-}
+const InteractiveButton = styled.button`
+  background: ${props => props.isActive ? '#2ecc71' : '#e74c3c'};
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
 
-export default Home;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong><code>src/pages/Tasks.jsx</code>:</strong></p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import TaskList from '../components/TaskList';
-
-function Tasks() {
-  return (
-    <div>
-      <h1>Mis Tareas</h1>
-      <TaskList />
-    </div>
-  );
-}
-
-export default Tasks;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong><code>src/pages/AddTask.jsx</code>:</strong></p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import TaskForm from '../components/TaskForm';
-
-function AddTask() {
-  const handleAddTask = (taskText) => {
-    console.log('Tarea agregada:', taskText);
-  };
-
-  return (
-    <div>
-      <h1>Agregar Nueva Tarea</h1>
-      <TaskForm onAddTask={handleAddTask} />
-    </div>
-  );
-}
-
-export default AddTask;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Componentes Reutilizados</strong></p>
-            <p class="text-gray-700 mb-4">Si no tienes <code>TaskList</code> o <code>TaskForm</code>, aquí están versiones simplificadas:</p>
-            <p class="text-gray-700 mb-4"><strong><code>src/components/TaskList.jsx</code>:</strong></p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { useState } from 'react';
-import TaskItem from './TaskItem';
-
-function TaskList() {
-  const [tasks] = useState([
-    { id: 1, text: 'Aprender React', completed: false },
-    { id: 2, text: 'Hacer un proyecto', completed: true },
-    { id: 3, text: 'Descansar', completed: false },
-  ]);
-
-  return (
-    <div>
-      <ul>
-        {tasks.map((task) => (
-          <TaskItem
-                  key={task.id}
-                  id={task.id}
-                  task={task.text}
-                  completed={task.completed}
-          />
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default TaskList;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong><code>src/components/TaskItem.jsx</code>:</strong></p>
-            <div class="code-block">
-                <pre><code class="language-jsx">function TaskItem({ task, id, completed }) {
-  return (
-    <li style={{ textDecoration: completed ? 'line-through' : 'none' }}>
-      {task} (ID: {id})
-                    </li>
-                    );
-}
-
-export default TaskItem;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong><code>src/components/TaskForm.jsx</code>:</strong></p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { useState } from 'react';
-
-function TaskForm({ onAddTask }) {
-  const [taskText, setTaskText] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (taskText.trim()) {
-      onAddTask(taskText);
-      setTaskText('');
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-              type="text"
-              value={taskText}
-              onChange={(e) => setTaskText(e.target.value)}
-        placeholder="Escribe una tarea"
-      />
-      <button type="submit">Agregar</button>
-    </form>
-  );
-}
-
-export default TaskForm;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li>Cada página representa una vista distinta.</li>
-                <li>Reutilizamos <code>TaskList</code> y <code>TaskForm</code> para modularidad.</li>
-            </ul>
-        </div>
-
-        <!-- 11. BrowserRouter, Routes y Route -->
-        <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">11. BrowserRouter, Routes y Route</h3>
-            <p class="text-gray-700 mb-4"><strong>Configurando el Enrutamiento</strong></p>
-            <p class="text-gray-700 mb-4">Usamos <code>BrowserRouter</code>, <code>Routes</code>, y <code>Route</code> para definir rutas.</p>
-            <p class="text-gray-700 mb-4"><strong>Paso 1: Configurar BrowserRouter</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/main.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App.jsx';
-import './index.css';
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
-);</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 2: Definir las rutas en App.jsx</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/App.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { Routes, Route, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import Tasks from './pages/Tasks';
-import AddTask from './pages/AddTask';
-
-function App() {
-  return (
-    <div>
-      <nav style={{ marginBottom: '20px' }}>
-        <ul style={{ listStyle: 'none', display: 'flex', gap: '20px' }}>
-          <li>
-            <Link to="/">Inicio</Link>
-          </li>
-          <li>
-            <Link to="/tasks">Tareas</Link>
-          </li>
-          <li>
-            <Link to="/add-task">Agregar Tarea</Link>
-          </li>
-        </ul>
-        </nav>
-        <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/add-task" element={<AddTask />} />
-      </Routes>
-    </div>
-  );
-}
-
-export default App;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li><code>BrowserRouter</code> habilita el enrutamiento.</li>
-                <li><code>Routes</code> y <code>Route</code> mapean URLs a componentes.</li>
-                <li><code>Link</code> permite navegación sin recargar la página.</li>
-            </ul>
-        </div>
-
-        <!-- 12. Error 404 Personalizado (con BrowserRouter) -->
-        <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">12. Error 404 Personalizado (con BrowserRouter)</h3>
-            <p class="text-gray-700 mb-4"><strong>Creando una Página de Error 404</strong></p>
-            <p class="text-gray-700 mb-4">Mostramos una página personalizada para rutas inexistentes.</p>
-            <p class="text-gray-700 mb-4"><strong>Paso 1: Crear el componente de error</strong></p>
-            <p class="text-gray-700 mb-4"><code>src/pages/NotFound.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">function NotFound() {
-  return (
-    <div>
-      <h1>Error 404 - Página No Encontrada</h1>
-      <p>Lo sentimos, la página que estás buscando no existe.</p>
-      <Link to="/">Volver al Inicio</Link>
-    </div>
-  );
-}
-
-export default NotFound;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 2: Agregar la ruta 404</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/App.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { Routes, Route, Link } from 'react-router-dom';
-import Home from './pages/Home';
-import Tasks from './pages/Tasks';
-import AddTask from './pages/AddTask';
-import NotFound from './pages/NotFound';
-
-function App() {
-  return (
-    <div>
-      <nav style={{ marginBottom: '20px' }}>
-        <ul style={{ listStyle: 'none', display: 'flex', gap: '20px' }}>
-          <li>
-            <Link to="/">Inicio</Link>
-          </li>
-          <li>
-            <Link to="/tasks">Tareas</Link>
-          </li>
-          <li>
-            <Link to="/add-task">Agregar Tarea</Link>
-          </li>
-        </ul>
-        </nav>
-        <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/add-task" element={<AddTask />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </div>
-  );
-}
-
-export default App;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li><code>path="*"</code> captura cualquier URL no definida.</li>
-                <li><code>NotFound</code> muestra un mensaje y un enlace para volver al inicio.</li>
-            </ul>
-            <p class="text-gray-700 mt-4"><strong>Prueba:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li>Ve a <code>http://localhost:5173/ruta-inexistente</code> y verifica la página de error 404.</li>
-            </ul>
-        </div>
-
-        <!-- 13. React Router DOM con createBrowserRouter y RouterProvider -->
-        <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">13. React Router DOM con createBrowserRouter y RouterProvider</h3>
-            <p class="text-gray-700 mb-4"><strong>Configuración createBrowserRouter y RouterProvider</strong></p>
-            <p class="text-gray-700 mb-4"><code>createBrowserRouter</code> define rutas programáticamente, y <code>RouterProvider</code> conecta el router con la aplicación.</p>
-            <p class="text-gray-700 mb-4"><strong>Paso 1: Crear las rutas</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/main.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from './pages/Home';
-import Tasks from './pages/Tasks';
-import AddTask from './pages/AddTask';
-import NotFound from './pages/NotFound';
-import './index.css';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Home />,
-  },
-  {
-    path: '/tasks',
-    element: <Tasks />,
-  },
-  {
-    path: '/add-task',
-    element: <AddTask />,
-  },
-  {
-    path: '*',
-    element: <NotFound />,
-  },
-]);
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 2: Actualizar App.jsx</strong></p>
-            <p class="text-gray-700 mb-4">Simplifica <code>src/App.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">function App() {
-  return (
-    <div>
-      <h1>Mi Aplicación de Tareas</h1>
-    </div>
-  );
-}
-
-export default App;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li><code>createBrowserRouter</code> define rutas como un array de objetos.</li>
-                <li><code>RouterProvider</code> conecta el router a la aplicación.</li>
-                <li>El enrutamiento se maneja en <code>main.jsx</code>, no en <code>App.jsx</code>.</li>
-            </ul>
-        </div>
-
-        <!-- 14. Creación de Layout y Outlet -->
-        <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">14. Creación de Layout y Outlet</h3>
-            <p class="text-gray-700 mb-4"><strong>¿Qué es un Layout y Outlet?</strong></p>
-            <p class="text-gray-700 mb-4">Un layout define una estructura común (como una barra de navegación), y <code>Outlet</code> indica dónde se renderizan las rutas hijas.</p>
-            <p class="text-gray-700 mb-4"><strong>Paso 1: Crear un componente de layout</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/App.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { Outlet, Link } from 'react-router-dom';
-
-function App() {
-  return (
-    <div>
-      <nav className="mb-5">
-        <ul className="list-none flex gap-5">
-          <li>
-            <Link to="/" className="text-blue-600 hover:text-blue-800">Inicio</Link>
-          </li>
-          <li>
-            <Link to="/tasks" className="text-blue-600 hover:text-blue-800">Tareas</Link>
-          </li>
-          <li>
-            <Link to="/add-task" className="text-blue-600 hover:text-blue-800">Agregar Tarea</Link>
-          </li>
-        </ul>
-      </nav>
-      <Outlet />
-    </div>
-  );
-}
-
-export default App;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 2: Actualizar las rutas</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/main.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from './App';
-import Home from './pages/Home';
-import Tasks from './pages/Tasks';
-import AddTask from './pages/AddTask';
-import NotFound from './pages/NotFound';
-import './index.css';
-
-const router = createBrowserRouter([
-  {
-    element: <App />,
-    children: [
-      {
-        path: '/',
-        element: <Home />,
-      },
-      {
-        path: '/tasks',
-        element: <Tasks />,
-      },
-      {
-        path: '/add-task',
-        element: <AddTask />,
-      },
-      {
-        path: '*',
-        element: <NotFound />,
-      },
-    ],
-  },
-]);
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li><code>App</code> actúa como layout con una barra de navegación y <code>Outlet</code>.</li>
-                <li><code>Outlet</code> renderiza las rutas hijas.</li>
-                <li>Rutas definidas como <code>children</code> en <code>main.jsx</code>.</li>
-            </ul>
-        </div>
-
-        <!-- 15. NavLink, Link -->
-        <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">15. NavLink, Link</h3>
-            <p class="text-gray-700 mb-4"><strong>¿Qué son Link y NavLink?</strong></p>
-            <p class="text-gray-700 mb-4"><code>Link</code> genera enlaces para navegación, y <code>NavLink</code> añade estilos para rutas activas.</p>
-            <p class="text-gray-700 mb-4"><strong>Paso 1: Usar NavLink</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/App.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { Outlet, NavLink } from 'react-router-dom';
-
-function App() {
-  return (
-    <div>
-      <nav className="mb-5">
-        <ul className="list-none flex gap-5">
-          <li>
-            <NavLink
-                    to="/"
-                    className={({ isActive }) => isActive ? 'text-red-500 font-bold' : 'text-blue-600 hover:text-blue-800'}
-            >
-              Inicio
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-                    to="/tasks"
-                    className={({ isActive }) => isActive ? 'text-red-500 font-bold' : 'text-blue-600 hover:text-blue-800'}
-            >
-              Tareas
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-                    to="/add-task"
-                    className={({ isActive }) => isActive ? 'text-red-500 font-bold' : 'text-blue-600 hover:text-blue-800'}
-            >
-              Agregar Tarea
-            </NavLink>
-          </li>
-        </ul>
-      </nav>
-      <Outlet />
-    </div>
-  );
-}
-
-export default App;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 2: Usar Link en las páginas</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/pages/Tasks.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { Link } from 'react-router-dom';
-import TaskList from '../components/TaskList';
-
-function Tasks() {
-  return (
-    <div>
-      <h1>Mis Tareas</h1>
-      <TaskList />
-      <p>
-        <Link to="/tasks/1" className="text-blue-600 hover:text-blue-800">Ver detalles de la tarea 1</Link>
-      </p>
-    </div>
-  );
-}
-
-export default Tasks;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li><code>NavLink</code> aplica estilos dinámicos con <code>isActive</code>.</li>
-                <li><code>Link</code> se usa para navegación simple.</li>
-            </ul>
-        </div>
-
-        <!-- 16. Parámetros Path (useParams) -->
-        <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">16. Parámetros Path (useParams)</h3>
-            <p class="text-gray-700 mb-4"><strong>¿Qué es useParams?</strong></p>
-            <p class="text-gray-700 mb-4"><code>useParams</code> accede a parámetros dinámicos de la URL (e.g., <code>/tasks/:id</code>).</p>
-            <p class="text-gray-700 mb-4"><strong>Paso 1: Crear página de detalles</strong></p>
-            <p class="text-gray-700 mb-4"><code>src/pages/TaskDetail.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { useParams } from 'react-router-dom';
-
-function TaskDetail() {
-  const { id } = useParams();
-
-  const task = {
-    id,
-    text: `Tarea ${id}`,
-    description: `Descripción de la tarea ${id}`,
-    completed: false,
-  };
-
-  return (
-    <div>
-      <h1>Detalles de la Tarea</h1>
-      <h2>{task.text}</h2>
-      <p>ID: {task.id}</p>
-      <p>Descripción: {task.description}</p>
-      <p>Estado: {task.completed ? 'Completada' : 'Pendiente'}</p>
-    </div>
-  );
-}
-
-export default TaskDetail;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 2: Agregar la ruta dinámica</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/main.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from './App';
-import Home from './pages/Home';
-import Tasks from './pages/Tasks';
-import AddTask from './pages/AddTask';
-import TaskDetail from './pages/TaskDetail';
-import NotFound from './pages/NotFound';
-import './index.css';
-
-const router = createBrowserRouter([
-  {
-    element: <App />,
-    children: [
-      {
-        path: '/',
-        element: <Home />,
-      },
-      {
-        path: '/tasks',
-        element: <Tasks />,
-      },
-      {
-        path: '/tasks/:id',
-        element: <TaskDetail />,
-      },
-      {
-        path: '/add-task',
-        element: <AddTask />,
-      },
-      {
-        path: '*',
-        element: <NotFound />,
-      },
-    ],
-  },
-]);
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 3: Actualizar TaskList</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/components/TaskList.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import TaskItem from './TaskItem';
-
-function TaskList() {
-  const [tasks] = useState([
-    { id: 1, text: 'Aprender React', completed: false },
-    { id: 2, text: 'Hacer un proyecto', completed: true },
-    { id: 3, text: 'Descansar', completed: false },
-  ]);
-
-  return (
-    <div>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            <TaskItem id={task.id} task={task.text} completed={task.completed} />
-            <Link to={`/tasks/${task.id}`} className="text-blue-600 hover:text-blue-800">Ver Detalles</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default TaskList;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li><code>/tasks/:id</code> define un parámetro dinámico.</li>
-                <li><code>useParams</code> extrae el <code>id</code> de la URL.</li>
-                <li><code>Link</code> genera enlaces dinámicos a detalles de tareas.</li>
-            </ul>
-            <p class="text-gray-700 mt-4"><strong>Prueba:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li>Ve a <code>/tasks</code>, haz clic en "Ver Detalles" y verifica los detalles de la tarea.</li>
-            </ul>
-        </div>
-
-        <!-- 17. Parámetros Querystring (useLocation, URLSearchParams) -->
-        <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">17. Parámetros Querystring (useLocation, URLSearchParams)</h3>
-            <p class="text-gray-700 mb-4"><strong>¿Qué son useLocation y URLSearchParams?</strong></p>
-            <p class="text-gray-700 mb-4"><code>useLocation</code> accede a la ubicación actual, y <code>URLSearchParams</code> parsea parámetros de querystring.</p>
-            <p class="text-gray-700 mb-4"><strong>Paso 1: Agregar parámetros a Tasks</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/pages/Tasks.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { useLocation, Link } from 'react-router-dom';
-import TaskList from '../components/TaskList';
-
-function Tasks() {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const sort = queryParams.get('sort') || 'asc';
-
-  return (
-    <div>
-      <h1>Mis Tareas</h1>
-      <p>Orden: {sort === 'asc' ? 'Ascendente' : 'Descendente'}</p>
-      <div>
-        <Link to="/tasks?sort=asc" className="text-blue-600 hover:text-blue-800">Ordenar Ascendente</Link>{' '}
-        <Link to="/tasks?sort=desc" className="text-blue-600 hover:text-blue-800">Ordenar Descendente</Link>
-      </div>
-      <TaskList sort={sort} />
-    </div>
-  );
-}
-
-export default Tasks;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 2: Actualizar TaskList</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/components/TaskList.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import TaskItem from './TaskItem';
-
-function TaskList({ sort }) {
-  const [tasks] = useState([
-    { id: 1, text: 'Aprender React', completed: false },
-    { id: 2, text: 'Hacer un proyecto', completed: true },
-    { id: 3, text: 'Descansar', completed: false },
-  ]);
-
-  const sortedTasks = [...tasks].sort((a, b) => {
-    if (sort === 'asc') {
-      return a.text.localeCompare(b.text);
-    } else {
-      return b.text.localeCompare(a.text);
-    }
-  });
-
-  return (
-    <div>
-      <ul>
-        {sortedTasks.map((task) => (
-          <li key={task.id}>
-            <TaskItem id={task.id} task={task.text} completed={task.completed} />
-            <Link to={`/tasks/${task.id}`} className="text-blue-600 hover:text-blue-800">Ver Detalles</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default TaskList;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li><code>useLocation</code> accede a <code>location.search</code>.</li>
-                <li><code>URLSearchParams</code> extrae el parámetro <code>sort</code>.</li>
-                <li><code>TaskList</code> ordena tareas según <code>sort</code>.</li>
-            </ul>
-            <p class="text-gray-700 mt-4"><strong>Prueba:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li>Ve a <code>/tasks?sort=asc</code> y <code>/tasks?sort=desc</code> para verificar el orden.</li>
-            </ul>
-        </div>
-
-        <!-- 18. Página de Error por Ruta -->
-        <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">18. Página de Error por Ruta</h3>
-            <p class="text-gray-700 mb-4"><strong>Manejando Errores por Ruta</strong></p>
-            <p class="text-gray-700 mb-4">Definimos un componente de error para rutas específicas. Modifica <code>src/pages/TaskDetail.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { useParams } from 'react-router-dom';
-
-function TaskDetail() {
-  const { id } = useParams();
-
-  const tasks = [
-    { id: '1', text: 'Tarea 1', description: 'Descripción de la tarea 1', completed: false },
-    { id: '2', text: 'Tarea 2', description: 'Descripción de la tarea 2', completed: true },
-  ];
-
-  const task = tasks.find((t) => t.id === id);
-
-  if (!task) {
-    throw new Error(`Tarea con ID ${id} no encontrada`);
+  &:hover {
+    opacity: 0.9;
   }
 
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
+function ToggleButton() {
+  const [isActive, setIsActive] = useState(false);
+
   return (
-    <div>
-      <h1>Detalles de la Tarea</h1>
-      <h2>{task.text}</h2>
-      <p>ID: {task.id}</p>
-      <p>Descripción: {task.description}</p>
-      <p>Estado: {task.completed ? 'Completada' : 'Pendiente'}</p>
-    </div>
+    &lt;div className="toggle-button-container text-center"&gt;
+      &lt;InteractiveButton
+        isActive={isActive}
+        onClick={() =&gt; setIsActive(!isActive)}
+        className="toggle-button"
+      &gt;
+        &lt;span className="button-text"&gt;
+          {isActive ? 'Activado' : 'Desactivado'}
+        &lt;/span&gt;
+      &lt;/InteractiveButton&gt;
+    &lt;/div&gt;
   );
 }
 
-export default TaskDetail;</code></pre>
+export default ToggleButton;</code></pre>
             </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 2: Definir componente de error</strong></p>
-            <p class="text-gray-700 mb-4"><code>src/pages/ErrorPage.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import { useRouteError } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-
-function ErrorPage() {
-  const error = useRouteError();
-
-  return (
-    <div>
-      <h1>Error</h1>
-      <p>{error.message || 'Ocurrió un error inesperado.'}</p>
-      <Link to="/tasks" className="text-blue-600 hover:text-blue-800">Volver a Tareas</Link>
-    </div>
-  );
-}
-
-export default ErrorPage;</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Paso 3: Asignar el componente de error</strong></p>
-            <p class="text-gray-700 mb-4">Modifica <code>src/main.jsx</code>:</p>
-            <div class="code-block">
-                <pre><code class="language-jsx">import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from './App';
-import Home from './pages/Home';
-import Tasks from './pages/Tasks';
-import AddTask from './pages/AddTask';
-import TaskDetail from './pages/TaskDetail';
-import NotFound from './pages/NotFound';
-import ErrorPage from './pages/ErrorPage';
-import './index.css';
-
-const router = createBrowserRouter([
-  {
-    element: <App />,
-    children: [
-      {
-        path: '/',
-        element: <Home />,
-      },
-      {
-        path: '/tasks',
-        element: <Tasks />,
-      },
-      {
-        path: '/tasks/:id',
-        element: <TaskDetail />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: '/add-task',
-        element: <AddTask />,
-      },
-      {
-        path: '*',
-        element: <NotFound />,
-      },
-    ],
-  },
-]);
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);</code></pre>
-            </div>
-            <p class="text-gray-700 mt-4"><strong>Explicación:</strong></p>
-            <ul class="list-disc list-inside text-gray-700 mb-4">
-                <li><code>TaskDetail</code> lanza un error si la tarea no existe.</li>
-                <li><code>ErrorPage</code> usa <code>useRouteError</code> para mostrar el mensaje de error.</li>
-                <li><code>errorElement</code> asigna <code>ErrorPage</code> a la ruta <code>/tasks/:id</code>.</li>
-            </ul>
         </div>
 
-        <!-- Resumen -->
+        <!-- 12. Nested Selectors -->
         <div class="mb-8">
-            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">Resumen</h3>
-            <p class="text-gray-700 mb-4">Hemos cubierto:</p>
-            <ul class="list-decimal list-inside text-gray-700 mb-4">
-                <li>Instalación de <code>@emotion/react</code> y <code>@emotion/styled</code>.</li>
-                <li>Creación de un título estilizado en <code>Header</code>.</li>
-                <li>Creación de un círculo en <code>TaskCounter</code>.</li>
-                <li>Creación de un triángulo en <code>TaskItem</code>.</li>
-                <li>Estilización de un input en <code>TaskForm</code>.</li>
-                <li>Uso de props en styled components.</li>
-                <li>Almacenamiento de estilos en un archivo reutilizable.</li>
-                <li>Configuración inicial del proyecto con Vite.</li>
-                <li>Instalación de React Router DOM.</li>
-                <li>Creación de componentes de página.</li>
-                <li>Configuración de enrutamiento con <code>BrowserRouter</code>.</li>
-                <li>Página de error 404 personalizada.</li>
-                <li>Uso de <code>createBrowserRouter</code> y <code>RouterProvider</code>.</li>
-                <li>Creación de un layout con <code>Outlet</code>.</li>
-                <li>Uso de <code>NavLink</code> y <code>Link</code>.</li>
-                <li>Manejo de parámetros de ruta con <code>useParams</code>.</li>
-                <li>Manejo de querystrings con <code>useLocation</code> y <code>URLSearchParams</code>.</li>
-                <li>Manejo de errores por ruta.</li>
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">12. Nested Selectors</h3>
+            <p class="text-gray-700 mb-4">Uso de selectores anidados:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// src/components/Card.jsx
+import styled from '@emotion/styled';
+
+const Card = styled.div`
+  padding: 1rem;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: #7f8c8d;
+    line-height: 1.5;
+
+    &:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+`;</code></pre>
+            </div>
+        </div>
+
+        <!-- 13. Global Styles -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">13. Global Styles</h3>
+            <p class="text-gray-700 mb-4">Configuración de estilos globales:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// src/styles/global.js
+import { Global, css } from '@emotion/react';
+
+const globalStyles = css`
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+`;
+
+// App.jsx
+function App() {
+  return (
+    &lt;&gt;
+      &lt;Global styles={globalStyles} /&gt;
+      {/* resto de la aplicación */}
+    &lt;&gt;
+  );
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- 14. CSS Helper Functions -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">14. CSS Helper Functions</h3>
+            <p class="text-gray-700 mb-4">Creando funciones auxiliares para estilos:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// src/components/Badge.jsx
+import styled from '@emotion/styled';
+
+const getColor = (variant) => {
+  switch (variant) {
+    case 'primary': return '#3498db';
+    case 'success': return '#2ecc71';
+    case 'warning': return '#f1c40f';
+    case 'danger': return '#e74c3c';
+    default: return '#95a5a6';
+  }
+};
+
+const Badge = styled.span`
+  background-color: ${props => getColor(props.variant)};
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+`;</code></pre>
+            </div>
+        </div>
+
+        <!-- 15. Conditional Styling -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">15. Conditional Styling</h3>
+            <p class="text-gray-700 mb-4">Estilos condicionales basados en props:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// src/components/Alert.jsx
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
+
+const Alert = styled.div`
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+
+  ${props => {
+    switch (props.type) {
+      case 'success':
+        return css`
+          background-color: #d4edda;
+          color: #155724;
+          border: 1px solid #c3e6cb;
+        `;
+      case 'error':
+        return css`
+          background-color: #f8d7da;
+          color: #721c24;
+          border: 1px solid #f5c6cb;
+        `;
+      default:
+        return css`
+          background-color: #cce5ff;
+          color: #004085;
+          border: 1px solid #b8daff;
+        `;
+    }
+  }}
+`;</code></pre>
+            </div>
+        </div>
+
+        <!-- 16. Styled Components con Referencias -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">16. Styled Components con Referencias</h3>
+            <p class="text-gray-700 mb-4">Uso de refs con styled components:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// src/components/AutoFocusInput.jsx
+import { useRef, useEffect } from 'react';
+import styled from '@emotion/styled';
+
+const FocusInput = styled.input`
+  padding: 0.5rem;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+
+  &:focus {
+    border-color: #3498db;
+    outline: none;
+  }
+`;
+
+function AutoFocusInput() {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  return (
+    &lt;div className="auto-focus-input-container text-center py-4"&gt;
+      &lt;label htmlFor="autoFocusInput" className="block text-sm font-medium mb-2"&gt;
+        Campo con Auto-Focus
+      &lt;/label&gt;
+      &lt;FocusInput
+        ref={inputRef}
+        id="autoFocusInput"
+        placeholder="Me enfoco automáticamente"
+        className="auto-focus-input"
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AutoFocusInput;</code></pre>
+            </div>
+        </div>
+
+        <!-- 17. Animaciones Avanzadas -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">17. Animaciones Avanzadas</h3>
+            <p class="text-gray-700 mb-4">Implementación de animaciones complejas:</p>
+            <div class="code-block">
+                <pre><code class="language-jsx">// src/components/AnimatedComponents.jsx
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
+
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const AnimatedButton = styled.button`
+  background: #3498db;
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    animation: ${pulse} 1s infinite;
+  }
+`;
+
+const LoadingSpinner = styled.div`
+  width: 30px;
+  height: 30px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  animation: ${rotate} 1s linear infinite;
+`;</code></pre>
+            </div>
+        </div>
+
+        <!-- 18. Optimización y Mejores Prácticas -->
+        <div class="mb-8">
+            <h3 class="text-xl md:text-2xl font-semibold text-blue-600 mb-4">18. Optimización y Mejores Prácticas</h3>
+            <p class="text-gray-700 mb-4">Recomendaciones para un código más eficiente:</p>
+            <ul class="list-disc list-inside text-gray-700 mb-4">
+                <li>Evitar la creación de styled components dentro de otros componentes</li>
+                <li>Usar props específicas en lugar de pasar todo el objeto theme</li>
+                <li>Reutilizar estilos comunes</li>
+                <li>Mantener los styled components en archivos separados</li>
             </ul>
+            <div class="code-block">
+                <pre><code class="language-jsx">// styles/common.js
+import styled from '@emotion/styled';
+import { css } from '@emotion/react';
+
+export const flexCenter = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Container = styled.div`
+  ${flexCenter}
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+`;
+
+// Ejemplo de uso en App.jsx
+import { Container } from './styles/common';
+
+function App() {
+  return (
+    &lt;Container&gt;
+      &lt;h1&gt;Mi Aplicación Optimizada&lt;/h1&gt;
+    &lt;/Container&gt;
+  );
+}</code></pre>
+            </div>
         </div>
     </section>
 </main>
 
 <!-- Footer -->
-<footer class="bg-blue-800 text-white py-4">
+<footer class="bg-blue-800 text-white py-4 mt-8">
     <div class="container mx-auto px-4 text-center">
-        <p>&copy; 2025 Tutorial de Desarrollo Frontend. Todos los derechos reservados.</p>
-        <div class="mt-2">
-            <a href="https://github.com" target="_blank" class="text-white hover:text-gray-300 mx-2">
-                <i class="fab fa-github"></i>
-            </a>
-            <a href="https://linkedin.com" target="_blank" class="text-white hover:text-gray-300 mx-2">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="https://twitter.com" target="_blank" class="text-white hover:text-gray-300 mx-2">
-                <i class="fab fa-twitter"></i>
-            </a>
-        </div>
+        <p>© 2025 Tutorial de React y Emotion - Todos los derechos reservados</p>
     </div>
 </footer>
 
