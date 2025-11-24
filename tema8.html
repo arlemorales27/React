@@ -6,6 +6,8 @@
     <title>React CRUD Clientes - Tutorial Paso a Paso</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Prism tema y estilos para bloques de código -->
+    <link href="./vendor/prism-tomorrow.min.css" rel="stylesheet">
     <style>
         html, body {height:100%; margin:0}
         body{display:flex; flex-direction:column}
@@ -23,14 +25,27 @@
         @media(min-width:1024px){ .logo-circle { padding:1rem; width:96px; height:96px; } .brand-title { font-size:2.25rem; } .brand-sub { font-size:1rem; } }
 
         /* Editor-like code block (similar to tema11) */
-        .code-editor { position: relative; padding: 0.75rem; background: linear-gradient(180deg,#07101a 0%, #0b1220 100%); border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); color: #e6eef8; margin-bottom: 1rem; }
-        .code-toolbar { padding: 0.35rem 0.6rem; background: transparent; display:flex; align-items:center; gap:.6rem; }
-        .file-label { color:#9aa8bb; font-weight:600; font-size:0.95rem; }
-        .code-editor pre { background: transparent; color: #dbe7f6; font-size:0.95rem; line-height:1.6; padding: .6rem; margin:0; overflow:auto; border-radius:6px; font-family: 'Fira Code', 'Courier New', monospace; }
-        .code-editor .copy-btn { margin-left: 8px; background: rgba(255,255,255,0.03); color:#cfe8ff; border:1px solid rgba(255,255,255,0.04); padding:6px 10px; border-radius:6px; cursor:pointer; font-weight:600; font-size:0.85rem; }
-        .code-editor .copy-btn:active { transform: translateY(1px); }
-        .code-editor .copy-btn:focus { outline: 2px solid rgba(125,211,252,0.18); }
-        @media (max-width: 640px) { .code-editor pre { font-size:0.85rem; } .file-label { font-size:0.82rem; } }
+        .code-editor { position: relative; padding: 0.5rem; background: linear-gradient(180deg,#07101a 0%, #0b1220 100%); border-radius: 12px; border: 1px solid rgba(255,255,255,0.04); color: #e6eef8; margin-bottom: 1rem; box-shadow: 0 6px 18px rgba(3,7,18,0.35); }
+        .code-toolbar { padding: 0.45rem 0.75rem; display:flex; align-items:center; gap:.6rem; justify-content:space-between; }
+        .file-label { color:#cfe8ff; font-weight:700; font-size:0.95rem; display:inline-flex; align-items:center; gap:0.6rem; }
+        .file-meta { color:#8fa9bf; font-size:0.8rem; }
+        .code-actions { display:flex; gap:0.5rem; align-items:center; }
+        .copy-btn { background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); color:#cfe8ff; border:1px solid rgba(255,255,255,0.04); padding:6px 10px; border-radius:8px; cursor:pointer; font-weight:600; font-size:0.85rem; display:inline-flex; gap:0.5rem; align-items:center; }
+        .copy-btn:active { transform: translateY(1px); }
+        .copy-btn:focus { outline: 2px solid rgba(125,211,252,0.18); }
+        .copy-btn .icon { opacity:0.9 }
+        .code-editor pre { background: transparent; color: #dbe7f6; font-size:0.92rem; line-height:1.6; padding: .6rem; margin:0; overflow:auto; border-radius:6px; font-family: 'Fira Code', 'Courier New', monospace; }
+        /* Small accent bar on top-left for filename */
+        .file-badge { display:inline-block; padding:4px 8px; border-radius:6px; background: linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03); font-size:0.78rem; color:#c9e6ff }
+        @media (max-width: 640px) { .code-editor pre { font-size:0.82rem; } .file-label { font-size:0.86rem; } }
+        /* Window controls and left badge */
+        .file-left { display:flex; align-items:center; gap:0.7rem; }
+        .window-controls { display:inline-flex; gap:6px; align-items:center; padding:4px; }
+        .window-dot { width:10px; height:10px; border-radius:9999px; display:inline-block; box-shadow: 0 1px 0 rgba(0,0,0,0.25); }
+        .window-dot.red { background:#ff5f56; }
+        .window-dot.yellow { background:#ffbd2e; }
+        .window-dot.green { background:#27c93f; }
+        .file-left .file-badge { font-size:0.78rem; padding:6px 10px; }
     </style>
 </head>
 <body class="bg-gray-50 font-sans text-gray-800">
@@ -63,145 +78,212 @@
 
 <main class="container mx-auto px-4 py-10 section-offset">
     <section class="bg-white rounded-2xl shadow p-6 md:p-8">
-        <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3"><i class="fa-solid fa-network-wired"></i> Tutorial paso a paso — Cliente HTTP en React (CRUD)</h2>
+        <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-4 flex items-center gap-3"><i class="fa-solid fa-network-wired"></i> Tutorial paso a paso — Cliente HTTP en React usando <code>axios</code> (CRUD)</h2>
 
-        <p class="text-gray-700 mb-4">En este tutorial crearemos un cliente HTTP en React para realizar operaciones CRUD (Create, Read, Update, Delete) contra una API REST. Cubrimos setup, implementación con <code>fetch</code> y <code>axios</code>, componentes, manejo de errores, optimizaciones y pruebas.</p>
+        <p class="text-gray-700 mb-4">Este tutorial muestra cómo consumir una API REST completa (operaciones Create, Read, Update, Delete) desde una aplicación React usando <strong>axios</strong>. Verás: instalación, cliente centralizado, componentes reutilizables, manejo de estado, errores, loading y buenas prácticas.</p>
 
-        <h3 class="text-lg font-semibold text-blue-700 mt-6">1) Setup del proyecto</h3>
-        <p class="text-gray-700">Crea una app con Vite (recomendada) o Create React App. Instalaremos Tailwind para estilos y <code>axios</code> como cliente opcional.</p>
-        <div class="codecard editor-bg rounded-xl p-4 mb-4">
-            <div class="editor-code">
-                <span class="com"># Terminal (Vite)</span><br>
-                <span class="kw">npm</span> <span class="fn">create</span> <span class="str">vite@latest</span> <span class="var">cliente-crud</span> <span class="str">-- --template react</span><br>
-                <span class="kw">cd</span> <span class="var">cliente-crud</span><br>
-                <span class="kw">npm</span> <span class="fn">install</span><br>
-                <span class="kw">npm</span> <span class="fn">install</span> <span class="str">axios</span> <span class="str">tailwindcss</span>
-            </div>
-        </div>
+        <ol class="list-decimal pl-6 space-y-4 text-gray-700">
+            <li>
+                <h3 class="text-lg font-semibold text-blue-700 mt-2">1) Instalación y preparación</h3>
+                <p>Instala <code>axios</code> en tu proyecto y, opcionalmente, <code>clsx</code> para clases condicionales.</p>
+                <div class="code-editor">
+                    <div class="code-toolbar"><span class="file-label">Terminal</span></div>
+                    <pre><code class="language-bash"># desde la carpeta del proyecto
+npm install axios
+# opcional: utilidades
+npm install clsx
+</code></pre>
+                </div>
+                <p class="text-sm text-slate-500">Nota: usamos npm en los ejemplos; adapta a <code>yarn</code> o <code>pnpm</code> según tu flujo.</p>
+            </li>
 
-        <h3 class="text-lg font-semibold text-blue-700 mt-6">2) Cliente de API (api.js)</h3>
-        <p class="text-gray-700">Creamos un archivo <code>src/api.js</code> que encapsule las llamadas HTTP. Usaremos <code>fetch</code> y también mostraremos la versión con <code>axios</code>. Además añadimos manejo básico de errores y timeout con AbortController.</p>
+            <li>
+                <h3 class="text-lg font-semibold text-blue-700 mt-2">2) Cliente centralizado: <code>src/api.js</code></h3>
+                <p>Creamos un cliente axios centralizado que configura la base URL, timeout, y maneja errores globales (interceptors). Esto facilita cambiar endpoints y probar/mocks.</p>
+                <div class="code-editor">
+                    <div class="code-toolbar"><span class="file-label">src/api.js</span></div>
+                    <pre><code class="language-js">// src/api.js
+import axios from 'axios';
 
-        <div class="code-editor">
-            <div class="code-toolbar"><span class="file-label">src/api.js</span></div>
-            <pre><code class="language-js">// src/api.js (fetch + AbortController)
-const BASE = '/api/clientes';
+const api = axios.create({
+  baseURL: '/api/clientes', // ajusta según tu backend
+  timeout: 8000,
+  headers: { 'Content-Type': 'application/json' }
+});
 
-export async function request(path, opts = {}) {
-  const { signal } = opts;
-  try {
-    const res = await fetch(BASE + path, opts);
-    if (!res.ok) {
-      const txt = await res.text();
-      throw new Error(`HTTP ${res.status} - ${txt || res.statusText}`);
+// Interceptor para responses: normalizar errores
+api.interceptors.response.use(
+  res =&gt; res,
+  err =&gt; {
+    // err puede venir de timeout, network o respuesta 4xx/5xx
+    if (err.response) {
+      // Respuesta recibida con código de estado fuera de 2xx
+      const { status, data } = err.response;
+      const message = data && data.message ? data.message : err.response.statusText;
+      return Promise.reject({ status, message, original: err });
     }
-    return await res.json();
-  } catch (e) {
-    if (e.name === 'AbortError') throw e;
-    console.error('api request error', e);
-    throw e;
+    if (err.code === 'ECONNABORTED') {
+      return Promise.reject({ status: 'timeout', message: 'La petición excedió el tiempo permitido', original: err });
+    }
+    return Promise.reject({ status: 'network', message: err.message, original: err });
   }
+);
+
+// Funciones CRUD
+export async function getClientes(signal) {
+  const res = await api.get('/', { signal });
+  return res.data;
 }
 
-export async function getClientes(signal) { return await request('/', { method: 'GET', signal }); }
-export async function crearCliente(payload) { return await request('/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); }
-export async function actualizarCliente(id, payload) { return await request(`/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }); }
-export async function borrarCliente(id) { return await request(`/${id}`, { method: 'DELETE' }); }
+export async function getClienteById(id) {
+  const res = await api.get(`/${id}`);
+  return res.data;
+}
+
+export async function crearCliente(payload) {
+  const res = await api.post('/', payload);
+  return res.data;
+}
+
+export async function actualizarCliente(id, payload) {
+  const res = await api.put(`/${id}`, payload);
+  return res.data;
+}
+
+export async function borrarCliente(id) {
+  const res = await api.delete(`/${id}`);
+  return res.data;
+}
+
+export default api;
 </code></pre>
-        </div>
+                </div>
+                <div class="mt-2">
+                  <p class="font-medium">Explicación rápida:</p>
+                  <ul class="list-disc pl-6">
+                    <li><strong>axios.create</strong>: instancia con configuración por defecto (baseURL, headers, timeout).</li>
+                    <li><strong>Interceptors</strong>: capturan errores globalmente y normalizan la forma en que los manejamos en los componentes.</li>
+                    <li>Las funciones CRUD devuelven <code>res.data</code> para que los componentes trabajen directamente con los datos.</li>
+                  </ul>
+                </div>
+            </li>
 
-        <h3 class="text-lg font-semibold text-blue-700 mt-6">3) Componentes: ClienteForm y ClienteList</h3>
-        <p class="text-gray-700">Implementaremos dos componentes: un formulario controlado para crear/editar (<code>ClienteForm.jsx</code>) y una lista con acciones (<code>ClienteList.jsx</code>).</p>
+            <li>
+                <h3 class="text-lg font-semibold text-blue-700 mt-2">3) Modelo de datos y contrato</h3>
+                <p class="text-gray-700">Definamos la forma esperada de un cliente en ejemplos:</p>
+                <div class="code-editor">
+                    <div class="code-toolbar"><span class="file-label">Contrato (ejemplo)</span></div>
+                    <pre><code class="language-json">{
+  "id": "123",
+  "nombre": "Juan Perez",
+  "email": "juan@example.com",
+  "telefono": "+57 300 0000000"
+}
+</code></pre>
+                </div>
+                <p class="text-gray-700">Mantener un contrato claro ayuda al manejo de formularios y validaciones en el cliente.</p>
+            </li>
 
-        <div class="codecard editor-bg rounded-xl p-4 mb-4">
-            <div class="editor-code">
-                <span class="com">// src/ClienteForm.jsx</span><br>
-                <span class="kw">import</span> { <span class="var">useState</span>, <span class="var">useEffect</span> } <span class="kw">from</span> <span class="str">'react'</span>;<br>
-                <span class="kw">export default function</span> <span class="fn">ClienteForm</span>({ <span class="var">onSave</span>, <span class="var">initial</span> = null }) {<br>
-                &nbsp;&nbsp;<span class="kw">const</span> [<span class="var">nombre</span>, <span class="var">setNombre</span>] = <span class="fn">useState</span>(<span class="str">''</span>);<br>
-                &nbsp;&nbsp;<span class="kw">const</span> [<span class="var">email</span>, <span class="var">setEmail</span>] = <span class="fn">useState</span>(<span class="str">''</span>);<br>
-
-                &nbsp;&nbsp;<span class="fn">useEffect</span>(() =&gt; { if(initial){ setNombre(initial.nombre||''); setEmail(initial.email||''); } else { setNombre(''); setEmail(''); } }, [initial]);<br>
-
-                &nbsp;&nbsp;<span class="kw">function</span> <span class="fn">submit</span>(e){ e.preventDefault(); onSave({ nombre, email }); }
-
-                &nbsp;&nbsp;<span class="kw">return</span> (
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;form className="space-y-3" onSubmit={submit}&gt;
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;input className="w-full p-2 border rounded" value={nombre} onChange={e =&gt; setNombre(e.target.value)} placeholder="Nombre" required /&gt;
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;input className="w-full p-2 border rounded" value={email} onChange={e =&gt; setEmail(e.target.value)} placeholder="Email" type="email" required /&gt;
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="flex gap-2"&gt;&lt;button className="px-4 py-2 bg-blue-600 text-white rounded" type="submit"&gt;Guardar&lt;/button&gt;&lt;/div&gt;
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/form&gt;
-                &nbsp;&nbsp;);
-                }
-
-            </div>
-        </div>
-
-        <div class="code-editor">
-            <div class="code-toolbar"><span class="file-label">src/ClienteForm.jsx</span></div>
-            <pre><code class="language-jsx">// src/ClienteForm.jsx
+            <li>
+                <h3 class="text-lg font-semibold text-blue-700 mt-2">4) Componente: <code>ClienteForm.jsx</code> (crear/editar)</h3>
+                <p>Formulario controlado que acepta <code>initial</code> y un callback <code>onSave</code>. Escapamos JSX en el bloque de código para que aparezca correctamente en el HTML.</p>
+                <div class="code-editor">
+                    <div class="code-toolbar"><span class="file-label">src/ClienteForm.jsx</span></div>
+                    <pre><code class="language-jsx">// src/ClienteForm.jsx
 import { useState, useEffect } from 'react';
-export default function ClienteForm({ onSave, initial = null }) {
+
+export default function ClienteForm({ initial = null, onSave, saving = false }) {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
-  useEffect(() => { if(initial){ setNombre(initial.nombre||''); setEmail(initial.email||''); } else { setNombre(''); setEmail(''); } }, [initial]);
-  function submit(e){ e.preventDefault(); onSave({ nombre, email }); }
+  const [telefono, setTelefono] = useState('');
+
+  useEffect(() =&gt; {
+    if (initial) {
+      setNombre(initial.nombre || '');
+      setEmail(initial.email || '');
+      setTelefono(initial.telefono || '');
+    } else {
+      setNombre(''); setEmail(''); setTelefono('');
+    }
+  }, [initial]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onSave({ nombre, email, telefono });
+  }
+
   return (
-    <form className="space-y-3" onSubmit={submit}>
-      <input className="w-full p-2 border rounded" value={nombre} onChange={e => setNombre(e.target.value)} placeholder="Nombre" required />
-      <input className="w-full p-2 border rounded" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" type="email" required />
-      <div className="flex gap-2"><button className="px-4 py-2 bg-blue-600 text-white rounded" type="submit">Guardar</button></div>
-    </form>
+    &lt;form className="space-y-3" onSubmit={handleSubmit}&gt;
+      &lt;div&gt;
+        &lt;label className="block text-sm font-medium text-slate-700"&gt;Nombre&lt;/label&gt;
+        &lt;input className="w-full p-2 border rounded" value={nombre} onChange={e =&gt; setNombre(e.target.value)} required /&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;label className="block text-sm font-medium text-slate-700"&gt;Email&lt;/label&gt;
+        &lt;input type="email" className="w-full p-2 border rounded" value={email} onChange={e =&gt; setEmail(e.target.value)} required /&gt;
+      &lt;/div&gt;
+      &lt;div&gt;
+        &lt;label className="block text-sm font-medium text-slate-700"&gt;Teléfono&lt;/label&gt;
+        &lt;input className="w-full p-2 border rounded" value={telefono} onChange={e =&gt; setTelefono(e.target.value)} /&gt;
+      &lt;/div&gt;
+      &lt;div className="flex gap-2"&gt;
+        &lt;button className="px-4 py-2 bg-blue-600 text-white rounded" type="submit" disabled={saving}&gt;{saving ? 'Guardando...' : 'Guardar'}&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
   );
 }
 </code></pre>
-        </div>
+                </div>
+                <div>
+                  <p class="font-medium">Conceptos aplicados:</p>
+                  <ul class="list-disc pl-6">
+                    <li>Formulario controlado: el estado del formulario vive en React y se sincroniza con los inputs.</li>
+                    <li>Prop <code>initial</code>: permite reutilizar el formulario para crear y editar.</li>
+                    <li>Prop <code>saving</code>: deshabilita el botón para evitar doble envío.</li>
+                  </ul>
+                </div>
+            </li>
 
-        <h3 class="text-lg font-semibold text-blue-700 mt-6">4) Integración en App.jsx</h3>
-        <p class="text-gray-700">En el componente principal orquestamos llamadas a la API, manejamos estado y pasamos callbacks a los componentes.</p>
+            <li>
+                <h3 class="text-lg font-semibold text-blue-700 mt-2">5) Componente: <code>ClienteList.jsx</code> (listar y acciones)</h3>
+                <p>Lista de clientes con botones para editar y borrar. El borrado pide confirmación y notifica al contenedor principal para recargar la lista.</p>
+                <div class="code-editor">
+                    <div class="code-toolbar"><span class="file-label">src/ClienteList.jsx</span></div>
+                    <pre><code class="language-jsx">// src/ClienteList.jsx
+import React from 'react';
 
-        <div class="codecard editor-bg rounded-xl p-4 mb-4">
-            <div class="editor-code">
-                <span class="com">// src/App.jsx</span><br>
-                <span class="kw">import</span> { <span class="var">useState</span>, <span class="var">useEffect</span>, <span class="var">useCallback</span> } <span class="kw">from</span> <span class="str">'react'</span>;<br>
-                <span class="kw">import</span> { <span class="var">getClientes</span>, <span class="var">crearCliente</span>, <span class="var">actualizarCliente</span>, <span class="var">borrarCliente</span> } <span class="kw">from</span> <span class="str">'./api'</span>;<br>
-                <span class="kw">import</span> <span class="var">ClienteForm</span> <span class="kw">from</span> <span class="str">'./ClienteForm'</span>;<br>
-                <span class="kw">import</span> <span class="var">ClienteList</span> <span class="kw">from</span> <span class="str">'./ClienteList'</span>;<br>
+export default function ClienteList({ clientes = [], onEdit, onDelete, loading = false }) {
+  if (loading) return &lt;div&gt;Cargando...&lt;/div&gt;;
+  if (!clientes.length) return &lt;div&gt;No hay clientes.&lt;/div&gt;;
 
-                <span class="kw">export default function</span> <span class="fn">App</span>() {<br>
-                &nbsp;&nbsp;<span class="kw">const</span> [<span class="var">clientes</span>, <span class="var">setClientes</span>] = <span class="fn">useState</span>([]);<br>
-                &nbsp;&nbsp;<span class="kw">const</span> [<span class="var">editing</span>, <span class="var">setEditing</span>] = <span class="fn">useState</span>(null);<br>
+  return (
+    &lt;ul className="space-y-3"&gt;
+      {clientes.map(c =&gt; (
+        &lt;li key={c.id} className="p-3 border rounded flex items-center justify-between"&gt;
+          &lt;div&gt;
+            &lt;div className="font-semibold"&gt;{c.nombre}&lt;/div&gt;
+            &lt;div className="text-sm text-slate-500"&gt;{c.email} • {c.telefono}&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div className="flex gap-2"&gt;
+            &lt;button className="px-3 py-1 bg-yellow-500 text-white rounded" onClick={() =&gt; onEdit(c)}&gt;Editar&lt;/button&gt;
+            &lt;button className="px-3 py-1 bg-red-600 text-white rounded" onClick={() =&gt; onDelete(c.id)}&gt;Borrar&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  );
+}
+</code></pre>
+                </div>
+                <p>Buenas prácticas: componentes puros / sin estado para renderizar listas y delegar acciones al componente padre.</p>
+            </li>
 
-                &nbsp;&nbsp;<span class="kw">useEffect</span>(() =&gt; {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;const ac = <span class="kw">new</span> <span class="var">AbortController</span>();<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;getClientes(ac.signal).then(data =&gt; setClientes(data)).catch(err =&gt; { if(err.name!== 'AbortError') console.error(err); });<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;return () =&gt; ac.abort();<br>
-                &nbsp;&nbsp;}, []);
-
-                &nbsp;&nbsp;<span class="kw">const</span> <span class="var">reload</span> = <span class="fn">useCallback</span>(() =&gt; { getClientes().then(setClientes).catch(console.error); }, []);
-
-                &nbsp;&nbsp;<span class="kw">async function</span> <span class="fn">handleSave</span>(<span class="var">payload</span>){
-                &nbsp;&nbsp;&nbsp;&nbsp;try{ if(editing) await actualizarCliente(editing.id, payload); else await crearCliente(payload); setEditing(null); reload(); }
-                &nbsp;&nbsp;&nbsp;&nbsp;catch(e){ console.error(e); alert('Error guardando'); }
-                }
-
-                &nbsp;&nbsp;<span class="kw">async function</span> <span class="fn">handleDelete</span>(<span class="var">id</span>){ if(confirm('¿Borrar?')){ await borrarCliente(id); reload(); } }
-
-                &nbsp;&nbsp;<span class="kw">return</span> (
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;div className="max-w-3xl mx-auto space-y-6"&gt;
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;h1 className="text-2xl font-bold"&gt;Clientes&lt;/h1&gt;
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;ClienteForm onSave={handleSave} initial={editing} /&gt;
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;ClienteList clientes={clientes} onEdit={setEditing} onDelete={handleDelete} /&gt;
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
-                &nbsp;&nbsp;);
-                }
-
-            </div>
-        </div>
-
-        <div class="code-editor">
-            <div class="code-toolbar"><span class="file-label">src/App.jsx</span></div>
-            <pre><code class="language-jsx">// src/App.jsx
+            <li>
+                <h3 class="text-lg font-semibold text-blue-700 mt-2">6) Componente principal: <code>App.jsx</code> (orquestador)</h3>
+                <p>El componente principal se encarga de obtener la lista, manejar loading/errores, y pasar callbacks a los subcomponentes.</p>
+                <div class="code-editor">
+                    <div class="code-toolbar"><span class="file-label">src/App.jsx</span></div>
+                    <pre><code class="language-jsx">// src/App.jsx
 import { useState, useEffect, useCallback } from 'react';
 import { getClientes, crearCliente, actualizarCliente, borrarCliente } from './api';
 import ClienteForm from './ClienteForm';
@@ -209,47 +291,93 @@ import ClienteList from './ClienteList';
 
 export default function App(){
   const [clientes, setClientes] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [editing, setEditing] = useState(null);
-  useEffect(()=>{
-    const ac = new AbortController();
-    getClientes(ac.signal).then(data=>setClientes(data)).catch(err=>{ if(err.name !== 'AbortError') console.error(err); });
-    return ()=> ac.abort();
-  },[]);
-  const reload = useCallback(()=>{ getClientes().then(setClientes).catch(console.error); }, []);
-  async function handleSave(payload){ try{ if(editing) await actualizarCliente(editing.id, payload); else await crearCliente(payload); setEditing(null); reload(); } catch(e){ console.error(e); alert('Error guardando'); } }
-  async function handleDelete(id){ if(confirm('¿Borrar?')){ await borrarCliente(id); reload(); } }
+  const [saving, setSaving] = useState(false);
+
+  const load = useCallback(async () =&gt; {
+    setLoading(true); setError(null);
+    try{
+      const data = await getClientes();
+      setClientes(data);
+    }catch(err){
+      console.error(err);
+      setError(err.message || 'Error al cargar');
+    }finally{ setLoading(false); }
+  }, []);
+
+  useEffect(()=>{ load(); }, [load]);
+
+  async function handleSave(payload){
+    setSaving(true);
+    try{
+      if (editing) {
+        await actualizarCliente(editing.id, payload);
+      } else {
+        await crearCliente(payload);
+      }
+      setEditing(null);
+      await load();
+    }catch(err){
+      console.error(err);
+      alert(err.message || 'Error guardando');
+    }finally{ setSaving(false); }
+  }
+
+  async function handleDelete(id){
+    if (!confirm('¿Borrar este cliente?')) return;
+    try{
+      await borrarCliente(id);
+      await load();
+    }catch(err){
+      console.error(err);
+      alert(err.message || 'Error borrando');
+    }
+  }
+
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold">Clientes</h1>
-      <ClienteForm onSave={handleSave} initial={editing} />
-      <ClienteList clientes={clientes} onEdit={setEditing} onDelete={handleDelete} />
-    </div>
+    &lt;div className="max-w-3xl mx-auto space-y-6"&gt;
+      &lt;h1 className="text-2xl font-bold"&gt;Clientes&lt;/h1&gt;
+      &lt;ClienteForm onSave={handleSave} initial={editing} saving={saving} /&gt;
+      &lt;ClienteList clientes={clientes} onEdit={setEditing} onDelete={handleDelete} loading={loading} /&gt;
+      {error &amp;&amp; &lt;div className="text-red-600"&gt;{error}&lt;/div&gt;}
+    &lt;/div&gt;
   );
 }
 </code></pre>
-        </div>
+                </div>
+                <p>Comentarios:</p>
+                <ul class="list-disc pl-6 text-gray-700">
+                  <li>Usamos <code>loading</code> para mostrar estados y evitar cargas duplicadas.</li>
+                  <li>El patrón: operación &gt; setSaving(true) &gt; llamada API &gt; recarga o actualización local.</li>
+                  <li>Se podría optimizar con React Query/SWR para caching y revalidación automática.</li>
+                </ul>
+            </li>
 
-        <h3 class="text-lg font-semibold text-blue-700 mt-6">5) Manejo de errores, loading y usabilidad</h3>
-        <ul class="list-disc pl-6 text-gray-700 mb-4">
-            <li>Mostrar un spinner o estado <code>loading</code> mientras se cargan los clientes.</li>
-            <li>Capturar errores y mostrarlos en la UI con mensajes amigables.</li>
-            <li>Usar <code>AbortController</code> para cancelar requests en unmount o en nuevas búsquedas.</li>
-            <li>Deshabilitar botones mientras se realiza la petición para evitar doble envío.</li>
-        </ul>
+            <li>
+                <h3 class="text-lg font-semibold text-blue-700 mt-2">7) Manejo de errores y UX</h3>
+                <p class="text-gray-700">Puntos clave:</p>
+                <ul class="list-disc pl-6 text-gray-700">
+                  <li>Muestra mensajes de error amigables (no el stack trace).</li>
+                  <li>Deshabilita botones durante peticiones.</li>
+                  <li>Usa <code>AbortController</code> para cancelar peticiones si el componente se desmonta (axios soporta <code>signal</code>).</li>
+                  <li>Considera validaciones en frontend y backend (duplicidad, formato de email, longitudes).</li>
+                </ul>
+            </li>
 
-        <h3 class="text-lg font-semibold text-blue-700 mt-6">6) Optimización y buenas prácticas</h3>
-        <ul class="list-disc pl-6 text-gray-700 mb-4">
-            <li>Memoiza callbacks con <code>useCallback</code> y cálculos con <code>useMemo</code>.</li>
-            <li>Normaliza datos en el cliente si la colección crece (por ejemplo, con un objeto id-&gt;entity).</li>
-            <li>Considera SWR o React Query para caché, revalidación y sincronización del estado remoto.</li>
-            <li>Centraliza las llamadas a la API en <code>src/api.js</code> para facilitar testing y cambios de endpoint.</li>
-        </ul>
+            <li>
+                <h3 class="text-lg font-semibold text-blue-700 mt-2">8) Testing rápido y recomendaciones</h3>
+                <p class="text-gray-700">Pruebas manuales: crea, edita, borra y valida que la lista se actualiza. Para pruebas automatizadas:</p>
+                <ul class="list-disc pl-6 text-gray-700">
+                  <li>Mockea las respuestas de <code>axios</code> con <code>jest.mock('axios')</code> y valida que los componentes reaccionan correctamente.</li>
+                  <li>Test de integración: arranca un servidor de pruebas y usa <code>msw</code> (Mock Service Worker) para interceptar solicitudes HTTP.</li>
+                </ul>
+            </li>
+        </ol>
 
-        <h3 class="text-lg font-semibold text-blue-700 mt-6">7) Pruebas rápidas</h3>
-        <p class="text-gray-700 mb-4">Prueba manual: crea un cliente, verifica aparece en la lista; edita y confirma cambios; borra y confirma eliminación. Para tests automatizados, mockea las fetch/axios y valida que los componentes reaccionan correctamente.</p>
-
-        <h3 class="text-lg font-semibold text-blue-700 mt-6">Resumen</h3>
-        <p class="text-gray-700">Hemos implementado un cliente HTTP robusto y progresivo en React: encapsulamos solicitudes en <code>api.js</code>, creamos componentes reutilizables, manejamos errores y optimizamos con aborts y memoización. Para apps reales, valora usar React Query o SWR para un manejo más completo de sincronización y caché.</p>
+        <h3 class="text-lg font-semibold text-blue-700 mt-6">Resumen y siguientes pasos</h3>
+        <p class="text-gray-700">Hemos implementado un flujo completo para consumir una API REST con <code>axios</code> en React: cliente centralizado, componentes controlados, manejo de estados y errores. Para producción considera añadir caching (React Query), paginación y pruebas automatizadas.</p>
     </section>
 </main>
 <!-- Unified footer -->
@@ -260,5 +388,72 @@ export default function App(){
     </div>
 </footer>
 <script src="./vendor/header-offset.js"></script>
+<!-- Prism y utilidades para copiado en bloques de código -->
+<script>
+  // Añade botones de copiar y habilita feedback. Ejecutar después de que el DOM cargue.
+  (function(){
+    function createCopyButton(label){
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.type = 'button';
+      btn.innerHTML = '<span class="icon"><i class="fa-regular fa-copy"></i></span><span class="text">'+label+'</span>';
+      return btn;
+    }
+
+    function addToolbarButtons(){
+      document.querySelectorAll('.code-editor').forEach(function(editor){
+        const toolbar = editor.querySelector('.code-toolbar');
+        if(!toolbar) return;
+        // evitar duplicados
+        if(toolbar.querySelector('.copy-btn')) return;
+
+        // crear la parte izquierda (controles de ventana + badge) si no existe
+        if(!toolbar.querySelector('.file-left')){
+          const labelEl = toolbar.querySelector('.file-label');
+          const labelText = labelEl ? labelEl.textContent.trim() : '';
+          // ocultar label original (lo mantendremos en badge)
+          if(labelEl) labelEl.style.display = 'none';
+          const left = document.createElement('div');
+          left.className = 'file-left';
+          const wc = document.createElement('div');
+          wc.className = 'window-controls';
+          const dotR = document.createElement('span'); dotR.className = 'window-dot red';
+          const dotY = document.createElement('span'); dotY.className = 'window-dot yellow';
+          const dotG = document.createElement('span'); dotG.className = 'window-dot green';
+          wc.appendChild(dotR); wc.appendChild(dotY); wc.appendChild(dotG);
+          const badge = document.createElement('span'); badge.className = 'file-badge'; badge.textContent = labelText || 'archivo';
+          left.appendChild(wc);
+          left.appendChild(badge);
+          toolbar.insertBefore(left, toolbar.firstChild);
+        }
+
+        const actions = document.createElement('div');
+        actions.className = 'code-actions';
+        const copyBtn = createCopyButton('Copiar');
+        copyBtn.addEventListener('click', async function(){
+          const code = editor.querySelector('pre code');
+          if(!code) return;
+          try{
+            await navigator.clipboard.writeText(code.innerText.trim());
+            const textEl = copyBtn.querySelector('.text');
+            const old = textEl.textContent;
+            textEl.textContent = 'Copiado';
+            setTimeout(()=> textEl.textContent = old, 1500);
+          }catch(e){
+            console.error('copiar error', e);
+          }
+        });
+
+        actions.appendChild(copyBtn);
+        toolbar.appendChild(actions);
+      });
+    }
+
+    // Esperar al DOM
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addToolbarButtons);
+    else addToolbarButtons();
+  })();
+</script>
+<script src="./vendor/prism.min.js"></script>
 </body>
 </html>
