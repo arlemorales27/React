@@ -34,20 +34,48 @@
             padding: 16px;
             overflow-x: auto;
         }
+        /* Header shared styles (from index) */
+        header { overflow: visible; padding-top: env(safe-area-inset-top); }
+        :root { --header-offset: 9.5rem; }
+        .logo-wrap { display:flex; align-items:center; gap:0.75rem; }
+        .logo-circle { border-radius:9999px; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; }
+        .logo-circle { padding:0.5rem; width:64px; height:64px; }
+        .brand-title { font-size:1.375rem; }
+        .brand-sub { font-size:0.875rem; }
+        @media(min-width:640px){ .logo-circle { padding:0.75rem; width:80px; height:80px; } .brand-title { font-size:1.75rem; } .brand-sub { font-size:0.95rem; } }
+        @media(min-width:1024px){ .logo-circle { padding:1rem; width:96px; height:96px; } .brand-title { font-size:2.25rem; } .brand-sub { font-size:1rem; } }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
-<!-- Header -->
-<header class="bg-blue-800 text-white py-6">
-    <div class="container mx-auto px-4 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold mb-2">Tutorial: Manejo de Formularios en React 2025 - Paso a Paso</h1>
-        <p class="text-lg md:text-xl">Guía práctica para construir aplicaciones web responsivas</p>
-        <p class="text-md md:text-lg">Duración: 12 secciones</p>
+<!-- Unified header with lesson title -->
+<header class="bg-gradient-to-r from-blue-700 via-cyan-600 to-indigo-700 text-white py-8 sm:py-12 md:py-16 lg:py-20 sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="logo-wrap animate-fade-in-down">
+                <div class="logo-circle">
+                    <i class="fab fa-react text-cyan-200" style="font-size:2rem"></i>
+                </div>
+                <div>
+                    <div class="brand-title font-extrabold leading-tight">Curso de Frontend - Desarrollo de software</div>
+                    <p class="brand-sub mt-1 text-cyan-100/90">Guía práctica — Arle Morales Ortiz</p>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <h1 class="text-2xl md:text-4xl font-extrabold">4. Formularios</h1>
+                <div class="mt-2">
+                    <a href="/src/index.html#topics" class="inline-flex items-center gap-2 bg-white shadow-sm text-blue-700 px-3 py-2 rounded-full text-sm md:text-base hover:brightness-95 focus-ring" aria-label="Ver temas">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Ver Temas</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </header>
 
 <!-- Main Content -->
-<main class="container mx-auto px-4 py-8">
+<main class="container mx-auto px-4 py-8 section-offset">
     <section class="bg-white rounded-lg shadow-lg p-6 md:p-8">
 
         <!-- Introducción -->
@@ -531,11 +559,49 @@ function AddTask() {
     &lt;div className="container mx-auto p-4 max-w-md"&gt;
       &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
       &lt;form action={formAction} className="space-y-4"&gt;
-        // ... campos anteriores ...
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium mb-2"&gt;
+            Tarea:
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task"
+            name="task"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="description" className="block text-lg font-medium mb-2"&gt;
+            Descripción:
+          &lt;/label&gt;
+          &lt;textarea
+            id="description"
+            name="description"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una descripción"
+            rows="4"
+          &gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="priority" className="block text-lg font-medium mb-2"&gt;
+            Prioridad:
+          &lt;/label&gt;
+          &lt;select
+            id="priority"
+            name="priority"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          &gt;
+            &lt;option value="baja"&gt;Baja&lt;/option&gt;
+            &lt;option value="media"&gt;Media&lt;/option&gt;
+            &lt;option value="alta"&gt;Alta&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
         &lt;div className="flex items-center"&gt;
           &lt;input
             type="checkbox"
             id="urgent"
+            name="urgent"
             checked={urgent}
             onChange={(e) =&gt; setUrgent(e.target.checked)}
             className="mr-2"
@@ -639,7 +705,57 @@ function AddTask() {
     &lt;div className="container mx-auto p-4 max-w-md"&gt;
       &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
       &lt;form action={formAction} className="space-y-4"&gt;
-        // ... campos anteriores ...
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium mb-2"&gt;
+            Tarea:
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task"
+            name="task"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="description" className="block text-lg font-medium mb-2"&gt;
+            Descripción:
+          &lt;/label&gt;
+          &lt;textarea
+            id="description"
+            name="description"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una descripción"
+            rows="4"
+          &gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="priority" className="block text-lg font-medium mb-2"&gt;
+            Prioridad:
+          &lt;/label&gt;
+          &lt;select
+            id="priority"
+            name="priority"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          &gt;
+            &lt;option value="baja"&gt;Baja&lt;/option&gt;
+            &lt;option value="media"&gt;Media&lt;/option&gt;
+            &lt;option value="alta"&gt;Alta&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+        &lt;div className="flex items-center"&gt;
+          &lt;input
+            type="checkbox"
+            id="urgent"
+            name="urgent"
+            checked={urgent}
+            onChange={(e) =&gt; setUrgent(e.target.checked)}
+            className="mr-2"
+          /&gt;
+          &lt;label htmlFor="urgent" className="text-lg font-medium"&gt;
+            Tarea Urgente
+          &lt;/label&gt;
+        &lt;/div&gt;
         &lt;div&gt;
           &lt;label className="block text-lg font-medium mb-2"&gt;Categorías:&lt;/label&gt;
           {categoryOptions.map((cat) =&gt; (
@@ -994,42 +1110,144 @@ export default AddTask;</code></pre>
             <div class="code-block">
                 <pre><code class="language-jsx">import { useFormik } from 'formik';
 import * as Yup from 'yup';
-// ... resto
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
-const formik = useFormik({
-  initialValues: {
-    task: '',
-    description: '',
-    priority: 'media',
-    urgent: false,
-    categories: [],
-  },
-  validationSchema: Yup.object({
-    task: Yup.string().required('Tarea requerida').min(5, 'Mínimo 5 caracteres'),
-    description: Yup.string().required('Descripción requerida'),
-    categories: Yup.array().min(1, 'Selecciona al menos una categoría'),
-  }),
-  onSubmit: (values) =&gt; {
-    console.log('Tarea agregada:', values);
-    Swal.fire({
-      title: '¡Éxito!',
-      text: 'Tarea agregada correctamente.',
-      icon: 'success',
-    }).then(() =&gt; {
-      navigate('/tasks');
-    });
-  },
-});
+function AddTask() {
+  const navigate = useNavigate();
 
-// En el formulario, agrega errores:
-&lt;input
-  // ...
-/&gt;
-{formik.touched.task &amp;&amp; formik.errors.task ? (
-  &lt;p className="text-red-500 text-sm mt-1"&gt;{formik.errors.task}&lt;/p&gt;
-) : null}
+  const formik = useFormik({
+    initialValues: {
+      task: '',
+      description: '',
+      priority: 'media',
+      urgent: false,
+      categories: [],
+    },
+    validationSchema: Yup.object({
+      task: Yup.string().required('Tarea requerida').min(5, 'Mínimo 5 caracteres'),
+      description: Yup.string().required('Descripción requerida'),
+      categories: Yup.array().min(1, 'Selecciona al menos una categoría'),
+    }),
+    onSubmit: (values) =&gt; {
+      console.log('Tarea agregada:', values);
+      Swal.fire({
+        title: '¡Éxito!',
+        text: 'Tarea agregada correctamente.',
+        icon: 'success',
+      }).then(() =&gt; {
+        navigate('/tasks');
+      });
+    },
+  });
 
-// Similar para otros campos</code></pre>
+  const categoryOptions = ['Trabajo', 'Personal', 'Ocio'];
+
+  const handleCategoryChange = (value) =&gt; {
+    const categories = formik.values.categories.includes(value)
+      ? formik.values.categories.filter((cat) =&gt; cat !== value)
+      : [...formik.values.categories, value];
+    formik.setFieldValue('categories', categories);
+  };
+
+  return (
+    &lt;div className="container mx-auto p-4 max-w-md"&gt;
+      &lt;h1 className="text-3xl font-bold mb-6 text-center"&gt;Agregar Nueva Tarea&lt;/h1&gt;
+      &lt;form onSubmit={formik.handleSubmit} className="space-y-4"&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="task" className="block text-lg font-medium mb-2"&gt;
+            Tarea:
+          &lt;/label&gt;
+          &lt;input
+            type="text"
+            id="task"
+            name="task"
+            value={formik.values.task}
+            onChange={formik.handleChange}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una tarea"
+          /&gt;
+          {formik.touched.task &amp;&amp; formik.errors.task ? (
+            &lt;p className="text-red-500 text-sm mt-1"&gt;{formik.errors.task}&lt;/p&gt;
+          ) : null}
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="description" className="block text-lg font-medium mb-2"&gt;
+            Descripción:
+          &lt;/label&gt;
+          &lt;textarea
+            id="description"
+            name="description"
+            value={formik.values.description}
+            onChange={formik.handleChange}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una descripción"
+            rows="4"
+          &gt;&lt;/textarea&gt;
+          {formik.touched.description &amp;&amp; formik.errors.description ? (
+            &lt;p className="text-red-500 text-sm mt-1"&gt;{formik.errors.description}&lt;/p&gt;
+          ) : null}
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="priority" className="block text-lg font-medium mb-2"&gt;
+            Prioridad:
+          &lt;/label&gt;
+          &lt;select
+            id="priority"
+            name="priority"
+            value={formik.values.priority}
+            onChange={formik.handleChange}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          &gt;
+            &lt;option value="baja"&gt;Baja&lt;/option&gt;
+            &lt;option value="media"&gt;Media&lt;/option&gt;
+            &lt;option value="alta"&gt;Alta&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+        &lt;div className="flex items-center"&gt;
+          &lt;input
+            type="checkbox"
+            id="urgent"
+            name="urgent"
+            checked={formik.values.urgent}
+            onChange={formik.handleChange}
+            className="mr-2"
+          /&gt;
+          &lt;label htmlFor="urgent" className="text-lg font-medium"&gt;
+            Tarea Urgente
+          &lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label className="block text-lg font-medium mb-2"&gt;Categorías:&lt;/label&gt;
+          {categoryOptions.map((cat) =&gt; (
+            &lt;div key={cat} className="flex items-center"&gt;
+              &lt;input
+                type="checkbox"
+                id={cat}
+                value={cat}
+                checked={formik.values.categories.includes(cat)}
+                onChange={() =&gt; handleCategoryChange(cat)}
+                className="mr-2"
+              /&gt;
+              &lt;label htmlFor={cat}&gt;{cat}&lt;/label&gt;
+            &lt;/div&gt;
+          ))}
+          {formik.touched.categories &amp;&amp; formik.errors.categories ? (
+            &lt;p className="text-red-500 text-sm mt-1"&gt;{formik.errors.categories}&lt;/p&gt;
+          ) : null}
+        &lt;/div&gt;
+        &lt;button
+          type="submit"
+          className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+        &gt;
+          Agregar Tarea
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default AddTask;</code></pre>
             </div>
             <p class="text-gray-700 mt-4 mb-4">
                 Explicación Detallada:
@@ -1099,7 +1317,64 @@ function AddTask() {
           /&gt;
           {errors.task &amp;&amp; &lt;p className="text-red-500 text-sm mt-1"&gt;{errors.task.message}&lt;/p&gt;}
         &lt;/div&gt;
-        // ... Similar para otros campos
+        &lt;div&gt;
+          &lt;label htmlFor="description" className="block text-lg font-medium mb-2"&gt;
+            Descripción:
+          &lt;/label&gt;
+          &lt;textarea
+            id="description"
+            name="description"
+            {...register('description', { required: 'Descripción requerida' })}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Escribe una descripción"
+            rows="4"
+          &gt;&lt;/textarea&gt;
+          {errors.description &amp;&amp; &lt;p className="text-red-500 text-sm mt-1"&gt;{errors.description.message}&lt;/p&gt;}
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label htmlFor="priority" className="block text-lg font-medium mb-2"&gt;
+            Prioridad:
+          &lt;/label&gt;
+          &lt;select
+            id="priority"
+            name="priority"
+            {...register('priority')}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          &gt;
+            &lt;option value="baja"&gt;Baja&lt;/option&gt;
+            &lt;option value="media"&gt;Media&lt;/option&gt;
+            &lt;option value="alta"&gt;Alta&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+        &lt;div className="flex items-center"&gt;
+          &lt;input
+            type="checkbox"
+            id="urgent"
+            name="urgent"
+            {...register('urgent')}
+            className="mr-2"
+          /&gt;
+          &lt;label htmlFor="urgent" className="text-lg font-medium"&gt;
+            Tarea Urgente
+          &lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;label className="block text-lg font-medium mb-2"&gt;Categorías:&lt;/label&gt;
+          {categoryOptions.map((cat) =&gt; (
+            &lt;div key={cat} className="flex items-center"&gt;
+              &lt;input
+                type="checkbox"
+                id={cat}
+                value={cat}
+                checked={formik.values.categories.includes(cat)}
+                onChange={() =&gt; handleCategoryChange(cat)}
+                className="mr-2"
+              /&gt;
+              &lt;label htmlFor={cat}&gt;{cat}&lt;/label&gt;
+            &lt;/div&gt;
+          ))}
+          {errors.categories &amp;&amp; &lt;p className="text-red-500 text-sm mt-1"&gt;{errors.categories.message}&lt;/p&gt;}
+        &lt;/div&gt;
         &lt;button
           type="submit"
           className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
@@ -1194,7 +1469,79 @@ function AddTask() {
                 &lt;/div&gt;
               )}
             &lt;/Field&gt;
-            // ... Similar para otros campos
+            &lt;Field name="description"&gt;
+              {({ input, meta }) =&gt; (
+                &lt;div&gt;
+                  &lt;label htmlFor="description" className="block text-lg font-medium mb-2"&gt;
+                    Descripción:
+                  &lt;/label&gt;
+                  &lt;textarea
+                    {...input}
+                    id="description"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Escribe una descripción"
+                    rows="4"
+                  &gt;&lt;/textarea&gt;
+                  {meta.error &amp;&amp; meta.touched &amp;&amp; &lt;p className="text-red-500 text-sm mt-1"&gt;{meta.error}&lt;/p&gt;}
+                &lt;/div&gt;
+              )}
+            &lt;/Field&gt;
+            &lt;Field name="priority"&gt;
+              {({ input }) =&gt; (
+                &lt;div&gt;
+                  &lt;label htmlFor="priority" className="block text-lg font-medium mb-2"&gt;
+                    Prioridad:
+                  &lt;/label&gt;
+                  &lt;select
+                    {...input}
+                    id="priority"
+                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  &gt;
+                    &lt;option value="baja"&gt;Baja&lt;/option&gt;
+                    &lt;option value="media"&gt;Media&lt;/option&gt;
+                    &lt;option value="alta"&gt;Alta&lt;/option&gt;
+                  &lt;/select&gt;
+                &lt;/div&gt;
+              )}
+            &lt;/Field&gt;
+            &lt;div className="flex items-center"&gt;
+              &lt;Field name="urgent"&gt;
+                {({ input }) =&gt; (
+                  &lt;div className="flex items-center"&gt;
+                    &lt;input
+                      {...input}
+                      type="checkbox"
+                      id="urgent"
+                      className="mr-2"
+                    /&gt;
+                    &lt;label htmlFor="urgent" className="text-lg font-medium"&gt;
+                      Tarea Urgente
+                    &lt;/label&gt;
+                  &lt;/div&gt;
+                )}
+              &lt;/Field&gt;
+            &lt;/div&gt;
+            &lt;div&gt;
+              &lt;label className="block text-lg font-medium mb-2"&gt;Categorías:&lt;/label&gt;
+              {categoryOptions.map((cat) =&gt; (
+                &lt;Field key={cat} name="categories"&gt;
+                  {({ input, meta }) =&gt; (
+                    &lt;div className="flex items-center"&gt;
+                      &lt;input
+                        {...input}
+                        type="checkbox"
+                        id={cat}
+                        value={cat}
+                        checked={formik.values.categories.includes(cat)}
+                        onChange={() =&gt; handleCategoryChange(cat)}
+                        className="mr-2"
+                      /&gt;
+                      &lt;label htmlFor={cat}&gt;{cat}&lt;/label&gt;
+                    &lt;/div&gt;
+                  )}
+                &lt;/Field&gt;
+              ))}
+            &lt;/div&gt;
             &lt;button
               type="submit"
               className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
@@ -1240,11 +1587,14 @@ export default AddTask;</code></pre>
     </section>
 </main>
 
-<!-- Footer -->
-<footer class="bg-blue-800 text-white py-4 text-center">
-    <p>&copy; 2025 Tutorial de Manejo de Formularios en React. Todos los derechos reservados.</p>
+<!-- Unified footer (same as index) -->
+<footer class="bg-slate-900 text-white py-6">
+    <div class="container mx-auto px-4 text-center">
+        <p class="text-sm">&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
+        <p class="text-xs text-slate-400 mt-1">Hecho con ❤️ — Mejoras de accesibilidad, animaciones y usabilidad.</p>
+    </div>
 </footer>
-
+<script src="./vendor/header-offset.js"></script>
 <script>
     Prism.highlightAll();
 </script>

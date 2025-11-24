@@ -9,99 +9,51 @@
     <link href="./vendor/prism-tomorrow.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        html, body {height:100%; margin:0;}
-        body {display:flex; flex-direction:column;}
-        main {flex:1 0 auto;}
-        footer {flex-shrink:0;}
-        .codecard {position:relative;}
-        .toc a.active {background:#1e3a8a;color:#fff;}
-        .editor-bg {background:#1e293b;}
-        /* .editor-code removed (styles consolidated in .code-editor below) */
-        .kw {color:#7dd3fc;}
-        .fn {color:#f472b6;}
-        .str {color:#facc15;}
-        .var {color:#a3e635;}
-        .com {color:#94a3b8;}
-        .tag {color:#38bdf8;}
-        .attr {color:#fbbf24;}
-        .num {color:#f87171;}
-        /* Estilos Ant Design-like personalizados */
-        .ant-layout {display: flex; flex-direction: column; min-height: 100vh; background: #f0f2f5;}
-        .ant-layout-header {background: #001529; color: #fff; padding: 0 24px; line-height: 64px;}
-        .ant-layout-content {padding: 24px; background: #fff;}
-        .ant-breadcrumb {padding: 16px 24px; border-bottom: 1px solid #f0f0f0;}
-        .ant-breadcrumb-separator {margin: 0 8px; color: #bfbfbf;}
-        .ant-btn {display: inline-block; font-weight: 400; text-align: center; cursor: pointer; border-radius: 2px; border: 1px solid #d9d9d9; padding: 0 15px; height: 32px; line-height: 30px; background: #fff; color: #000;}
-        .ant-btn-primary {background: #1890ff; border-color: #1890ff; color: #fff;}
-        .ant-message {position: fixed; top: 24px; right: 24px; z-index: 1010; padding: 8px 16px; border-radius: 4px; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15);}
-        .ant-carousel {position: relative; overflow: hidden; width: 100%; height: 200px;}
-        .ant-carousel-item {display: flex; align-items: center; justify-content: center; background: #f0f2f5; font-size: 18px; height: 100%;}
-        .ant-modal {position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;}
-        .ant-modal-content {background: #fff; border-radius: 6px; width: 80%; max-width: 520px; padding: 24px;}
-        .ant-grid {display: grid; grid-template-columns: repeat(24, 1fr); width: 100%;}
-        .ant-col {padding: 0 8px;}
-        .ant-col-12 {grid-column: span 12;}
-        .ant-divider {margin: 16px 0; border-top: 1px solid #f0f0f0;}
-        .ant-input {border: 1px solid #d9d9d9; border-radius: 2px; padding: 4px 11px; height: 32px; width: 100%;}
-        .ant-select {position: relative; display: inline-block; width: 100%;}
-        .ant-select-selector {border: 1px solid #d9d9d9; border-radius: 2px; display: block; height: 32px; padding: 4px 11px; background: #fff;}
-        .ant-select-arrow {position: absolute; right: 11px; top: 50%; transform: translateY(-50%); pointer-events: none;}
-        .ant-form {display: flex; flex-direction: column; gap: 16px;}
-        .ant-form-item {display: flex; flex-direction: column; gap: 4px;}
-        .ant-checkbox {display: inline-flex; align-items: center;}
-        .ant-checkbox-inner {width: 16px; height: 16px; border: 1px solid #d9d9d9; border-radius: 2px; margin-right: 8px;}
-        .ant-table {width: 100%; border-collapse: collapse;}
-        .ant-table th, .ant-table td {padding: 16px; text-align: left; border-bottom: 1px solid #f0f0f0;}
-        .ant-table th {background: #fafafa; font-weight: 600;}
-        /* Animaciones CSS */
-        @keyframes fadeIn {from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);}}
-        .ant-fade-in {animation: fadeIn 0.3s ease-out;}
-        /* Iconos SVG simples para Ant-like */
-        .anticon {display: inline-block; width: 16px; height: 16px; fill: currentColor;}
-        .pie-chart { /* Simular PieChartOutlined */ background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205 0-372-167-372-372s167-372 372-372 372 167 372 372-167 372-372 372z"/></svg>') no-repeat center; background-size: contain; }
-        .skype { /* Simular SkypeOutlined */ background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><circle cx="512" cy="512" r="512" fill="#00AFF0"/></svg>') no-repeat center; background-size: contain; }
-        .alipay { /* Simular AlipayCircleOutlined */ background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm192 352h-384a32 32 0 0 1 0-64h384a32 32 0 1 1 0 64z"/></svg>') no-repeat center; background-size: contain; }
-        /* Responsive */
-        @media (max-width: 768px) {.ant-layout-header {padding: 0 16px; line-height: 48px;} .ant-layout-content {padding: 16px;}}
-        /* Editor-like wrapper for code examples */
-        .code-editor { position: relative; padding: 0.75rem; background: linear-gradient(180deg,#07101a 0%, #0b1220 100%); border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); color: #dbe7f6; font-family: 'Fira Code', monospace; }
-        .code-editor .code-toolbar { display:flex; align-items:center; gap:.6rem; padding-bottom:.5rem; }
-        .code-editor .file-label { color:#9aa8bb; font-weight:600; font-size:0.9rem; }
-        .code-editor pre { background: transparent; margin:0; padding:.6rem; overflow:auto; border-radius:6px; }
-        .code-editor .copy-btn { margin-left:auto; background: rgba(255,255,255,0.03); color:#cfe8ff; border:1px solid rgba(255,255,255,0.04); padding:6px 10px; border-radius:6px; cursor:pointer; font-weight:600; font-size:.85rem; }
-        /* moved from inline examples to head to avoid style-in-body warnings */
-        .ant-checkbox.checked .ant-checkbox-inner { background: #1890ff; border-color: #1890ff; }
-        @media (max-width:640px){ .code-editor pre { font-size: .85rem; } .code-editor .file-label{ font-size:.82rem } }
+        html, body {height:100%; margin:0}
+        body{display:flex; flex-direction:column}
+        main{flex:1 0 auto}
+        footer{flex-shrink:0}
+        /* Header shared styles (from index) */
+        header { overflow: visible; padding-top: env(safe-area-inset-top); }
+        :root { --header-offset: 9.5rem; }
+        .logo-wrap { display:flex; align-items:center; gap:0.75rem; }
+        .logo-circle { border-radius:9999px; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; }
+        .logo-circle { padding:0.5rem; width:64px; height:64px; }
+        .brand-title { font-size:1.375rem; }
+        .brand-sub { font-size:0.875rem; }
+        @media(min-width:640px){ .logo-circle { padding:0.75rem; width:80px; height:80px; } .brand-title { font-size:1.75rem; } .brand-sub { font-size:0.95rem; } }
+        @media(min-width:1024px){ .logo-circle { padding:1rem; width:96px; height:96px; } .brand-title { font-size:2.25rem; } .brand-sub { font-size:1rem; } }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
-<header class="bg-blue-800 text-white py-6 shadow-lg">
-    <div class="container mx-auto px-4 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold mb-2">Tutorial: Implementación Ant Design en Vanilla JS</h1>
-        <p class="text-lg md:text-xl opacity-90">Crea componentes UI como Ant Design usando solo HTML5, CSS3 y JavaScript puro. Responsivo y con animaciones CSS.</p>
+<body class="bg-gray-50 font-sans text-gray-800">
+<!-- Unified header with lesson title -->
+<header class="bg-gradient-to-r from-blue-700 via-cyan-600 to-indigo-700 text-white py-8 sm:py-12 md:py-16 lg:py-20 sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="logo-wrap animate-fade-in-down">
+                <div class="logo-circle">
+                    <i class="fab fa-react text-cyan-200" style="font-size:2rem"></i>
+                </div>
+                <div>
+                    <div class="brand-title font-extrabold leading-tight">Curso de Frontend - Desarrollo de software</div>
+                    <p class="brand-sub mt-1 text-cyan-100/90">Guía práctica — Arle Morales Ortiz</p>
+                </div>
+            </div>
 
+            <div class="text-right">
+                <h1 class="text-2xl md:text-4xl font-extrabold">9. Ant design - componentes</h1>
+                <div class="mt-2">
+                    <a href="/src/index.html#topics" class="inline-flex items-center gap-2 bg-white shadow-sm text-blue-700 px-3 py-2 rounded-full text-sm md:text-base hover:brightness-95 focus-ring" aria-label="Ver temas">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Ver Temas</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </header>
 
-<section class="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200">
-    <div class="container mx-auto px-4 py-6 md:py-8">
-        <div class="flex flex-col md:flex-row items-center gap-6">
-            <div class="flex-1">
-                <h2 class="text-2xl md:text-3xl font-semibold text-blue-900 mb-2">
-                    <i class="fa-solid fa-code mr-2"></i>¿Qué aprenderás?
-                </h2>
-                <p class="text-gray-700">
-                    Implementar componentes inspirados en Ant Design sin React: layouts, formularios, tablas y más, con explicaciones de conceptos, código y ejemplos prácticos. Todo responsivo y con animaciones puras CSS.
-                </p>
-            </div>
-            <a href="#paso1" class="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-5 py-3 rounded-xl shadow">
-                <i class="fa-solid fa-bolt"></i> Empezar
-            </a>
-        </div>
-    </div>
-</section>
-
-<main class="container mx-auto px-4 py-8">
+<main class="container mx-auto px-4 py-8 section-offset">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <aside class="lg:col-span-3">
             <div class="bg-white rounded-2xl shadow p-4 sticky top-6 toc">
@@ -697,7 +649,6 @@
         </section>
     </div>
 </main>
-
 <!-- Hidden dev markers to satisfy static analyzer (no impact on UI) -->
 <div id="dev-markers" aria-hidden="true" style="display:none; visibility:hidden; height:0; overflow:hidden;">
   <div class="code-editor">
@@ -710,109 +661,13 @@
   <span class="attr">atributo</span>
   <div class="ant-col ant-col-12"></div>
 </div>
-
-<footer class="bg-blue-800 text-white py-5">
+<!-- Unified footer -->
+<footer class="bg-slate-900 text-white py-6">
     <div class="container mx-auto px-4 text-center">
-        <p>&copy; 2025 - Tutorial . Implementación vanilla Ant Design-like.</p>
+        <p class="text-sm">&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
+        <p class="text-xs text-slate-400 mt-1">Hecho con ❤️ — Mejoras de accesibilidad, animaciones y usabilidad.</p>
     </div>
 </footer>
-
-<script>
-    // Desplazamiento suave & resaltar enlace activo
-    const links = document.querySelectorAll('.toc a');
-    const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
-    links.forEach(a=>{
-        a.addEventListener('click', e=>{
-            e.preventDefault();
-            document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth', block:'start'});
-            history.replaceState(null, '', a.getAttribute('href'));
-        });
-    });
-    const observer = new IntersectionObserver((entries)=>{
-        entries.forEach(entry=>{
-            const i = sections.indexOf(entry.target);
-            if(i>=0){
-                if(entry.isIntersecting){
-                    links.forEach(l=>l.classList.remove('active'));
-                    links[i].classList.add('active');
-                }
-            }
-        });
-    }, {rootMargin:"-40% 0px -55% 0px", threshold:0});
-    sections.forEach(s=>observer.observe(s));
-</script>
-<script>
-  // Auto-wrap .editor-code blocks into proper <pre><code> for Prism highlighting,
-  // add copy button, and run Prism.highlightAll() with retries.
-  (function(){
-    function safeTextContent(el){
-      // get a readable plain text version of the code area
-      return el.innerText || el.textContent || '';
-    }
-    document.addEventListener('DOMContentLoaded', function(){
-      try{
-        document.querySelectorAll('.codecard .editor-code').forEach(function(orig){
-          if (orig.closest('.code-editor')) return; // already processed
-          // create wrapper
-          const wrapper = document.createElement('div'); wrapper.className = 'code-editor mt-4';
-          const toolbar = document.createElement('div'); toolbar.className = 'code-toolbar';
-          const label = document.createElement('span'); label.className = 'file-label';
-          label.textContent = orig.getAttribute('data-file') || 'Ejemplo';
-          toolbar.appendChild(label);
-          const copyBtn = document.createElement('button'); copyBtn.type='button'; copyBtn.className='copy-btn'; copyBtn.textContent='Copiar';
-          toolbar.appendChild(copyBtn);
-
-          // determine language heuristically
-          const text = safeTextContent(orig);
-          let lang = 'language-markup';
-          if (/^\s*function\s+|\bconst\b|\b(let|var)\b|=>|console\.|document\./m.test(text)) lang = 'language-js';
-          if (/^\s*\/\*/.test(text) && text.includes('<style')) lang = 'language-css';
-
-          const pre = document.createElement('pre');
-          const code = document.createElement('code'); code.className = lang;
-          // Always show the source code as literal text (no preview). Prefer innerHTML
-          // (so tags are visible), otherwise use the safe text content.
-          const raw = (orig.innerHTML && orig.innerHTML.trim()) || text.trim();
-          code.textContent = raw;
-          pre.appendChild(code);
-
-          // replace original with wrapper
-          orig.parentNode.insertBefore(wrapper, orig);
-          wrapper.appendChild(toolbar);
-          wrapper.appendChild(pre);
-          // remove original editor-code to avoid duplicate content
-          orig.parentNode.removeChild(orig);
-
-          // copy functionality
-          copyBtn.addEventListener('click', function(){
-            const txt = code.textContent;
-            if (navigator.clipboard) {
-              navigator.clipboard.writeText(txt).then(()=>{ copyBtn.textContent='Copiado!'; setTimeout(()=>copyBtn.textContent='Copiar',1400); }).catch(()=>{ copyBtn.textContent='Error'; setTimeout(()=>copyBtn.textContent='Copiar',1400); });
-            } else {
-              const ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); copyBtn.textContent='Copiado!'; setTimeout(()=>copyBtn.textContent='Copiar',1400);
-            }
-          });
-        });
-      }catch(e){ console.warn('wrap editor-code failed', e); }
-
-      // Prism highlight with retries
-      (function tryPrism(retries){
-        try{
-          if (window.Prism && typeof window.Prism.highlightAll === 'function'){
-            // add fallback classes: map language-js to language-javascript if needed
-            document.querySelectorAll('code.language-js').forEach(c=>{ if(!c.classList.contains('language-javascript')) c.classList.add('language-javascript'); });
-            window.Prism.highlightAll();
-            return;
-          }
-        }catch(err){ console.warn('Prism highlight error', err); }
-        if (retries>0) setTimeout(()=>tryPrism(retries-1), 250); else console.warn('Prism not available after retries');
-      })(10);
-    });
-  })();
-</script>
-
-<!-- Prism core & components (local placeholders) -->
-<script src="./vendor/prism.min.js"></script>
-
+<script src="./vendor/header-offset.js"></script>
 </body>
 </html>

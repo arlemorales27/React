@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Curso de React</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="./vendor/fontawesome.min.css" rel="stylesheet">
     <style>
         html, body {
             height: 100%;
@@ -21,84 +21,284 @@
         footer {
             flex-shrink: 0;
         }
+
+        /* Asegurar que el header no corte elementos (iOS notch, barras) */
+        header { overflow: visible; padding-top: env(safe-area-inset-top); }
+
+        /* Logo y tipografía responsiva para que no se corte y se vea bien en móviles */
+        .logo-wrap { display:flex; align-items:center; gap:0.75rem; }
+        .logo-circle { border-radius:9999px; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; }
+        /* Tamaños por defecto (móvil) */
+        .logo-circle { padding:0.5rem; width:64px; height:64px; }
+        .brand-title { font-size:1.375rem; /* 22px */ }
+        .brand-sub { font-size:0.875rem; }
+        @media(min-width:640px){ /* sm */
+            .logo-circle { padding:0.75rem; width:80px; height:80px; }
+            .brand-title { font-size:1.75rem; }
+            .brand-sub { font-size:0.95rem; }
+        }
+        @media(min-width:1024px){ /* lg */
+            .logo-circle { padding:1rem; width:96px; height:96px; }
+            .brand-title { font-size:2.25rem; }
+            .brand-sub { font-size:1rem; }
+        }
+
+        /* Ajuste para evitar que anclas queden ocultas bajo el header */
+        /* Usar variable dinámica que será calculada por JS. Valor por defecto mayor para evitar solapamiento inicial */
+        :root { --header-offset: 9.5rem; }
+        .section-offset { scroll-margin-top: var(--header-offset); }
+        @media (min-width: 768px) {
+            .section-offset { scroll-margin-top: 5.25rem; }
+        }
+        @media (min-width: 1024px) {
+            .section-offset { scroll-margin-top: 5.75rem; }
+        }
+
+        /* Animaciones y microinteracciones */
         @keyframes fade-in-down {
-            0% { opacity: 0; transform: translateY(-30px);}
+            0% { opacity: 0; transform: translateY(-18px);}
             100% { opacity: 1; transform: translateY(0);}
         }
         .animate-fade-in-down {
-            animation: fade-in-down 1s ease-out;
+            animation: fade-in-down 700ms cubic-bezier(.2,.9,.2,1) both;
         }
-        @keyframes spin-slow {
-            0% { transform: rotate(0deg);}
-            100% { transform: rotate(360deg);}
-        }
-        .animate-spin-slow {
-            animation: spin-slow 4s linear infinite;
+
+        /* Tarjetas */
+        .topic-card { transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s; will-change: transform; }
+        .topic-card:focus, .topic-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 12px 30px rgba(2,6,23,.12); }
+
+        /* Accesibility focus visible */
+        .focus-ring:focus { outline: none; box-shadow: 0 0 0 4px rgba(99,102,241,0.14); border-radius: .75rem; }
+
+        /* Search input focus */
+        .search-input:focus { box-shadow: 0 6px 20px rgba(2,6,23,0.08); }
+
+        /* Prefer reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .animate-fade-in-down, .topic-card { animation: none !important; transition: none !important; }
         }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-50 font-sans text-gray-800">
 <!-- Header -->
-<header class="bg-blue-800 text-white py-6 relative overflow-hidden">
-    <div class="container mx-auto px-4 text-center animate-fade-in-down">
-        <div class="flex justify-center items-center mb-4">
-            <i class="fab fa-react fa-4x text-cyan-400 animate-spin-slow"></i>
+<header class="bg-gradient-to-r from-blue-700 via-cyan-600 to-indigo-700 text-white py-8 sm:py-12 md:py-16 lg:py-20 sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="logo-wrap animate-fade-in-down">
+                <div class="logo-circle">
+                    <i class="fab fa-react text-cyan-200" style="font-size:2rem"></i>
+                </div>
+                <div>
+                    <h1 class="brand-title font-extrabold leading-tight">Curso de Frontend - Desarrollo de software</h1>
+                    <p class="brand-sub mt-1 text-cyan-100/90">Guía práctica — Arle Morales Ortiz</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="#topics" class="inline-flex items-center gap-2 bg-white shadow-sm text-blue-700 px-3 py-2 rounded-full text-sm md:text-base hover:brightness-95 focus-ring" aria-label="Ver temas">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Ver Temas</span>
+                </a>
+            </div>
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold mb-2">Curso de Frontend - Desarrollo de software</h1>
-        <p class="text-lg md:text-xl">Orientado por: Arle Morales Ortiz</p>
     </div>
 </header>
 
 <!-- Main Content -->
-<main class="container mx-auto px-4 py-8">
-    <section class="bg-white rounded-lg shadow-lg p-6 md:p-8">
-        <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-6 text-center">Temas del Curso</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <a href="tema1.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fab fa-react fa-lg"></i>
-                <span class="text-lg font-medium">1. Introducción a React</span>
+<main class="container mx-auto px-4 py-10 section-offset" id="main">
+    <!-- Intro + Search -->
+    <section class="mb-8">
+        <div class="bg-white rounded-2xl shadow p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+            <div class="md:col-span-2">
+                <h2 class="text-2xl md:text-3xl font-semibold text-slate-900">Temas del Curso</h2>
+                <p class="mt-2 text-slate-600">Navega por los módulos, filtra rápidamente y usa atajos de teclado para una experiencia más ágil.</p>
+
+                <div class="mt-4 flex items-center gap-3">
+                    <div class="relative flex-1">
+                        <label for="search" class="sr-only">Buscar temas</label>
+                        <input id="search" class="search-input block w-full border border-slate-200 rounded-lg px-4 py-3 focus:ring-0 focus:border-slate-300" placeholder="Buscar tema (ej. redux, context, routing)" aria-label="Buscar temas" />
+                        <div class="absolute right-3 top-3 text-slate-400"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    </div>
+                    <div class="hidden md:block text-sm text-slate-500">Atajo: <kbd class="bg-slate-100 px-2 py-0.5 rounded">/</kbd> para buscar</div>
+                </div>
+
+                <p class="mt-3 text-xs text-slate-400">Consejo: puedes usar las teclas de flecha para navegar por las tarjetas y Enter para abrir un tema.</p>
+            </div>
+
+            <div class="flex justify-end md:justify-center md:items-center">
+                <div class="bg-gradient-to-tr from-cyan-50 to-white rounded-lg p-4 text-center shadow-sm">
+                    <div class="text-xs text-slate-500">Progreso</div>
+                    <div class="mt-2 text-2xl font-bold text-slate-800">0/10</div>
+                    <div class="mt-3 w-36 h-2 bg-slate-100 rounded overflow-hidden">
+                        <div class="h-full w-0 bg-gradient-to-r from-cyan-400 to-blue-600"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Grid -->
+    <section id="topics" aria-label="Lista de temas">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- Each card: data-title used for search filtering -->
+            <a href="tema1.html" class="topic-card focus-ring bg-white border border-slate-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm" data-title="introducción react" data-keywords="react inicio jsx componentes" role="link" aria-label="Tema 1 Introducción a React">
+                <div class="text-3xl text-slate-500"><i class="fab fa-react"></i></div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">1. Introducción a React</h3>
+                    <p class="text-sm text-slate-600 mt-1">Conceptos básicos y primeras prácticas.</p>
+                </div>
             </a>
-            <a href="tema2.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-paint-brush fa-lg"></i>
-                <span class="text-lg font-medium">2. Estilos en React y Rutas</span>
+
+            <a href="tema2.html" class="topic-card focus-ring bg-white border border-slate-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm" data-title="estilos rutas" data-keywords="css styled-components rutas react-router" role="link" aria-label="Tema 2 Estilos en React y Rutas">
+                <div class="text-2xl text-slate-500"><i class="fas fa-paint-brush"></i></div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">2. Estilos en React y Rutas</h3>
+                    <p class="text-sm text-slate-600 mt-1">De CSS tradicional a librerías y routing.</p>
+                </div>
             </a>
-            <a href="tema3.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-route fa-lg"></i>
-                <span class="text-lg font-medium">3. Estilos, Rutas y hooks</span>
+
+            <a href="tema3.html" class="topic-card focus-ring bg-white border border-slate-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm" data-title="estilos rutas hooks" data-keywords="hooks routers css" role="link" aria-label="Tema 3 Estilos, Rutas y hooks">
+                <div class="text-2xl text-slate-500"><i class="fas fa-route"></i></div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">3. Estilos, Rutas y hooks</h3>
+                    <p class="text-sm text-slate-600 mt-1">Hooks, rutas anidadas y patterns de navegación.</p>
+                </div>
             </a>
-            <a href="tema4.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-file-alt fa-lg"></i>
-                <span class="text-lg font-medium">4. Formularios</span>
+
+            <a href="tema4.html" class="topic-card focus-ring bg-white border border-slate-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm" data-title="formularios" data-keywords="forms validation react-hook-form" role="link" aria-label="Tema 4 Formularios">
+                <div class="text-2xl text-slate-500"><i class="fas fa-file-alt"></i></div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">4. Formularios</h3>
+                    <p class="text-sm text-slate-600 mt-1">Validación y manejo de formularios.</p>
+                </div>
             </a>
-            <a href="tema5.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-tools fa-lg"></i>
-                <span class="text-lg font-medium">5. Utilidades</span>
+
+            <a href="tema5.html" class="topic-card focus-ring bg-white border border-slate-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm" data-title="utilidades" data-keywords="utils helpers" role="link" aria-label="Tema 5 Utilidades">
+                <div class="text-2xl text-slate-500"><i class="fas fa-tools"></i></div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">5. Utilidades</h3>
+                    <p class="text-sm text-slate-600 mt-1">Funciones y patrones reutilizables.</p>
+                </div>
             </a>
-            <a href="tema6.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fab fa-uikit fa-lg"></i>
-                <span class="text-lg font-medium">6. Material UI</span>
+
+            <a href="tema6.html" class="topic-card focus-ring bg-white border border-slate-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm" data-title="material ui" data-keywords="material ui componentes" role="link" aria-label="Tema 6 Material UI">
+                <div class="text-2xl text-slate-500"><i class="fab fa-uikit"></i></div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">6. Material UI</h3>
+                    <p class="text-sm text-slate-600 mt-1">Componentes y theming con Material UI.</p>
+                </div>
             </a>
-            <a href="tema7.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-lightbulb fa-lg"></i>
-                <span class="text-lg font-medium">7.  localStorage y Context API</span>
+
+            <a href="tema7.html" class="topic-card focus-ring bg-white border border-slate-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm" data-title="localstorage context" data-keywords="localStorage context state" role="link" aria-label="Tema 7 localStorage y Context API">
+                <div class="text-2xl text-slate-500"><i class="fas fa-lightbulb"></i></div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">7. localStorage y Context API</h3>
+                    <p class="text-sm text-slate-600 mt-1">Persistencia y manejo de configuración global.</p>
+                </div>
             </a>
-            <a href="tema8.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-check-circle fa-lg"></i>
-                <span class="text-lg font-medium">8. CRUD Clientes + API REST</span>
+
+            <a href="tema8.html" class="topic-card focus-ring bg-white border border-slate-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm" data-title="crud clientes api rest" data-keywords="crud api clientes fetch axios" role="link" aria-label="Tema 8 CRUD Clientes + API REST">
+                <div class="text-2xl text-slate-500"><i class="fas fa-check-circle"></i></div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">8. CRUD Clientes + API REST</h3>
+                    <p class="text-sm text-slate-600 mt-1">Integración con API y patrones de consumo.</p>
+                </div>
             </a>
-            <a href="tema9.html" class="bg-blue-600 text-white rounded-lg p-4 flex items-center space-x-3 hover:bg-blue-700 transition">
-                <i class="fas fa-check-circle fa-lg"></i>
-                <span class="text-lg font-medium">9. Ant design - componentes</span>
+
+            <a href="tema9.html" class="topic-card focus-ring bg-white border border-slate-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm" data-title="ant design componentes" data-keywords="ant design ui componentes" role="link" aria-label="Tema 9 Ant design - componentes">
+                <div class="text-2xl text-slate-500"><i class="fas fa-check-circle"></i></div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">9. Ant design - componentes</h3>
+                    <p class="text-sm text-slate-600 mt-1">Uso de la librería Ant Design.</p>
+                </div>
             </a>
+
+            <!-- Tema 10 -->
+            <a href="tema10.html" class="topic-card focus-ring bg-white border border-slate-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm" data-title="estado context redux recoil zustand routing patrones" data-keywords="context redux recoil zustand patrones routing" role="link" aria-label="Tema 10 Gestión de Estado y Patrones Avanzados">
+                <div class="text-2xl text-slate-500"><i class="fa-solid fa-layer-group"></i></div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">10. Estado y Patrones Avanzados</h3>
+                    <p class="text-sm text-slate-600 mt-1">Context API avanzado, Redux Toolkit, Recoil, Zustand, patrones y routing.</p>
+                </div>
+            </a>
+
+            <!-- Nuevo tema 11 -->
+            <a href="tema11.html" class="topic-card focus-ring bg-white border border-slate-100 rounded-2xl p-5 flex items-start gap-4 shadow-sm" data-title="nestjs introduccion nest js servidor modular typescript" data-keywords="nestjs node typescript nest cli controlador servicio middleware" role="link" aria-label="Tema 11 Introducción a NestJS">
+                <div class="text-2xl text-slate-500"><i class="fa-brands fa-js-square"></i></div>
+                <div>
+                    <h3 class="font-semibold text-slate-900">11. Introducción a NestJS</h3>
+                    <p class="text-sm text-slate-600 mt-1">Instalación, estructura de proyecto, controladores, servicios y middleware (con ejemplos).</p>
+                </div>
+            </a>
+
         </div>
     </section>
 </main>
 
 <!-- Footer -->
-<footer class="bg-blue-800 text-white py-4">
+<footer class="bg-slate-900 text-white py-6">
     <div class="container mx-auto px-4 text-center">
-        <p>&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
+        <p class="text-sm">&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
+        <p class="text-xs text-slate-400 mt-1">Hecho con ❤️ — Mejoras de accesibilidad, animaciones y usabilidad.</p>
     </div>
 </footer>
+
+<script>
+    // Mejora de usabilidad: atajo / para colocar foco en el buscador
+    (function(){
+        const search = document.getElementById('search');
+        const cards = Array.from(document.querySelectorAll('.topic-card'));
+
+        // Filtrado en vivo
+        function normalize(s){ return s.trim().toLowerCase(); }
+        function filterTopics(query){
+            const q = normalize(query);
+            cards.forEach(card => {
+                const title = card.dataset.title || '';
+                const keywords = card.dataset.keywords || '';
+                const visible = q === '' || title.includes(q) || keywords.includes(q);
+                card.style.display = visible ? '' : 'none';
+                // reduce motion for disappearing
+                if(visible){ card.classList.remove('opacity-40'); } else { card.classList.add('opacity-40'); }
+            });
+        }
+
+        search.addEventListener('input', (e)=> filterTopics(e.target.value));
+
+        // Atajo de teclado '/'
+        window.addEventListener('keydown', (e) => {
+            // Si el foco está en un input no interferir
+            const active = document.activeElement;
+            if(e.key === '/' && active && (active.tagName !== 'INPUT' && active.tagName !== 'TEXTAREA')){
+                e.preventDefault();
+                search.focus();
+                search.select();
+            }
+
+            // Navegación por teclado: flecha derecha/abajo -> siguiente; flecha izquierda/arriba -> anterior
+            const focusable = cards.filter(c => c.offsetParent !== null); // visibles
+            if(['ArrowRight','ArrowDown','ArrowLeft','ArrowUp'].includes(e.key)){
+                e.preventDefault();
+                const idx = focusable.indexOf(document.activeElement.closest ? document.activeElement.closest('.topic-card') : document.activeElement);
+                let nextIdx = -1;
+                if(e.key === 'ArrowRight' || e.key === 'ArrowDown') nextIdx = idx < focusable.length - 1 ? idx + 1 : 0;
+                if(e.key === 'ArrowLeft' || e.key === 'ArrowUp') nextIdx = idx > 0 ? idx - 1 : focusable.length - 1;
+                if(idx === -1 && focusable.length) nextIdx = 0;
+                const target = focusable[nextIdx];
+                if(target) target.focus();
+            }
+        });
+
+        // habilitar focus en anchors (para que se pueda navegar con teclado)
+        cards.forEach(c => { c.setAttribute('tabindex','0'); });
+
+        // Enter => abrir el enlace
+        cards.forEach(c => c.addEventListener('keydown', (e) => {
+            if(e.key === 'Enter') { const link = c.getAttribute('href'); if(link) window.location.href = link; }
+        }));
+    })();
+</script>
+<script src="./vendor/header-offset.js"></script>
 </body>
 </html>

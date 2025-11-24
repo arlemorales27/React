@@ -11,51 +11,48 @@
         body {display:flex; flex-direction:column;}
         main {flex:1 0 auto;}
         footer {flex-shrink:0;}
-        .codecard {position:relative;}
-        .toc a.active {background:#1e3a8a;color:#fff;}
-        /* Coloreado tipo editor */
-        .editor-bg {background:#1e293b;}
-        .editor-code {font-family: 'Fira Mono', 'Consolas', monospace; font-size:1rem; line-height:1.6;}
-        .kw {color:#7dd3fc;}      /* Palabras clave */
-        .fn {color:#f472b6;}      /* Funciones */
-        .str {color:#facc15;}     /* Strings */
-        .var {color:#a3e635;}     /* Variables */
-        .com {color:#94a3b8;}     /* Comentarios */
-        .tag {color:#38bdf8;}     /* Etiquetas JSX */
-        .attr {color:#fbbf24;}    /* Atributos JSX */
-        .num {color:#f87171;}     /* Números */
+        .editor {background:#0b1220; color:#e6eef8; padding:1rem; border-radius:10px}
+        /* Header shared styles (from index) */
+        header { overflow: visible; padding-top: env(safe-area-inset-top); }
+        :root { --header-offset: 9.5rem; }
+        .logo-wrap { display:flex; align-items:center; gap:0.75rem; }
+        .logo-circle { border-radius:9999px; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; }
+        .logo-circle { padding:0.5rem; width:64px; height:64px; }
+        .brand-title { font-size:1.375rem; }
+        .brand-sub { font-size:0.875rem; }
+        @media(min-width:640px){ .logo-circle { padding:0.75rem; width:80px; height:80px; } .brand-title { font-size:1.75rem; } .brand-sub { font-size:0.95rem; } }
+        @media(min-width:1024px){ .logo-circle { padding:1rem; width:96px; height:96px; } .brand-title { font-size:2.25rem; } .brand-sub { font-size:1rem; } }
     </style>
 </head>
 <body class="bg-gray-100 font-sans">
-<!-- Header -->
-<header class="bg-blue-800 text-white py-6 shadow-lg">
-    <div class="container mx-auto px-4 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold mb-2">Tutorial React: localStorage y Context API</h1>
-        <p class="text-lg md:text-xl opacity-90">Aprende a manejar almacenamiento y contexto en React</p>
-        <p class="mt-2 text-sm md:text-base text-blue-200">Por Arle Morales Ortiz</p>
+<!-- Unified header with lesson title -->
+<header class="bg-gradient-to-r from-blue-700 via-cyan-600 to-indigo-700 text-white py-8 sm:py-12 md:py-16 lg:py-20 sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="logo-wrap animate-fade-in-down">
+                <div class="logo-circle">
+                    <i class="fab fa-react text-cyan-200" style="font-size:2rem"></i>
+                </div>
+                <div>
+                    <div class="brand-title font-extrabold leading-tight">Curso de Frontend - Desarrollo de software</div>
+                    <p class="brand-sub mt-1 text-cyan-100/90">Guía práctica — Arle Morales Ortiz</p>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <h1 class="text-2xl md:text-4xl font-extrabold">7. localStorage y Context API</h1>
+                <div class="mt-2">
+                    <a href="/src/index.html#topics" class="inline-flex items-center gap-2 bg-white shadow-sm text-blue-700 px-3 py-2 rounded-full text-sm md:text-base hover:brightness-95 focus-ring" aria-label="Ver temas">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Ver Temas</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </header>
 
-<!-- Intro / CTA -->
-<section class="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200">
-    <div class="container mx-auto px-4 py-6 md:py-8">
-        <div class="flex flex-col md:flex-row items-center gap-6">
-            <div class="flex-1">
-                <h2 class="text-2xl md:text-3xl font-semibold text-blue-900 mb-2">
-                    <i class="fa-solid fa-layer-group mr-2"></i>¿Qué aprenderás?
-                </h2>
-                <p class="text-gray-700">
-                    Cómo usar <strong>localStorage</strong>, <strong>sessionStorage</strong> y <strong>Context API</strong> en React con ejemplos prácticos y explicaciones visuales.
-                </p>
-            </div>
-            <a href="#localstorage" class="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-5 py-3 rounded-xl shadow">
-                <i class="fa-solid fa-bolt"></i> Empezar
-            </a>
-        </div>
-    </div>
-</section>
-
-<main class="container mx-auto px-4 py-8">
+<main class="container mx-auto px-4 py-8 section-offset">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <!-- TOC -->
         <aside class="lg:col-span-3">
@@ -246,37 +243,13 @@
     </div>
 </main>
 
-<!-- Footer -->
-<footer class="bg-blue-800 text-white py-5">
+<!-- Unified footer -->
+<footer class="bg-slate-900 text-white py-6">
     <div class="container mx-auto px-4 text-center">
-        <p>&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
+        <p class="text-sm">&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
+        <p class="text-xs text-slate-400 mt-1">Hecho con ❤️ — Mejoras de accesibilidad, animaciones y usabilidad.</p>
     </div>
 </footer>
-
-<!-- Helpers: smooth scroll + resaltar enlace activo -->
-<script>
-    // Desplazamiento suave & resaltar enlace activo
-    const links = document.querySelectorAll('.toc a');
-    const sections = [...links].map(a => document.querySelector(a.getAttribute('href')));
-    links.forEach(a=>{
-        a.addEventListener('click', e=>{
-            e.preventDefault();
-            document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth', block:'start'});
-            history.replaceState(null, '', a.getAttribute('href'));
-        });
-    });
-    const observer = new IntersectionObserver((entries)=>{
-        entries.forEach(entry=>{
-            const i = sections.indexOf(entry.target);
-            if(i>=0){
-                if(entry.isIntersecting){
-                    links.forEach(l=>l.classList.remove('active'));
-                    links[i].classList.add('active');
-                }
-            }
-        });
-    }, {rootMargin:"-40% 0px -55% 0px", threshold:0});
-    sections.forEach(s=>observer.observe(s));
-</script>
+<script src="./vendor/header-offset.js"></script>
 </body>
 </html>

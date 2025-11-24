@@ -34,21 +34,52 @@
             padding: 16px;
             overflow-x: auto;
         }
-    </style>
-</head>
-<body class="bg-gray-100 font-sans">
-<!-- Header -->
-<header class="bg-blue-800 text-white py-6">
-    <div class="container mx-auto px-4 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold mb-2">Tutorial de Desarrollo Frontend con React y TailwindCSS</h1>
-        <p class="text-lg md:text-xl">Guía práctica para construir aplicaciones web responsivas</p>
-        <p class="text-md md:text-lg">Duración: 10 secciones</p>
-    </div>
-</header>
+        /* Header shared styles (from index) */
+        header { overflow: visible; padding-top: env(safe-area-inset-top); }
+        :root { --header-offset: 9.5rem; }
+        .logo-wrap { display:flex; align-items:center; gap:0.75rem; }
+        .logo-circle { border-radius:9999px; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; }
+        .logo-circle { padding:0.5rem; width:64px; height:64px; }
+        .brand-title { font-size:1.375rem; }
+        .brand-sub { font-size:0.875rem; }
+        @media(min-width:640px){ .logo-circle { padding:0.75rem; width:80px; height:80px; } .brand-title { font-size:1.75rem; } .brand-sub { font-size:0.95rem; } }
+        @media(min-width:1024px){ .logo-circle { padding:1rem; width:96px; height:96px; } .brand-title { font-size:2.25rem; } .brand-sub { font-size:1rem; } }
+     </style>
+ </head>
+ <body class="bg-gray-100 font-sans">
+ <!-- Unified header with lesson title -->
+ <header class="bg-gradient-to-r from-blue-700 via-cyan-600 to-indigo-700 text-white py-8 sm:py-12 md:py-16 lg:py-20 sticky top-0 z-50 shadow-lg">
+     <div class="container mx-auto px-4">
+         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+             <div class="logo-wrap animate-fade-in-down">
+                 <div class="logo-circle">
+                     <i class="fab fa-react text-cyan-200" style="font-size:2rem"></i>
+                 </div>
+                 <div>
+                     <div class="brand-title font-extrabold leading-tight">Curso de Frontend - Desarrollo de software
+                     </div>
+                     <p class="brand-sub mt-1 text-cyan-100/90">Guía práctica — Arle Morales Ortiz</p>
+                 </div>
+             </div>
 
-<!-- Main Content -->
-<main class="container mx-auto px-4 py-8">
-    <section class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+             <div class="text-right">
+                 <h1 class="text-2xl md:text-4xl font-extrabold">3. Estilos, Rutas y hooks</h1>
+                 <div class="mt-2">
+                     <a href="/src/index.html#topics"
+                        class="inline-flex items-center gap-2 bg-white shadow-sm text-blue-700 px-3 py-2 rounded-full text-sm md:text-base hover:brightness-95 focus-ring"
+                        aria-label="Ver temas">
+                         <i class="fa-solid fa-book-open"></i>
+                         <span>Ver Temas</span>
+                     </a>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </header>
+
+ <!-- Main Content -->
+ <main class="container mx-auto px-4 py-8 section-offset">
+     <section class="bg-white rounded-lg shadow-lg p-6 md:p-8">
         <h2 class="text-2xl md:text-3xl font-semibold text-blue-800 mb-6 text-center">Construcción de una Aplicación de
             Tareas con React y TailwindCSS</h2>
 
@@ -1472,4 +1503,23 @@ export default AddTask;</code></pre>
                             {submitCountRef.current}&lt;/p&gt;</code>). Nota que, aunque el valor se actualiza en <code>submitCountRef.current</code>,
                             la UI no se re-renderiza automáticamente para reflejar este cambio porque
                             <code>useRef</code> no dispara re-renders. Para que el cambio sea visible en la UI,
-                            necesitaríamos usar <code>
+                            necesitaríamos usar <code>useState</code> o forzar un re-render de alguna manera.
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </section>
+</main>
+
+<!-- Unified footer (same as index) -->
+<footer class="bg-slate-900 text-white py-6">
+     <div class="container mx-auto px-4 text-center">
+         <p class="text-sm">&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
+         <p class="text-xs text-slate-400 mt-1">Hecho con ❤️ — Mejoras de accesibilidad, animaciones y usabilidad.</p>
+     </div>
+ </footer>
+ </body>
+ </html>
+
+<script src="./vendor/header-offset.js"></script>

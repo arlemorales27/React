@@ -15,6 +15,17 @@
             color: #e5e7eb;
             background-color: #1f2937;
         }
+        /* Header shared styles (from index) */
+        header { overflow: visible; padding-top: env(safe-area-inset-top); }
+        :root { --header-offset: 9.5rem; }
+        .logo-wrap { display:flex; align-items:center; gap:0.75rem; }
+        .logo-circle { border-radius:9999px; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; }
+        .logo-circle { padding:0.5rem; width:64px; height:64px; }
+        .brand-title { font-size:1.375rem; }
+        .brand-sub { font-size:0.875rem; }
+        @media(min-width:640px){ .logo-circle { padding:0.75rem; width:80px; height:80px; } .brand-title { font-size:1.75rem; } .brand-sub { font-size:0.95rem; } }
+        @media(min-width:1024px){ .logo-circle { padding:1rem; width:96px; height:96px; } .brand-title { font-size:2.25rem; } .brand-sub { font-size:1rem; } }
+
         .container {
             max-width: 1200px;
         }
@@ -125,10 +136,29 @@
     </style>
 </head>
 <body>
-<header class="bg-blue-900 text-white py-6">
+<header class="bg-gradient-to-r from-blue-700 via-cyan-600 to-indigo-700 text-white py-8 sm:py-12 md:py-16 lg:py-20 sticky top-0 z-50 shadow-lg">
     <div class="container mx-auto px-4">
-        <h1 class="text-3xl md:text-4xl font-bold">Tutorial: Creando un Proyecto en React 2025</h1>
-        <p class="mt-2 text-lg">Paso a paso para dominar React con las mejores prácticas</p>
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="logo-wrap animate-fade-in-down">
+                <div class="logo-circle">
+                    <i class="fab fa-react text-cyan-200" style="font-size:2rem"></i>
+                </div>
+                <div>
+                    <div class="brand-title font-extrabold leading-tight">Curso de Frontend - Desarrollo de software</div>
+                    <p class="brand-sub mt-1 text-cyan-100/90">Guía práctica — Arle Morales Ortiz</p>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <h1 class="text-2xl md:text-4xl font-extrabold">1. Introducción a React</h1>
+                <div class="mt-2">
+                    <a href="/src/index.html#topics" class="inline-flex items-center gap-2 bg-white shadow-sm text-blue-700 px-3 py-2 rounded-full text-sm md:text-base hover:brightness-95 focus-ring" aria-label="Ver temas">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Ver Temas</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </header>
 
@@ -1436,10 +1466,10 @@ export default function Card({ children }: { children: React.ReactNode }) {
     </section>
 </main>
 
-<footer class="bg-gray-900 text-white py-6">
+<footer class="bg-slate-900 text-white py-6">
     <div class="container mx-auto px-4 text-center">
-        <p>© 2025 Tutorial de React. Creado por xAI.</p>
-        <p>Para más información, visita <a href="https://react.dev" class="hover:underline">react.dev</a>.</p>
+        <p class="text-sm">&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
+        <p class="text-xs text-slate-400 mt-1">Hecho con ❤️ — Mejoras de accesibilidad, animaciones y usabilidad.</p>
     </div>
 </footer>
 
@@ -1565,7 +1595,7 @@ export default function Card({ children }: { children: React.ReactNode }) {
                   btn.textContent = 'Error';
                   setTimeout(function(){ btn.textContent = 'Copiar'; }, 1400);
                 });
-              });
+            }
             }
           });
         });

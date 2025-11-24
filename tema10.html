@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gestión de Estado en React - Context, Redux Toolkit, Recoil, Zustand y Patrones Avanzados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="./vendor/fontawesome.min.css" rel="stylesheet">
+    <link href="./vendor/prism-tomorrow.min.css" rel="stylesheet">
+    <style>
+        html, body { height:100%; margin:0; }
+        body { display:flex; flex-direction:column; }
+        main { flex:1 0 auto; }
+        footer { flex-shrink:0 }
+        /* Header shared styles (from index) */
+        header { overflow: visible; padding-top: env(safe-area-inset-top); }
+        :root { --header-offset: 9.5rem; }
+        .logo-wrap { display:flex; align-items:center; gap:0.75rem; }
+        .logo-circle { border-radius:9999px; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; }
+        .logo-circle { padding:0.5rem; width:64px; height:64px; }
+        .brand-title { font-size:1.375rem; }
+        .brand-sub { font-size:0.875rem; }
+        @media(min-width:640px){ .logo-circle { padding:0.75rem; width:80px; height:80px; } .brand-title { font-size:1.75rem; } .brand-sub { font-size:0.95rem; } }
+        @media(min-width:1024px){ .logo-circle { padding:1rem; width:96px; height:96px; } .brand-title { font-size:2.25rem; } .brand-sub { font-size:1rem; } }
+
+        /* Editor-like code block (shared style) */
+        .code-editor { position: relative; padding: 0.6rem; background: linear-gradient(180deg,#07101a 0%, #0b1220 100%); border-radius: 10px; border: 1px solid rgba(255,255,255,0.04); color: #e6eef8; margin-bottom: 1rem; }
+        .code-toolbar { padding: 0.35rem 0.6rem; background: transparent; display:flex; align-items:center; gap:.6rem; }
+        .file-label { color:#9aa8bb; font-weight:600; font-size:0.95rem; }
+        .code-editor pre { background: transparent; color: #dbe7f6; font-size:0.95rem; line-height:1.6; padding: .6rem; margin:0; overflow:auto; border-radius:6px; font-family: 'Fira Code', 'Courier New', monospace; }
+        @media (max-width: 640px) { .code-editor pre { font-size:0.85rem; } .file-label { font-size:0.82rem; } }
+
+        /* Paleta y tokens (copiado de tema11) */
+        .editor-bg { background: #0b1220; }
+        .editor-code { font-family: 'Fira Mono', 'Consolas', monospace; font-size:1rem; line-height:1.6; color:#e6eef8; }
+        /* Token colors (Prism .token.* y clases personalizadas) */
+        .token.keyword, .kw { color: #7dd3fc; }
+        .token.function, .fn, .token.class-name { color: #f472b6; }
+        .token.string, .str { color: #facc15; }
+        .token.variable, .var { color: #a3e635; }
+        .token.comment, .com { color: #94a3b8; font-style: italic; }
+        .token.attr-name, .attr { color: #fbbf24; }
+        .token.selector, .token.tag { color: #93c5fd; }
+        .token.boolean, .token.constant, .token.number { color: #f472b6; }
+        .token.operator, .token.punctuation { color: #dbe7f6; }
+        /* Gutter-like accent if needed */
+        .code-editor::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg,#06b6d4, #7c3aed); border-top-left-radius:10px; border-bottom-left-radius:10px; opacity:0.9; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+<!-- Unified header with lesson title -->
+<header class="bg-gradient-to-r from-blue-700 via-cyan-600 to-indigo-700 text-white py-8 sm:py-12 md:py-16 lg:py-20 sticky top-0 z-50 shadow-lg">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="logo-wrap animate-fade-in-down">
+                <div class="logo-circle">
+                    <i class="fab fa-react text-cyan-200" style="font-size:2rem"></i>
+                </div>
+                <div>
+                    <div class="brand-title font-extrabold leading-tight">Curso de Frontend - Desarrollo de software</div>
+                    <p class="brand-sub mt-1 text-cyan-100/90">Guía práctica — Arle Morales Ortiz</p>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <h1 class="text-2xl md:text-4xl font-extrabold">10. Estado y Patrones Avanzados</h1>
+                <div class="mt-2">
+                    <a href="/src/index.html#topics" class="inline-flex items-center gap-2 bg-white shadow-sm text-blue-700 px-3 py-2 rounded-full text-sm md:text-base hover:brightness-95 focus-ring" aria-label="Ver temas">
+                        <i class="fa-solid fa-book-open"></i>
+                        <span>Ver Temas</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container mx-auto px-4 py-8 section-offset">
+
+    <!-- Intro -->
+    <section class="bg-white rounded-2xl shadow p-6 md:p-8 mb-6">
+        <h2 class="text-2xl md:text-3xl font-semibold text-blue-800">Resumen y objetivo</h2>
+        <p class="text-gray-700 mt-3">Este tema cubre técnicas para manejar el estado en diferentes escalas: desde Context API (apropiado para apps pequeñas/medianas) hasta Redux Toolkit y librerías modernas como Recoil y Zustand para soluciones más escalables. Además veremos patrones de componentes avanzados (HOC, Render Props, Compound Components, Custom Hooks) y routing avanzado con React Router 6+. Cada sección incluye conceptos clave, cuándo usar cada técnica y ejemplos prácticos.</p>
+    </section>
+
+    <!-- Context API avanzado -->
+    <section class="bg-white rounded-2xl shadow p-6 md:p-8 mb-6">
+        <h3 class="text-xl font-semibold text-blue-800">Context API — uso avanzado</h3>
+        <p class="text-gray-700 mt-3">Context es excelente para compartir datos como tema, usuario autenticado o configuraciones. En aplicaciones medianas, sigue estos patrones:</p>
+        <ul class="list-disc pl-6 text-gray-700">
+            <li>Separar providers por dominio (ThemeProvider, AuthProvider) — evita un único context global.</li>
+            <li>Dividir lectura/escritura: un proveedor expone selectors o hooks específicos para lectura y otro para mutaciones.</li>
+            <li>Memoizar el value y callbacks para evitar renders innecesarios.</li>
+        </ul>
+
+        <div class="code-editor mt-4">
+            <div class="code-toolbar"><span class="file-label">src/contexts/themeContext.js</span></div>
+            <pre><code class="language-js">import React, { createContext, useContext, useMemo, useState, useCallback } from 'react';
+
+const ThemeStateContext = createContext();
+const ThemeDispatchContext = createContext();
+
+export function ThemeProvider({ children }){
+  const [mode, setMode] = useState('light');
+  const toggle = useCallback(()=> setMode(m => m === 'light' ? 'dark' : 'light'), []);
+  const state = useMemo(()=> ({ mode }), [mode]);
+  const dispatch = useMemo(()=> ({ toggle }), [toggle]);
+  return (
+    &lt;ThemeStateContext.Provider value={state}&gt;
+      &lt;ThemeDispatchContext.Provider value={dispatch}&gt;
+        {children}
+      &lt;/ThemeDispatchContext.Provider&gt;
+    &lt;/ThemeStateContext.Provider&gt;
+  );
+}
+
+export function useThemeState(){ const ctx = useContext(ThemeStateContext); if(!ctx) throw new Error('useThemeState must be used within ThemeProvider'); return ctx; }
+export function useThemeDispatch(){ const ctx = useContext(ThemeDispatchContext); if(!ctx) throw new Error('useThemeDispatch must be used within ThemeProvider'); return ctx; }
+</code></pre>
+        </div>
+
+        <p class="text-gray-700 mt-3">Explicación: separamos el estado y las acciones en dos contexts para que componentes que solo leen el estado no se suscriban a cambios en las funciones, reduciendo renders. Usa este patrón cuando tengas valores que cambian con baja frecuencia y quieras evitar prop-drilling.</p>
+    </section>
+
+    <!-- Redux Toolkit -->
+    <section class="bg-white rounded-2xl shadow p-6 md:p-8 mb-6">
+        <h3 class="text-xl font-semibold text-blue-800">Redux Toolkit — cuando usarlo y ejemplos</h3>
+        <p class="text-gray-700 mt-3">Redux Toolkit (RTK) sigue siendo la opción indicada para aplicaciones grandes con estados complejos, normalización de datos, caching personalizado y flujos complejos de actualización. RTK reduce boilerplate y promueve buenas prácticas.</p>
+
+        <div class="code-editor mt-4">
+            <div class="code-toolbar"><span class="file-label">src/features/clientes/clientesSlice.js</span></div>
+            <pre><code class="language-js">import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
+
+const clientesAdapter = createEntityAdapter();
+
+export const fetchClientes = createAsyncThunk('clientes/fetch', async () =&gt; {
+  const res = await fetch('/api/clientes');
+  return await res.json();
+});
+
+const clientesSlice = createSlice({
+  name: 'clientes',
+  initialState: clientesAdapter.getInitialState({ status: 'idle', error: null }),
+  reducers: {
+    clienteAdded: clientesAdapter.addOne,
+    clienteUpdated: clientesAdapter.updateOne,
+    clienteRemoved: clientesAdapter.removeOne
+  },
+  extraReducers: builder =&gt; {
+    builder
+      .addCase(fetchClientes.pending, (state) =&gt; { state.status = 'loading'; })
+      .addCase(fetchClientes.fulfilled, (state, action) =&gt; { clientesAdapter.setAll(state, action.payload); state.status = 'succeeded'; })
+      .addCase(fetchClientes.rejected, (state, action) =&gt; { state.status = 'failed'; state.error = action.error.message; });
+  }
+});
+
+export const { selectAll: selectAllClientes } = clientesAdapter.getSelectors(state =&gt; state.clientes);
+export const { clienteAdded, clienteUpdated, clienteRemoved } = clientesSlice.actions;
+export default clientesSlice.reducer;
+</code></pre>
+        </div>
+
+        <p class="text-gray-700 mt-3">Puntos clave:</p>
+        <ul class="list-disc pl-6 text-gray-700">
+            <li>Usa <code>createEntityAdapter</code> para normalizar y realizar updates/lookup eficientes.</li>
+            <li><code>createAsyncThunk</code> simplifica llamadas asíncronas y el manejo de estados (pending/fulfilled/rejected).</li>
+            <li>Divide la lógica en slices por dominio y exporta selectores claros.</li>
+        </ul>
+
+        <div class="code-editor mt-4">
+            <div class="code-toolbar"><span class="file-label">src/app/store.js</span></div>
+            <pre><code class="language-js">import { configureStore } from '@reduxjs/toolkit';
+import clientesReducer from '../features/clientes/clientesSlice';
+
+export const store = configureStore({
+  reducer: { clientes: clientesReducer }
+});
+</code></pre>
+        </div>
+
+        <p class="text-gray-700 mt-3">Consejo: para efectos secundarios complejos y caching, complementa RTK con RTK Query (incluido en Redux Toolkit) o usa middlewares personalizados para manejar websockets o sincronización en tiempo real.</p>
+    </section>
+
+    <!-- Recoil -->
+    <section class="bg-white rounded-2xl shadow p-6 md:p-8 mb-6">
+        <h3 class="text-xl font-semibold text-blue-800">Recoil — átomos y selectores</h3>
+        <p class="text-gray-700 mt-3">Recoil ofrece una forma sencilla de modelar estado atómico con selectores que derivan y memoizan valor. Útil para reactividad fina y rendimiento cuando necesitas granularidad de re-render.</p>
+
+        <div class="code-editor mt-4">
+            <div class="code-toolbar"><span class="file-label">src/state/auth.js</span></div>
+            <pre><code class="language-js">import { atom, selector } from 'recoil';
+
+export const userState = atom({ key: 'userState', default: null });
+
+export const isAuthenticated = selector({ key: 'isAuthenticated', get: ({ get }) =&gt; !!get(userState) });
+</code></pre>
+        </div>
+
+        <p class="text-gray-700 mt-3">Buenas prácticas: mantener átomos pequeños, usar selectores para lógica derivada y evitar almacenar datos demasiado anidados en un solo átomo.</p>
+    </section>
+
+    <!-- Zustand -->
+    <section class="bg-white rounded-2xl shadow p-6 md:p-8 mb-6">
+        <h3 class="text-xl font-semibold text-blue-800">Zustand — stores simples y directos</h3>
+        <p class="text-gray-700 mt-3">Zustand es ideal cuando quieres un store sencillo sin providers. Su API minimalista permite suscribirte a partes del estado y es excelente para reemplazar Redux en proyectos pequeños/medianos.</p>
+
+        <div class="code-editor mt-4">
+            <div class="code-toolbar"><span class="file-label">src/store/useStore.js</span></div>
+            <pre><code class="language-js">import create from 'zustand';
+
+export const useStore = create(set =&gt; ({
+  count: 0,
+  increment: () =&gt; set(state =&gt; ({ count: state.count + 1 })),
+  reset: () =&gt; set({ count: 0 })
+}));
+</code></pre>
+        </div>
+
+        <p class="text-gray-700 mt-3">Tip: usa selectores (por ejemplo: useStore(state =&gt; state.count)) para subscribirte solo a las partes del store que necesitas y evitar renders innecesarios.</p>
+    </section>
+
+    <!-- Patrones de componentes avanzados -->
+    <article id="patterns" class="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6">
+        <h3 class="text-xl font-semibold text-blue-800">Patrones de Componentes Avanzados</h3>
+
+        <h4 class="text-lg font-semibold text-blue-700 mt-4">Higher-Order Components (HOC)</h4>
+        <div class="code-editor mt-2">
+            <div class="code-toolbar"><span class="file-label">src/hocs/withAuth.js</span></div>
+            <pre><code class="language-js">export default function withAuth(Component){
+  return function Wrapped(props){
+    const isAuth = true; // ejemplo - usa context o hook real
+    if(!isAuth) return &lt;div&gt;Acceso denegado&lt;/div&gt;;
+    return &lt;Component {...props} /&gt;;
+  }
+}
+</code></pre>
+        </div>
+
+        <h4 class="text-lg font-semibold text-blue-700 mt-4">Render Props</h4>
+        <div class="code-editor mt-2">
+            <div class="code-toolbar"><span class="file-label">src/components/MouseTracker.jsx</span></div>
+            <pre><code class="language-jsx">export default function MouseTracker({ render }){
+  const [pos, setPos] = React.useState({ x:0, y:0 });
+  React.useEffect(()=>{
+    const onMove = e =&gt; setPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener('mousemove', onMove);
+    return ()=> window.removeEventListener('mousemove', onMove);
+  },[]);
+  return render(pos);
+}
+</code></pre>
+        </div>
+
+        <h4 class="text-lg font-semibold text-blue-700 mt-4">Compound Components</h4>
+        <p class="text-gray-700 mt-2">Diseña APIs declarativas cuando quieras que varios componentes hijos interactúen con el estado del padre (ej: Tabs, Accordion).</p>
+
+        <div class="code-editor mt-2">
+            <div class="code-toolbar"><span class="file-label">src/components/Tabs.jsx</span></div>
+            <pre><code class="language-js">export function Tabs({ children }){
+  const [active, setActive] = React.useState(0);
+  return &lt;div&gt;{React.Children.map(children, (child, i)=&gt; React.cloneElement(child, { isActive: i===active, onSelect: ()=>setActive(i) }))}&lt;/div&gt;
+}
+</code></pre>
+        </div>
+
+        <h4 class="text-lg font-semibold text-blue-700 mt-4">Custom Hooks</h4>
+        <p class="text-gray-700 mt-2">Encapsulan lógica reutilizable (fetching, forms, debounced inputs). Manténlos puros y fáciles de testear.</p>
+
+        <div class="code-editor mt-2">
+            <div class="code-toolbar"><span class="file-label">src/hooks/useFetch.js</span></div>
+            <pre><code class="language-js">import { useState, useEffect } from 'react';
+export default function useFetch(url){
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  useEffect(()=>{
+    let mounted = true;
+    fetch(url).then(r=&gt;r.json()).then(d=&gt; mounted && (setData(d), setLoading(false))).catch(e=&gt; mounted && (setError(e), setLoading(false)));
+    return ()=> mounted = false;
+  },[url]);
+  return { data, loading, error };
+}
+</code></pre>
+        </div>
+
+        <p class="text-gray-700 mt-4">Edge cases a considerar: memoización, evitar fugas de memoria (cancelar peticiones), y mantener la API de los hooks simple.</p>
+    </article>
+
+    <!-- Routing avanzado -->
+    <article id="routing" class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+        <h3 class="text-xl font-semibold text-blue-800">Routing Avanzado — React Router 6+</h3>
+        <p class="text-gray-700 mt-3">React Router 6+ introduce una API simple para rutas anidadas y lazy loading. A continuación ejemplos prácticos.</p>
+
+        <div class="code-editor mt-4">
+            <div class="code-toolbar"><span class="file-label">src/AppRoutes.jsx</span></div>
+            <pre><code class="language-js">import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import DashboardLayout from './layouts/DashboardLayout';
+import Home from './pages/Home';
+import Login from './pages/Login';
+
+export default function AppRoutes(){
+  return (
+    &lt;BrowserRouter&gt;
+      &lt;Routes&gt;
+        &lt;Route path='/' element={&lt;Home /&gt;} /&gt;
+        &lt;Route path='/dashboard/*' element={&lt;DashboardLayout /&gt;} /&gt;
+        &lt;Route path='/login' element={&lt;Login /&gt;} /&gt;
+      &lt;/Routes&gt;
+    &lt;/BrowserRouter&gt;
+  );
+}
+</code></pre>
+        </div>
+
+        <div class="code-editor mt-4">
+            <div class="code-toolbar"><span class="file-label">src/components/ProtectedRoute.jsx</span></div>
+            <pre><code class="language-js">import { Navigate } from 'react-router-dom';
+export default function ProtectedRoute({ children, isAuth }){
+  if(!isAuth) return &lt;Navigate to='/login' replace /&gt;;
+  return children;
+}
+</code></pre>
+        </div>
+
+        <div class="code-editor mt-4">
+            <div class="code-toolbar"><span class="file-label">src/pages/Product.jsx</span></div>
+            <pre><code class="language-js">import { useParams, useNavigate } from 'react-router-dom';
+export default function Product(){
+  const { id } = useParams();
+  const nav = useNavigate();
+  // fetch por id; si 404 -> nav('/404')
+}
+</code></pre>
+        </div>
+
+        <p class="text-gray-700 mt-3">Buenas prácticas: usa feature-based routing, lazy load en rutas pesadas y wrappers para roles/permiso. Siempre maneja parámetros con validación y redirecciones claras.</p>
+    </article>
+
+</main>
+
+<!-- Unified footer -->
+<footer class="bg-slate-900 text-white py-6">
+    <div class="container mx-auto px-4 text-center">
+        <p class="text-sm">&copy; 2025  Armenia, Quindío - Arle Morales Ortiz.</p>
+        <p class="text-xs text-slate-400 mt-1">Hecho con ❤️ — Mejoras de accesibilidad, animaciones y usabilidad.</p>
+    </div>
+</footer>
+<script src="./vendor/prism.min.js"></script>
+<script src="./vendor/header-offset.js"></script>
+</body>
+</html>
